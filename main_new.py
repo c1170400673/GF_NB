@@ -240,6 +240,7 @@ class Ldaction(object):
             screenshot_img = aircv.imread(self.screenshot_img_file)
             raise RuntimeError
         except RuntimeError:
+            print("缺少目标图片")
             self.ld.screenShotnewLd(self.index)
             screenshot_img = aircv.imread(self.screenshot_img_file)
         target_img_name_file = self.ld.target_path + target_img_name
@@ -456,8 +457,8 @@ def ep_13_4():
     Ld.LdactionTap('18.png', need_screenShot=False, threshold=0.6, sleep_time=0.5, reload_times=2)
     Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, moveX=40, sleep_time=0.5, reload_times=2)
     Ld.LdactionTap('execution_plan.png')
-    Ld.LdactionTap('result_settlement.png', sleep_time=4, wait_time=2, reload_times=80, reload_sleep_time=5)
-    print('已经结算')
+    Ld.LdactionTap('result_settlement.png', sleep_time=4, wait_time=2, reload_times=80, reload_sleep_time=5, beginning_content="已完成关卡")
+    print('开始结算')
     for tap in range(3):
         taps = 1
         Dc.screenShotnewLd(Ld.index)
@@ -467,9 +468,11 @@ def ep_13_4():
                            error_content='结算未获得新单位')
             taps += tap
             print('已获得%s个' % taps)
+            Dc.screenShotnewLd(Ld.index)
+            if Ld.isExist('result_settlement.png')[0]:
+                Ld.LdactionTap('result_settlement.png', sleep_time=3)
         else:
             break
-    Ld.LdactionTap('result_settlement.png', sleep_time=3)
 
 
 if __name__ == '__main__':
