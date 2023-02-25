@@ -236,13 +236,7 @@ class Ldaction(object):
         :param target_img_name:
         :return: 图片查询结果和包含详情
         """
-        try:
-            screenshot_img = aircv.imread(self.screenshot_img_file)
-            raise RuntimeError
-        except RuntimeError:
-            print("缺少目标图片")
-            self.ld.screenShotnewLd(self.index)
-            screenshot_img = aircv.imread(self.screenshot_img_file)
+        screenshot_img = aircv.imread(self.screenshot_img_file)
         target_img_name_file = self.ld.target_path + target_img_name
         target_img = aircv.imread(target_img_name_file)
         result = aircv.find_template(screenshot_img, target_img, rgb=rgb, threshold=threshold)
@@ -416,14 +410,14 @@ def ep_13_4():
     Ld.LdactionTap('victor.png', sleep_time=1.5, reload_times=5, end_content='选择维克托人形')
 
     Ld.LdactionTap('show_all.png', sleep_time=0.5)
-    Ld.LdactionTap('legendary_v.png', need_screenShot=False, sleep_time=0.5)
+    Ld.LdactionTap('legendary_v.png', sleep_time=0.5)
     Ld.LdactionTap('smg.png', need_screenShot=False, sleep_time=0.5)
     Ld.LdactionTap('at_max_lv.png', need_screenShot=False, sleep_time=0.5)
     Ld.LdactionTap('desc.png', need_screenShot=False)
     Ld.LdactionTap('confirm.png', need_screenShot=False, sleep_time=0.5)
 
     Ld.LdactionTap('victor_bak.png', sleep_time=2)
-    Ld.LdactionTap('return.png', need_screenShot=False, sleep_time=3, reload_times=2)
+    Ld.LdactionTap('return.png', sleep_time=3, reload_times=2)
     Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.7, reload_times=2)
 
     if Ld.isExist('isechelon1.png')[0]:
