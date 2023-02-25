@@ -536,13 +536,21 @@ def get_into_mission():
         Ld.LdactionTap('main_battle.png')
         print('进入战斗界面')
         # 选择战斗类型
-        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+        Dc.screenShotnewLd(Ld.index)
+        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
+            print('已在作战任务')
+        else:
+            Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
         # ep_13_4()
     elif Ld.isExist('battle.png', threshold=0.9)[0]:
         # 当前在战斗界面
         print('当前在战斗界面')
         # 选择战斗类型
-        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+        Dc.screenShotnewLd(Ld.index)
+        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
+            print('已在作战任务')
+        else:
+            Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
         # ep_13_4()
     elif Ld.isExist('research.png', threshold=0.9)[0]:
         # 当前在研发界面
@@ -554,7 +562,11 @@ def get_into_mission():
         Ld.LdactionTap('main_battle.png')
         print('进入战斗界面')
         # 选择战斗类型
-        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+        Dc.screenShotnewLd(Ld.index)
+        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
+            print('已在作战任务')
+        else:
+            Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
         # ep_13_4()
     else:
         print('....当前页面无法自动返回主界面请手动返回后重试！....')
