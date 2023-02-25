@@ -42,7 +42,7 @@ class Dnconsole:
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        self.target_path = r'D:\MyCode\GF_NB\target\540p160dpi\\'
+        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
@@ -261,6 +261,7 @@ class Ldaction(object):
         :param reload_sleep_time: 重试间隔休眠时长
         :param threshold: 模糊匹配阀值
         :param reload_times: 重试次数
+        :param wait_time:
         :param sleep_time: 固定休眠时长
         :param target_img_name_first: 匹配目标图片名称1
         :param target_img_name_second: 匹配目标图片名称2
@@ -376,8 +377,57 @@ class Ldaction(object):
                 break
         return result
 
+    def is_all_Exist(self, target_img_name: str, rgb: bool = False, threshold: float = 0.9):
+        """
+        【判断多个指定图片是否包含在截图中】
+        :param self:
+        :param rgb:
+        :param threshold:
+        :param target_img_name:
+        :return: 图片查询结果和包含详情
+        """
+        screenshot_img = aircv.imread(self.screenshot_img_file)
+        target_img_name_file = self.ld.target_path + target_img_name
+        target_img = aircv.imread(target_img_name_file)
+        result = aircv.find_all_template(screenshot_img, target_img, rgb=rgb, threshold=threshold)
+        if result is None:
+            return False, result
+        else:
+            return True, result
 
-def ep_13_4():
+    def list_select(self, target_img_name: str, rgb: bool = True, threshold: float = 0.96):
+        list_result = self.is_all_Exist(target_img_name, rgb=rgb, threshold=threshold)[1]
+        # print(list_result)
+        # print(len(list_result))
+        for result in list_result:
+            coordinate = result['result']
+            x = coordinate[0] - 100
+            y = coordinate[1] + 200
+            print('X: %s' % x)
+            print('Y: %s' % y)
+            self.ld.inputTap(Ld.index, x, y)
+            time.sleep(0.5)
+
+
+def T_Dolls_retire(adv_retire: bool = False):
+    """
+    【人形回收】
+    """
+    Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收')
+    Ld.LdactionTap('intelligent_selection.png', end_content='点击智能选择')
+    Ld.LdactionTap('select_confirm.png', end_content='选择确定')
+    Ld.LdactionTap('recycle.png', end_content='开始回收')
+    if adv_retire:
+        Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收')
+        Ld.LdactionTap('show_all.png', sleep_time=0.5)
+        Ld.LdactionTap('legendary_III.png', need_screenShot=False, sleep_time=0.5)
+        Ld.LdactionTap('confirm.png', need_screenShot=False, sleep_time=0.5)
+        Ld.list_select('lv_III.png')
+        Ld.LdactionTap('select_confirm.png', end_content='选择确定')
+        Ld.LdactionTap('recycle.png', end_content='开始回收')
+
+
+def ep_13_4(debug_mode: bool = False):
     """
     【关卡13-4步骤】
     :return:
@@ -394,10 +444,13 @@ def ep_13_4():
                        end_content='已选择关卡13-4')
     Ld.LdactionTap('common_battle.png', sleep_time=5, end_content='进入关卡战斗')
 
+    Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('unit_recycle.png')[0]:
-        print('\n单位已满,请回收处理')
-
-        sys.exit()
+        print('\n+++++单位已满,请回收处理+++++')
+        Ld.LdactionTap('unit_recycle.png', need_screenShot=False, sleep_time=2, beginning_content='准备回收单位')
+        T_Dolls_retire(adv_retire=True)
+        Ld.LdactionTap('return.png', sleep_time=2, reload_times=2)
+        return get_into_mission()
     else:
         Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, beginning_content='....准备投放第一战队....')
     # 判断选择第一梯队，进入梯队编辑
@@ -418,7 +471,7 @@ def ep_13_4():
 
     Ld.LdactionTap('victor_bak.png', sleep_time=2)
     Ld.LdactionTap('return.png', sleep_time=3, reload_times=2)
-    Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.7, reload_times=2)
+    Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, reload_times=2)
 
     if Ld.isExist('isechelon1.png')[0]:
         Ld.LdactionTap('echelon_confirm.png')
@@ -442,24 +495,26 @@ def ep_13_4():
             Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
 
     Ld.LdactionTap('start_fighting.png', sleep_time=1.5)
-    Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.94, moveX=70, moveY=-21, tap_times=2,
-                   reload_times=2)
+    Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.94, moveX=124, moveY=-41, tap_times=2,
+                   reload_times=2, wait_time=0.3)
     Ld.LdactionTap('supply.png', sleep_time=1.5)
-    Ld.LdactionTap('echelon1_bak.png', threshold=0.9, moveX=70, moveY=-21)
+    Ld.LdactionTap('echelon1_bak.png', wait_time=1, threshold=0.9, moveX=118, moveY=-39)
     Ld.LdactionTap('planning_mode.png')
     Ld.LdactionTap('17.png', need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2)
     Ld.LdactionTap('18.png', need_screenShot=False, threshold=0.6, sleep_time=0.5, reload_times=2)
-    Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, moveX=40, sleep_time=0.5, reload_times=2)
+    Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2,
+                   moveX=51, moveY=-9)
     Ld.LdactionTap('execution_plan.png')
-    Ld.LdactionTap('result_settlement.png', sleep_time=4, wait_time=2, reload_times=80, reload_sleep_time=5, beginning_content="已完成关卡")
+    Ld.LdactionTap('result_settlement.png', sleep_time=4, wait_time=2, reload_times=80, reload_sleep_time=5,
+                   beginning_content="已完成关卡")
     print('开始结算')
     for tap in range(3):
         taps = 1
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('new_unit.png')[0]:
-            Ld.LdactionTap('new_unit.png', moveX=-233, moveY=-321, sleep_time=4, reload_times=5,
+            Ld.LdactionTap('new_unit.png', moveX=-423, moveY=-521, wait_time=2, sleep_time=4,
                            beginning_content='检查是否有新单位获得', end_content='结算获得1个新单位',
-                           error_content='结算未获得新单位')
+                           error_content='结算未获得新单位', need_screenShot=False)
             taps += tap
             print('已获得%s个' % taps)
             Dc.screenShotnewLd(Ld.index)
@@ -469,9 +524,47 @@ def ep_13_4():
             break
 
 
+def get_into_mission():
+    # 初始化到主界面操作
+    print('....准备当前界面分析....')
+    Dc.screenShotnewLd(Ld.index)
+    # 以兼容的界面判断
+    if Ld.isExist('main.png', threshold=0.8)[0]:
+        # 当前在主界面
+        print('当前在主界面')
+        # 进入战斗菜单
+        Ld.LdactionTap('main_battle.png')
+        print('进入战斗界面')
+        # 选择战斗类型
+        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+        # ep_13_4()
+    elif Ld.isExist('battle.png', threshold=0.9)[0]:
+        # 当前在战斗界面
+        print('当前在战斗界面')
+        # 选择战斗类型
+        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+        # ep_13_4()
+    elif Ld.isExist('research.png', threshold=0.9)[0]:
+        # 当前在研发界面
+        # 返回主界面
+        print('当前在研发界面')
+        Ld.LdactionTap('return.png')
+        print('返回主界面')
+        # 进入战斗菜单
+        Ld.LdactionTap('main_battle.png')
+        print('进入战斗界面')
+        # 选择战斗类型
+        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+        # ep_13_4()
+    else:
+        print('....当前页面无法自动返回主界面请手动返回后重试！....')
+        sys.exit()
+
+
 if __name__ == '__main__':
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshout_tmp.png')
+
     # AppPackage = 'com.sunborn.girlsfrontline.cn'
     # App = '少女前线'
     # if Dc.isrunning(0):
@@ -499,43 +592,10 @@ if __name__ == '__main__':
     # 调试方法
     # ep_13_4()
     runtimes = int(input("跑几次:"))
+    get_into_mission()
     for i in range(runtimes):
         isruntimes = 1
         ep_13_4()
         isruntimes += i
         print('共 %d 次，已执行 %d 次' % (runtimes, isruntimes))
-    sys.exit()
 
-    # 初始化到主界面操作
-    print('....准备当前界面分析....')
-    Dc.screenShotnewLd(0)
-    # 以兼容的界面判断
-    if Ld.isExist('main.png', threshold=0.9)[0]:
-        # 当前在主界面
-        print('当前在主界面')
-        # 进入战斗菜单
-        Ld.LdactionTap('main_battle.png')
-        print('进入战斗界面')
-        # 选择战斗类型
-        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
-        ep_13_4()
-    elif Ld.isExist('battle.png', threshold=0.9)[0]:
-        # 当前在战斗界面
-        print('当前在战斗界面')
-        # 选择战斗类型
-        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
-        ep_13_4()
-    elif Ld.isExist('research.png', threshold=0.9)[0]:
-        # 当前在研发界面
-        # 返回主界面
-        print('当前在研发界面')
-        Ld.LdactionTap('return.png')
-        print('返回主界面')
-        # 进入战斗菜单
-        Ld.LdactionTap('main_battle.png')
-        print('进入战斗界面')
-        # 选择战斗类型
-        Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
-        ep_13_4()
-    else:
-        print('....当前页面无法自动返回主界面请手动返回后重试！....')
