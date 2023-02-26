@@ -249,7 +249,7 @@ class Ldaction(object):
                     need_screenShot: bool = True, threshold: float = 0.9, moveX: int = 0, moveY: int = 0,
                     tap_times: int = 1, wait_time: float = 0, sleep_time: float = 1, reload_times: int = 1,
                     reload_sleep_time: float = 0.5, beginning_content: str = None, end_content: str = None,
-                    error_content: str = '请检查界面！'):
+                    error_content: str = '请检查界面！', tap_result_check: bool = False):
         """
         【查找对应按钮】
         :param rgb:
@@ -267,7 +267,7 @@ class Ldaction(object):
         :param target_img_name_second: 匹配目标图片名称2
         :param moveX: 偏移X轴量
         :param moveY: 偏移Y轴量
-        :return:
+        :param tap_result_check: 点击结果检查开关
         """
         print('\n+++++START+++++')
         if beginning_content is not None:
@@ -396,6 +396,13 @@ class Ldaction(object):
             return True, result
 
     def list_select(self, target_img_name: str, rgb: bool = True, threshold: float = 0.96):
+        """
+        【从人形列表选择人形】
+        :param self:
+        :param rgb:
+        :param threshold:
+        :param target_img_name:
+        """
         list_result = self.is_all_Exist(target_img_name, rgb=rgb, threshold=threshold)[1]
         # print(list_result)
         # print(len(list_result))
@@ -416,15 +423,16 @@ def T_Dolls_retire(adv_retire: bool = False):
     Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收')
     Ld.LdactionTap('intelligent_selection.png', end_content='点击智能选择')
     Ld.LdactionTap('select_confirm.png', end_content='选择确定')
-    Ld.LdactionTap('recycle.png', end_content='开始回收')
+    Ld.LdactionTap('retire.png', end_content='开始回收', sleep_time=3)
     if adv_retire:
-        Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收')
-        Ld.LdactionTap('show_all.png', sleep_time=0.5)
-        Ld.LdactionTap('legendary_III.png', need_screenShot=False, sleep_time=0.5)
+        Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收', sleep_time=1)
+        Ld.LdactionTap('show_all.png', sleep_time=1, wait_time=1)
+        Ld.LdactionTap('legendary_III.png', sleep_time=0.5)
         Ld.LdactionTap('confirm.png', need_screenShot=False, sleep_time=0.5)
         Ld.list_select('lv_III.png')
         Ld.LdactionTap('select_confirm.png', end_content='选择确定')
-        Ld.LdactionTap('recycle.png', end_content='开始回收')
+        Ld.LdactionTap('retire.png', end_content='开始回收', sleep_time=2)
+        Ld.LdactionTap('retire_confirm.png')
 
 
 def ep_13_4(debug_mode: bool = False):
@@ -458,9 +466,9 @@ def ep_13_4(debug_mode: bool = False):
         Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=1.5, end_content='进入队伍编辑')
     else:
         Ld.LdactionTap('echelon1.png', 'isechelon1.png')
-        Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=1.5, end_content='进入队伍编辑')
+        Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=2, end_content='进入队伍编辑')
 
-    Ld.LdactionTap('victor.png', sleep_time=1.5, reload_times=5, end_content='选择维克托人形')
+    Ld.LdactionTap('victor.png', moveY=100, wait_time=1, sleep_time=1.5, reload_times=5, end_content='选择维克托人形')
 
     Ld.LdactionTap('show_all.png', sleep_time=0.5)
     Ld.LdactionTap('legendary_v.png', sleep_time=0.5)
@@ -494,7 +502,7 @@ def ep_13_4(debug_mode: bool = False):
             Ld.LdactionTap('echelon2.png', 'isechelon2.png')
             Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
 
-    Ld.LdactionTap('start_fighting.png', sleep_time=1.5)
+    Ld.LdactionTap('start_fighting.png', wait_time=0.5, sleep_time=1.5)
     Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.94, moveX=124, moveY=-41, tap_times=2,
                    reload_times=2, wait_time=0.3)
     Ld.LdactionTap('supply.png', sleep_time=1.5)
@@ -505,7 +513,7 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2,
                    moveX=51, moveY=-9)
     Ld.LdactionTap('execution_plan.png')
-    Ld.LdactionTap('result_settlement.png', sleep_time=4, wait_time=2, reload_times=80, reload_sleep_time=5,
+    Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8,
                    beginning_content="已完成关卡")
     print('开始结算')
     for tap in range(3):
