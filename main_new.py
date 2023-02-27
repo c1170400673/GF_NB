@@ -336,97 +336,97 @@ class Ldaction(object):
         print('+++++END+++++')
         time.sleep(sleep_time)
 
-    # def LdactionTapV2(self, target_img_name_list: list, rgb: bool = False, threshold: float = 0.9,
-    #                   need_screenShot: bool = True, moveX: int = 0, moveY: int = 0, tap_times: int = 1,
-    #                   tap_interval: float = 0, before_tap_wait_time: float = 0, after_tap_wait_time: float = 1,
-    #                   search_again_times: int = 1, search_again_sleep_time: float = 0.5, tap_result_check: bool = False,
-    #                   beginning_content: str = None, end_content: str = None, error_content: str = '请检查界面！'):
-    #     """
-    #     【查找对应按钮】
-    #     :param target_img_name_list: list: 目标图片名称列表
-    #     :param rgb: 比对rgb通道开关
-    #     :param threshold: 模糊匹配阀值
-    #     :param need_screenShot: 是否需要截图
-    #     :param moveX: 偏移X轴量
-    #     :param moveY: 偏移Y轴量
-    #     :param tap_times: 连续点击次数
-    #     :param tap_interval: 点击间隔时间
-    #     :param before_tap_wait_time 点击前等待时间
-    #     :param after_tap_wait_time 点击后等待时间
-    #     :param search_again_times 重新查找次数
-    #     :param search_again_sleep_time 重新查找间隔休眠时长
-    #     :param tap_result_check: 点击结果检查开关
-    #     :param beginning_content: 开始文本
-    #     :param end_content: 结束文本
-    #     :param error_content: 异常打印信息
-    #     """
-    #
-    #     print('\n+++++START+++++')
-    #     if beginning_content is not None:
-    #         print(beginning_content)
-    #     if need_screenShot:
-    #         for target_img_name in target_img_name_list:
-    #             find_result = self.find_target_img(target_img_name, rgb, threshold, moveX, moveY,
-    #                                                search_again_sleep_time, search_again_times, before_tap_wait_time,
-    #                                                after_tap_wait_time, tap_times, tap_interval)
-    #             if find_result[0] is False:
-    #                 sys.exit()
-    #         else:
-    #             find_result_first = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
-    #                                                      rgb, tap_times, target_img_name_first, threshold)
-    #             if find_result_first[0] is False:
-    #                 find_result_second = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
-    #                                                           rgb, tap_times, target_img_name_second, threshold)
-    #                 if find_result_second[0] is False:
-    #                     sys.exit()
-    #     else:
-    #         if target_img_name_second is None:
-    #             find_result_first = self.isExist(target_img_name_first, rgb=rgb, threshold=threshold)[1]
-    #             if find_result_first is None:
-    #                 print('未能找到需要的 %s 按钮！' % target_img_name_first)
-    #                 sys.exit()
-    #             else:
-    #                 x = find_result_first['result'][0] - moveX
-    #                 y = find_result_first['result'][1] - moveY
-    #                 for t in range(tap_times):
-    #                     tap = 1
-    #                     print('找到按钮: %s [%d , %d]' % (target_img_name_first, x, y))
-    #                     time.sleep(wait_time)
-    #                     self.ld.inputTap(Ld.index, x, y)
-    #                     tap += t
-    #                     print('已点击 %s %d次' % (target_img_name_first, tap))
-    #         else:
-    #             find_result_first = self.isExist(target_img_name_first, rgb=rgb, threshold=threshold)[1]
-    #             if find_result_first is None:
-    #                 print('未能找到需要的 %s 按钮！' % target_img_name_first)
-    #                 find_result_second = self.isExist(target_img_name_second, rgb=rgb, threshold=threshold)[1]
-    #                 if find_result_second is None:
-    #                     print('未能找到需要的 %s 按钮！' % target_img_name_second)
-    #                     sys.exit()
-    #                 else:
-    #                     x = find_result_second['result'][0] - moveX
-    #                     y = find_result_second['result'][1] - moveY
-    #                     for t in range(tap_times):
-    #                         tap = 1
-    #                         print('找到按钮: %s [%d , %d]' % (target_img_name_second, x, y))
-    #                         time.sleep(wait_time)
-    #                         self.ld.inputTap(Ld.index, x, y)
-    #                         tap += t
-    #                         print('已点击 %s %d次' % (target_img_name_second, tap))
-    #             else:
-    #                 x = find_result_first['result'][0] - moveX
-    #                 y = find_result_first['result'][1] - moveY
-    #                 for t in range(tap_times):
-    #                     tap = 1
-    #                     print('找到按钮: %s [%d , %d]' % (target_img_name_first, x, y))
-    #                     time.sleep(wait_time)
-    #                     self.ld.inputTap(Ld.index, x, y)
-    #                     tap += t
-    #                     print('已点击 %s %d次' % (target_img_name_first, tap))
-    #     if end_content is not None:
-    #         print(end_content)
-    #     print('+++++END+++++')
-    #     time.sleep(sleep_time)
+    def LdactionTapV2(self, target_img_name_list: list, rgb: bool = False, threshold: float = 0.9,
+                      need_screenShot: bool = True, moveX: int = 0, moveY: int = 0, tap_times: int = 1,
+                      tap_interval: float = 0, before_tap_wait_time: float = 0, after_tap_wait_time: float = 1,
+                      search_again_times: int = 1, search_again_sleep_time: float = 0.5, tap_result_check: bool = False,
+                      beginning_content: str = None, end_content: str = None, error_content: str = '请检查界面！'):
+        """
+        【查找对应按钮】
+        :param target_img_name_list: list: 目标图片名称列表
+        :param rgb: 比对rgb通道开关
+        :param threshold: 模糊匹配阀值
+        :param need_screenShot: 是否需要截图
+        :param moveX: 偏移X轴量
+        :param moveY: 偏移Y轴量
+        :param tap_times: 连续点击次数
+        :param tap_interval: 点击间隔时间
+        :param before_tap_wait_time 点击前等待时间
+        :param after_tap_wait_time 点击后等待时间
+        :param search_again_times 重新查找次数
+        :param search_again_sleep_time 重新查找间隔休眠时长
+        :param tap_result_check: 点击结果检查开关
+        :param beginning_content: 开始文本
+        :param end_content: 结束文本
+        :param error_content: 异常打印信息
+        """
+
+        print('\n+++++START+++++')
+        if beginning_content is not None:
+            print(beginning_content)
+        if need_screenShot:
+            for target_img_name in target_img_name_list:
+                find_result = self.find_target_img(target_img_name, rgb, threshold, moveX, moveY,
+                                                   search_again_sleep_time, search_again_times, before_tap_wait_time,
+                                                   after_tap_wait_time, tap_times, tap_interval)
+                if find_result[0] is False:
+                    sys.exit()
+            else:
+                find_result_first = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
+                                                         rgb, tap_times, target_img_name_first, threshold)
+                if find_result_first[0] is False:
+                    find_result_second = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
+                                                              rgb, tap_times, target_img_name_second, threshold)
+                    if find_result_second[0] is False:
+                        sys.exit()
+        else:
+            if target_img_name_second is None:
+                find_result_first = self.isExist(target_img_name_first, rgb=rgb, threshold=threshold)[1]
+                if find_result_first is None:
+                    print('未能找到需要的 %s 按钮！' % target_img_name_first)
+                    sys.exit()
+                else:
+                    x = find_result_first['result'][0] - moveX
+                    y = find_result_first['result'][1] - moveY
+                    for t in range(tap_times):
+                        tap = 1
+                        print('找到按钮: %s [%d , %d]' % (target_img_name_first, x, y))
+                        time.sleep(wait_time)
+                        self.ld.inputTap(Ld.index, x, y)
+                        tap += t
+                        print('已点击 %s %d次' % (target_img_name_first, tap))
+            else:
+                find_result_first = self.isExist(target_img_name_first, rgb=rgb, threshold=threshold)[1]
+                if find_result_first is None:
+                    print('未能找到需要的 %s 按钮！' % target_img_name_first)
+                    find_result_second = self.isExist(target_img_name_second, rgb=rgb, threshold=threshold)[1]
+                    if find_result_second is None:
+                        print('未能找到需要的 %s 按钮！' % target_img_name_second)
+                        sys.exit()
+                    else:
+                        x = find_result_second['result'][0] - moveX
+                        y = find_result_second['result'][1] - moveY
+                        for t in range(tap_times):
+                            tap = 1
+                            print('找到按钮: %s [%d , %d]' % (target_img_name_second, x, y))
+                            time.sleep(wait_time)
+                            self.ld.inputTap(Ld.index, x, y)
+                            tap += t
+                            print('已点击 %s %d次' % (target_img_name_second, tap))
+                else:
+                    x = find_result_first['result'][0] - moveX
+                    y = find_result_first['result'][1] - moveY
+                    for t in range(tap_times):
+                        tap = 1
+                        print('找到按钮: %s [%d , %d]' % (target_img_name_first, x, y))
+                        time.sleep(wait_time)
+                        self.ld.inputTap(Ld.index, x, y)
+                        tap += t
+                        print('已点击 %s %d次' % (target_img_name_first, tap))
+        if end_content is not None:
+            print(end_content)
+        print('+++++END+++++')
+        time.sleep(sleep_time)
 
     def find_target_img(self, target_img_name, rgb, moveX, moveY, reload_sleep_time, reload_times, wait_time, tap_times,
                         threshold):
