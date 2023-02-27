@@ -42,7 +42,8 @@ class Dnconsole:
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        # self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
