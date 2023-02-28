@@ -273,7 +273,7 @@ class Ldaction(object):
         :param moveY: 偏移Y轴量
         :param tap_result_check: 点击结果检查开关
         """
-        print('\n+++++START+++++')
+        print('\n+++++START+++++   %s' % running_script)
         if beginning_content is not None:
             print(beginning_content)
         if need_screenShot:
@@ -533,8 +533,7 @@ class Ldaction(object):
             coordinate = result['result']
             x = coordinate[0] - 100
             y = coordinate[1] + 200
-            print('X: %s' % x)
-            print('Y: %s' % y)
+            print('选中一个人形 X: %s  Y: %s' % (x, y))
             self.ld.inputTap(Ld.index, x, y)
             time.sleep(0.5)
 
@@ -563,6 +562,7 @@ def T_Dolls_retire(adv_retire: bool = False):
 def ep_13_4(debug_mode: bool = False):
     """
     【关卡13-4步骤】
+
     :return:
     """
     # 判断选择13章节
@@ -638,8 +638,7 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2,
                    moveX=51, moveY=-9)
     Ld.LdactionTap('execution_plan.png')
-    Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8,
-                   beginning_content="已完成关卡")
+    Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8)
     print('开始结算')
     for tap in range(3):
         taps = 1
@@ -652,7 +651,7 @@ def ep_13_4(debug_mode: bool = False):
             print('已获得%s个' % taps)
             Dc.screenShotnewLd(Ld.index)
         elif Ld.isExist('result_settlement.png')[0]:
-            Ld.LdactionTap('result_settlement.png', sleep_time=3)
+            Ld.LdactionTap('result_settlement.png', sleep_time=3, end_content='已完成关卡')
         else:
             break
 
@@ -741,8 +740,8 @@ if __name__ == '__main__':
     # ep_13_4()
     runtimes = int(input("跑几次:"))
     get_into_mission()
-    for i in range(runtimes):
-        isruntimes = 1
-        ep_13_4()
-        isruntimes += i
-        print('共 %d 次，已执行 %d 次' % (runtimes, isruntimes))
+    for isruntimes in range(runtimes):
+        isruntimes_num = isruntimes + 1
+        running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, isruntimes_num)
+        ep_13_4(running_script)
+        print('共 %d 次，已执行 %d 次' % (runtimes, isruntimes_num))
