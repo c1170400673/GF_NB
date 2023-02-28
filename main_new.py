@@ -278,16 +278,19 @@ class Ldaction(object):
             print(beginning_content)
         if need_screenShot:
             if target_img_name_second is None:
-                find_result_first = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
-                                                         rgb, tap_times, target_img_name_first, threshold)
+                find_result_first = self.find_target_img(target_img_name_first, rgb, moveX, moveY, reload_sleep_time,
+                                                         reload_times, wait_time, tap_times,
+                                                         threshold)
                 if find_result_first[0] is False:
                     sys.exit()
             else:
-                find_result_first = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
-                                                         rgb, tap_times, target_img_name_first, threshold)
+                find_result_first = self.find_target_img(target_img_name_first, rgb, moveX, moveY, reload_sleep_time,
+                                                         reload_times, wait_time, tap_times,
+                                                         threshold)
                 if find_result_first[0] is False:
-                    find_result_second = self.find_target_img(moveX, moveY, reload_sleep_time, reload_times, wait_time,
-                                                              rgb, tap_times, target_img_name_second, threshold)
+                    find_result_second = self.find_target_img(target_img_name_second, rgb, moveX, moveY,
+                                                              reload_sleep_time, reload_times, wait_time, tap_times,
+                                                              threshold)
                     if find_result_second[0] is False:
                         sys.exit()
         else:
@@ -339,11 +342,12 @@ class Ldaction(object):
         print('+++++END+++++')
         time.sleep(sleep_time)
 
-    def LdactionTapV2(self, target_img_name_list: list, tap_result_check_img_name: str, rgb: bool = False, threshold: float = 0.9,
-                      need_screenShot: bool = True, moveX: int = 0, moveY: int = 0, tap_times: int = 1,
-                      tap_interval: float = 0, before_tap_wait_time: float = 0, after_tap_wait_time: float = 1,
-                      search_again_times: int = 1, search_again_sleep_time: float = 0.5, tap_result_check: bool = False,
-                      beginning_content: str = None, end_content: str = None, error_content: str = '请检查界面！'):
+    def LdactionTapV2(self, target_img_name_list: list, tap_result_check_img_name: str = None, rgb: bool = False,
+                      threshold: float = 0.9, need_screenShot: bool = True, moveX: int = 0, moveY: int = 0,
+                      tap_times: int = 1, tap_interval: float = 0, before_tap_wait_time: float = 0,
+                      after_tap_wait_time: float = 1, search_again_times: int = 1, search_again_sleep_time: float = 0.5,
+                      tap_result_check: bool = False, beginning_content: str = None, end_content: str = None,
+                      error_content: str = '请检查界面！'):
         """
         【查找对应按钮】
         :param target_img_name_list: list: 目标图片名称列表
@@ -373,7 +377,7 @@ class Ldaction(object):
                                                      search_again_sleep_time, search_again_times, before_tap_wait_time,
                                                      after_tap_wait_time, tap_times, tap_interval)
                 if find_result[0]:
-                    if tap_result_check:
+                    if tap_result_check and tap_result_check_img_name is not None:
                         self.ld.screenShotnewLd(self.index)
                         tap_result = self.isExist(tap_result_check_img_name, rgb, threshold)
                         if tap_result[0]:
@@ -440,17 +444,17 @@ class Ldaction(object):
                     print('未能找到需要的 %s 按钮！' % target_img_name)
             else:
                 break
-            x = find_result['result'][0] - moveX
-            y = find_result['result'][1] - moveY
-            time.sleep(before_tap_wait_time)
-            for t in range(tap_times):
-                tap = 1
-                print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
-                time.sleep(tap_interval)
-                self.ld.inputTap(Ld.index, x, y)
-                tap += t
-                print('已点击 %s %d次' % (target_img_name, tap))
-            time.sleep(after_tap_wait_time)
+        x = find_result['result'][0] - moveX
+        y = find_result['result'][1] - moveY
+        time.sleep(before_tap_wait_time)
+        for t in range(tap_times):
+            tap = 1
+            print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
+            time.sleep(tap_interval)
+            self.ld.inputTap(Ld.index, x, y)
+            tap += t
+            print('已点击 %s %d次' % (target_img_name, tap))
+        time.sleep(after_tap_wait_time)
         return result
 
     def find_target_img(self, target_img_name, rgb, moveX, moveY, reload_sleep_time, reload_times, wait_time, tap_times,
@@ -468,6 +472,7 @@ class Ldaction(object):
         :param wait_time:
         :return:
         """
+
         for sleep in range(reload_times):
             self.ld.screenShotnewLd(self.index)
             result = self.isExist(target_img_name, rgb=rgb, threshold=threshold)
@@ -664,14 +669,14 @@ def get_into_mission():
         # 当前在主界面
         print('当前在主界面')
         # 进入战斗菜单
-        Ld.LdactionTap('main_battle.png')
+        Ld.LdactionTapV2(['main_battle.png'])
         print('进入战斗界面')
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
             print('已在作战任务')
         else:
-            Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='开始选择作战任务')
         # ep_13_4()
     elif Ld.isExist('battle.png', threshold=0.9)[0]:
         # 当前在战斗界面
@@ -681,23 +686,23 @@ def get_into_mission():
         if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
             print('已在作战任务')
         else:
-            Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='开始选择作战任务')
         # ep_13_4()
     elif Ld.isExist('research.png', threshold=0.9)[0]:
         # 当前在研发界面
         # 返回主界面
         print('当前在研发界面')
-        Ld.LdactionTap('return.png')
+        Ld.LdactionTapV2(['return.png'])
         print('返回主界面')
         # 进入战斗菜单
-        Ld.LdactionTap('main_battle.png')
+        Ld.LdactionTapV2(['main_battle.png'])
         print('进入战斗界面')
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
             print('已在作战任务')
         else:
-            Ld.LdactionTap('combat_mission.png', beginning_content='开始选择作战任务')
+            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='开始选择作战任务')
         # ep_13_4()
     else:
         print('....当前页面无法自动返回主界面请手动返回后重试！....')
