@@ -253,7 +253,7 @@ class Ldaction(object):
                     need_screenShot: bool = True, threshold: float = 0.9, moveX: int = 0, moveY: int = 0,
                     tap_times: int = 1, wait_time: float = 0, sleep_time: float = 1, reload_times: int = 1,
                     reload_sleep_time: float = 0.5, beginning_content: str = None, end_content: str = None,
-                    error_content: str = '请检查界面！', tap_result_check: bool = False, running_script: str = ''):
+                    error_content: str = '请检查界面！', tap_result_check: bool = False):
         """
         【查找对应按钮】
         :param rgb: 比对rgb通道开关
@@ -346,7 +346,7 @@ class Ldaction(object):
                       tap_times: int = 1, tap_interval: float = 0, before_tap_wait_time: float = 0,
                       after_tap_wait_time: float = 1, search_again_times: int = 1, search_again_sleep_time: float = 0.5,
                       tap_result_check: bool = False, beginning_content: str = None, end_content: str = None,
-                      error_content: str = '请检查界面！', running_script: str = ''):
+                      error_content: str = '请检查界面！'):
         """
         【查找对应按钮】
         :param target_img_name_list: list: 目标图片名称列表
@@ -513,9 +513,9 @@ class Ldaction(object):
         target_img = aircv.imread(target_img_name_file)
         result = aircv.find_all_template(screenshot_img, target_img, rgb=rgb, threshold=threshold)
         if result is None:
-            return False
+            return False, result
         else:
-            return result
+            return True, result
 
     def List_select(self, target_img_name: str, rgb: bool = True, threshold: float = 0.94):
         """
@@ -739,6 +739,7 @@ if __name__ == '__main__':
     # 调试方法
     # ep_13_4()
     runtimes = int(input("跑几圈:"))
+    running_script = '共 %d 次，开始执行' % runtimes
     get_into_mission()
     for isruntimes in range(runtimes):
         isruntimes_num = isruntimes + 1
