@@ -256,7 +256,7 @@ class Ldaction(object):
                     error_content: str = '请检查界面！', tap_result_check: bool = False):
         """
         【查找对应按钮】
-        :param rgb:
+        :param rgb: 比对rgb通道开关
         :param need_screenShot: 是否需要调用截图程序
         :param error_content: 异常打印信息
         :param tap_times: 连续点击次数
