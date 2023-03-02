@@ -640,10 +640,10 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('18.png', need_screenShot=False, threshold=0.6, sleep_time=0.5, reload_times=2)
     Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2,
                    moveX=51, moveY=-9)
-    Ld.LdactionTap('execution_plan.png')
+    Ld.LdactionTap('execution_plan.png', beginning_content='开始执行计划战斗')
     # Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8)
     Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
-                     before_tap_wait_time=100, after_tap_wait_time=7)
+                     before_tap_wait_time=100, after_tap_wait_time=7, beginning_content='等待战斗完毕结算')
     print('开始结算')
     for tap in range(3):
         taps = tap + 1
