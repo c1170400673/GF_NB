@@ -221,8 +221,8 @@ class Ldaction(object):
     def __init__(self, index: int, ld, screenshot_img_name: str):
         """
         【构造方法】
-        :param index:
-        :param ld:
+        :param index: 模拟器号
+        :param ld: 传入的Dconsole对象
         :param screenshot_img_name:
         :return:
         """
