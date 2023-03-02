@@ -273,9 +273,11 @@ class Ldaction(object):
         :param moveY: 偏移Y轴量
         :param tap_result_check: 点击结果检查开关
         """
-        print('\n+++++START+++++   %s' % running_script)
-        if beginning_content is not None:
-            print(beginning_content)
+        if beginning_content is None:
+            print('\n+++++START+++++   %s' % running_script)
+
+        else:
+            print('\n+++++START+++++ %s  %s' % (beginning_content, running_script))
         if need_screenShot:
             if target_img_name_second is None:
                 find_result_first = self.find_target_img(target_img_name_first, rgb, moveX, moveY, reload_sleep_time,
@@ -337,10 +339,12 @@ class Ldaction(object):
                         self.ld.inputTap(Ld.index, x, y)
                         tap += t
                         print('已点击 %s %d次' % (target_img_name_first, tap))
-        if end_content is not None:
-            print(end_content)
-        print('+++++END+++++')
         time.sleep(sleep_time)
+        if end_content is None:
+            print('\n+++++END+++++   %s' % running_script)
+
+        else:
+            print('\n+++++END+++++ %s  %s' % (end_content, running_script))
 
     def LdactionTapV2(self, target_img_name_list: list, tap_result_check_img_name: str = None, rgb: bool = False,
                       threshold: float = 0.9, need_screenShot: bool = True, moveX: int = 0, moveY: int = 0,
@@ -369,10 +373,13 @@ class Ldaction(object):
         :param error_content: 异常打印信息
         """
         print('\n+++++START+++++')
-        if beginning_content is not None:
-            print(beginning_content)
+        if beginning_content is None:
+            print('\n+++++START+++++   %s' % running_script)
+
+        else:
+            print('\n+++++START+++++ %s  %s' % (beginning_content, running_script))
         if before_tap_wait_time != 0:
-            print('等待 %s 秒后继续' % before_tap_wait_time)
+            # print('等待 %s 秒后继续' % before_tap_wait_time)
             time.sleep(before_tap_wait_time)
         if need_screenShot:
             for target_img_name in target_img_name_list:
@@ -409,10 +416,12 @@ class Ldaction(object):
                 self.ld.inputTap(Ld.index, x, y)
                 tap += t
                 print('已点击 %s %d次' % (target_img_name, tap))
-            time.sleep(after_tap_wait_time)
-        if end_content is not None:
-            print(end_content)
-        print('+++++END+++++')
+        time.sleep(after_tap_wait_time)
+        if end_content is None:
+            print('\n+++++END+++++   %s' % running_script)
+
+        else:
+            print('\n+++++END+++++ %s  %s' % (end_content, running_script))
 
     def find_target_imgV2(self, target_img_name, rgb, threshold, moveX, moveY,
                           search_again_sleep_time, search_again_times, after_tap_wait_time, tap_times, tap_interval):
@@ -641,7 +650,7 @@ def ep_13_4(debug_mode: bool = False):
                    moveX=51, moveY=-9)
     Ld.LdactionTap('execution_plan.png')
     # Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8)
-    Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8,
+    Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
                      before_tap_wait_time=100, after_tap_wait_time=7)
     print('开始结算')
     for tap in range(3):
