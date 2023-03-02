@@ -587,6 +587,7 @@ def ep_13_4(debug_mode: bool = False):
     else:
         Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, beginning_content='....准备投放第一战队....')
     # 判断选择第一梯队，进入梯队编辑
+    Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png', rgb=True)[0]:
         Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=1.5, end_content='进入队伍编辑')
     else:
@@ -606,6 +607,7 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('return.png', sleep_time=3, reload_times=2)
     Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, reload_times=2)
 
+    Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png')[0]:
         Ld.LdactionTap('echelon_confirm.png')
     else:
@@ -613,6 +615,7 @@ def ep_13_4(debug_mode: bool = False):
         Ld.LdactionTap('echelon_confirm.png')
     Ld.LdactionTap('13_4_fjc.png', '13_4_fjc_bak.png', rgb=True, threshold=0.6, reload_times=4)
 
+    Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isselect_echelon.png', rgb=True)[0]:
         if Ld.isExist('isechelon2.png')[0]:
             Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
