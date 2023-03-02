@@ -235,7 +235,7 @@ class Ldaction(object):
         """
         【判断指定图片是否包含在截图中】
         :param self:
-        :param rgb:
+        :param rgb: 比对rgb通道开关
         :param threshold:
         :param target_img_name:
         :return: 图片查询结果和包含详情
