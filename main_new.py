@@ -553,6 +553,7 @@ def T_Dolls_retire(adv_retire: bool = False):
         Ld.LdactionTap('show_all.png', sleep_time=1, wait_time=1)
         Ld.LdactionTap('legendary_III.png', sleep_time=0.5)
         Ld.LdactionTap('confirm.png', need_screenShot=False, sleep_time=0.5)
+        Dc.screenShotnewLd(Ld.index)
         Ld.List_select('lv_III.png')
         Ld.LdactionTap('select_confirm.png', end_content='选择确定')
         Ld.LdactionTap('retire.png', end_content='开始回收', sleep_time=2)
