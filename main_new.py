@@ -349,7 +349,6 @@ class Ldaction(object):
                       error_content: str = '请检查界面！'):
         """
         【查找对应按钮】
-        :param running_script:
         :param target_img_name_list: list: 目标图片名称列表
         :param tap_result_check_img_name: 点击结果检查的目标图片
         :param rgb: 比对rgb通道开关
@@ -514,9 +513,9 @@ class Ldaction(object):
         target_img = aircv.imread(target_img_name_file)
         result = aircv.find_all_template(screenshot_img, target_img, rgb=rgb, threshold=threshold)
         if result is None:
-            return False, result
+            return False
         else:
-            return True, result
+            return result
 
     def List_select(self, target_img_name: str, rgb: bool = True, threshold: float = 0.94):
         """
@@ -529,13 +528,14 @@ class Ldaction(object):
         list_result = self.is_all_Exist(target_img_name, rgb=rgb, threshold=threshold)[1]
         # print(list_result)
         # print(len(list_result))
-        for result in list_result:
-            coordinate = result['result']
-            x = coordinate[0] - 100
-            y = coordinate[1] + 200
-            print('选中人形 X: %s  Y: %s' % (x, y))
-            self.ld.inputTap(Ld.index, x, y)
-            time.sleep(0.5)
+        if list_result is not False:
+            for result in list_result:
+                coordinate = result['result']
+                x = coordinate[0] - 100
+                y = coordinate[1] + 200
+                print('选中人形 X: %s  Y: %s' % (x, y))
+                self.ld.inputTap(Ld.index, x, y)
+                time.sleep(0.5)
 
 
 def T_Dolls_retire(adv_retire: bool = False):
