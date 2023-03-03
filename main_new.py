@@ -445,16 +445,16 @@ class Ldaction(object):
                 if search_times == search_again_times:
                     print('未能找到需要的 %s 按钮！' % target_img_name)
             else:
+                x = find_result['result'][0] - moveX
+                y = find_result['result'][1] - moveY
+                for t in range(tap_times):
+                    tap = t + 1
+                    print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
+                    time.sleep(tap_interval)
+                    self.ld.inputTap(Ld.index, x, y)
+                    print('已点击 %s %d次' % (target_img_name, tap))
+                time.sleep(after_tap_wait_time)
                 break
-        x = find_result['result'][0] - moveX
-        y = find_result['result'][1] - moveY
-        for t in range(tap_times):
-            tap = t + 1
-            print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
-            time.sleep(tap_interval)
-            self.ld.inputTap(Ld.index, x, y)
-            print('已点击 %s %d次' % (target_img_name, tap))
-        time.sleep(after_tap_wait_time)
         return result
 
     def find_target_img(self, target_img_name, rgb, moveX, moveY, reload_sleep_time, reload_times, wait_time, tap_times,
@@ -595,7 +595,8 @@ def ep_13_4(debug_mode: bool = False):
         Ld.LdactionTap('echelon1.png', 'isechelon1.png')
         Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=2, end_content='进入队伍编辑')
 
-    Ld.LdactionTap('victor.png', moveY=100, wait_time=1.5, sleep_time=1.5, reload_times=5, end_content='选择维克托人形')
+    Ld.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2, after_tap_wait_time=2,
+                     end_content='选择维克托人形', search_again_times=2, search_again_sleep_time=0.5)
 
     Ld.LdactionTap('show_all.png', sleep_time=0.5)
     Ld.LdactionTap('legendary_v.png', sleep_time=0.5)
@@ -617,7 +618,7 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('13_4_fjc.png', '13_4_fjc_bak.png', rgb=True, threshold=0.6, reload_times=4)
 
     Dc.screenShotnewLd(Ld.index)
-    if Ld.isExist('isselect_echelon.png', rgb=True)[0]:
+    if Ld.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
         if Ld.isExist('isechelon2.png')[0]:
             Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
         else:
