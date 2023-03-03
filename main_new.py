@@ -368,7 +368,7 @@ class Ldaction(object):
         :param error_content: 异常打印信息
         """
         if beginning_content is None:
-            print('\n+++++START+++++   %s' % running_script)
+            print('\n+++++START+++++   %s  ' % running_script)
         else:
             print('\n+++++START+++++ %s  %s' % (beginning_content, running_script))
         if before_tap_wait_time != 0:
@@ -409,10 +409,11 @@ class Ldaction(object):
                 self.ld.inputTap(Ld.index, x, y)
                 print('已点击 %s %d次' % (target_img_name, tap))
         time.sleep(after_tap_wait_time)
+        chuji_time = time.time() - star_time
         if end_content is None:
-            print('+++++END+++++')
+            print('+++++END+++++  %s' % chuji_time)
         else:
-            print('+++++END+++++ %s' % end_content)
+            print('+++++END+++++  %s  %s' % (end_content, chuji_time))
 
     def find_target_imgV2(self, target_img_name, rgb, threshold, moveX, moveY,
                           search_again_sleep_time, search_again_times, after_tap_wait_time, tap_times, tap_interval):
@@ -645,7 +646,7 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('execution_plan.png', beginning_content='开始执行计划战斗')
     # Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8)
     Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
-                     before_tap_wait_time=100, after_tap_wait_time=7, beginning_content='等待战斗完毕结算')
+                     before_tap_wait_time=110, after_tap_wait_time=5, beginning_content='等待战斗完毕结算')
     print('开始结算')
     for tap in range(3):
         taps = tap + 1
@@ -744,10 +745,19 @@ if __name__ == '__main__':
     # 调试方法
     # ep_13_4()
     runtimes = int(input("跑几圈:"))
+    runtime = float(input("跑多久(分钟）:"))
+    runtime_min = runtime * 60
     running_script = '共 %d 次，开始执行' % runtimes
+    star_time = time.time()
     get_into_mission()
+    running_time: float = 0
     for isruntimes in range(runtimes):
         isruntimes_num = isruntimes + 1
         running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, isruntimes_num)
-        ep_13_4(running_script)
-        print('共 %d 次，已执行 %d 次' % (runtimes, isruntimes_num))
+        if running_time <= runtime_min:
+            ep_13_4(running_script)
+            end_time = time.time()
+            running_time = end_time - star_time
+            print('共 %d 次，已执行 %d 次, 已运行 %s 秒' % (runtimes, isruntimes_num, running_time))
+        else:
+            break
