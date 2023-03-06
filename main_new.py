@@ -45,8 +45,8 @@ class Dnconsole:
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        # self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
-        self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
+        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        # self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
@@ -664,7 +664,7 @@ def ep_13_4(debug_mode: bool = False):
             Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
 
     Ld.LdactionTap('start_fighting.png', wait_time=1, sleep_time=1.5)
-    Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.95, moveX=124, moveY=-41, tap_times=2,
+    Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.91, moveX=124, moveY=-41, tap_times=2,
                    reload_times=2, wait_time=0.3)
     Ld.LdactionTap('supply.png', sleep_time=1.5)
     Ld.LdactionTap('echelon1_bak.png', wait_time=1, threshold=0.9, moveX=118, moveY=-39)
@@ -676,13 +676,13 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTap('execution_plan.png', beginning_content='开始执行计划战斗')
     # Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8)
     Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
-                     before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
+                     before_tap_wait_time=110, after_tap_wait_time=7, beginning_content='等待战斗完毕结算')
     print('开始结算')
     for tap in range(3):
         taps = tap + 1
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('new_unit.png')[0]:
-            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, before_tap_wait_time=4, after_tap_wait_time=6,
+            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, before_tap_wait_time=3, after_tap_wait_time=7,
                              beginning_content='检查是否有新单位获得', end_content='结算获得1个新单位',
                              error_content='结算未获得新单位', need_screenShot=False)
             print('已获得%s个' % taps)
