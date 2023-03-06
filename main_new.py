@@ -45,8 +45,8 @@ class Dnconsole:
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
-        # self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
+        # self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
@@ -373,7 +373,12 @@ class Ldaction(object):
             print('\n+++++START+++++ %s  %s' % (beginning_content, running_script))
         if before_tap_wait_time != 0:
             # print('等待 %s 秒后继续' % before_tap_wait_time)
-            time.sleep(before_tap_wait_time)
+            before_tap_wait_time = int(before_tap_wait_time * 2)
+            for s in range(before_tap_wait_time):
+                time.sleep(0.5)
+                print(".", end="")
+                if s == before_tap_wait_time - 1:
+                    print("", end="\n")
         if need_screenShot:
             for target_img_name in target_img_name_list:
                 find_result = self.find_target_imgV2(target_img_name, rgb, threshold, moveX, moveY,
@@ -401,14 +406,23 @@ class Ldaction(object):
                     break
             x = find_result['result'][0] - moveX
             y = find_result['result'][1] - moveY
-            time.sleep(before_tap_wait_time)
             for t in range(tap_times):
                 tap = t + 1
                 print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
-                time.sleep(tap_interval)
+                tap_interval = int(tap_interval * 2)
+                for s in range(tap_interval):
+                    time.sleep(0.5)
+                    print(".", end="")
+                    if s == tap_interval - 1:
+                        print("", end="\n")
                 self.ld.inputTap(Ld.index, x, y)
                 print('已点击 %s %d次' % (target_img_name, tap))
-        time.sleep(after_tap_wait_time)
+            after_tap_wait_time = int(after_tap_wait_time * 2)
+            for s in range(after_tap_wait_time):
+                time.sleep(0.5)
+                print(".", end="")
+                if s == after_tap_wait_time - 1:
+                    print("", end="\n")
         chuji_time = time.time() - star_time
         if end_content is None:
             print('+++++END+++++  %s' % chuji_time)
@@ -441,7 +455,12 @@ class Ldaction(object):
                 print('未能找到需要的 %s 按钮！' % target_img_name)
                 search_times = 1
                 search_times += search
-                time.sleep(search_again_sleep_time)
+                search_again_sleep_time = int(search_again_sleep_time * 2)
+                for s in range(search_again_sleep_time):
+                    time.sleep(0.5)
+                    print(".", end="")
+                    if s == search_again_sleep_time - 1:
+                        print("", end="\n")
                 print('重新搜索 %s 按钮 %d 次' % (target_img_name, search_times))
                 if search_times == search_again_times:
                     print('未能找到需要的 %s 按钮！' % target_img_name)
@@ -451,10 +470,20 @@ class Ldaction(object):
                 for t in range(tap_times):
                     tap = t + 1
                     print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
-                    time.sleep(tap_interval)
+                    tap_interval = int(tap_interval * 2)
+                    for s in range(tap_interval):
+                        time.sleep(0.5)
+                        print(".", end="")
+                        if s == tap_interval - 1:
+                            print("", end="\n")
                     self.ld.inputTap(Ld.index, x, y)
                     print('已点击 %s %d次' % (target_img_name, tap))
-                time.sleep(after_tap_wait_time)
+                after_tap_wait_time = int(after_tap_wait_time * 2)
+                for s in range(after_tap_wait_time):
+                    time.sleep(0.5)
+                    print(".", end="")
+                    if s == after_tap_wait_time - 1:
+                        print("", end="\n")
                 break
         return result
 
@@ -570,8 +599,8 @@ def ep_13_4(debug_mode: bool = False):
     # 判断选择13章节
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isep13.png', threshold=0.9)[0]:
-        Ld.LdactionTap('13_4.png', threshold=0.9, reload_times=2, beginning_content='选择关卡',
-                       end_content='已选择关卡13-4')
+        Ld.LdactionTapV2(['13_4.png'], threshold=0.9, search_again_times=2, beginning_content='选择关卡',
+                         end_content='已选择关卡13-4')
     else:
         Ld.LdactionTap('ep13.png', 'isep13.png', threshold=0.9, beginning_content='选择作战章节',
                        end_content='已选择章节13')
@@ -587,13 +616,14 @@ def ep_13_4(debug_mode: bool = False):
         Ld.LdactionTap('return.png', sleep_time=2, reload_times=2)
         return get_into_mission()
     else:
-        Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, beginning_content='....准备投放第一战队....')
+        Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, sleep_time=1.5,
+                       beginning_content='....准备投放第一战队....')
     # 判断选择第一梯队，进入梯队编辑
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png', rgb=True)[0]:
         Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=1.5, end_content='进入队伍编辑')
     else:
-        Ld.LdactionTap('echelon1.png', 'isechelon1.png')
+        Ld.LdactionTap('echelon1.png', 'isechelon1.png', sleep_time=1.5)
         Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=2, end_content='进入队伍编辑')
 
     Ld.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2, after_tap_wait_time=2,
@@ -633,7 +663,7 @@ def ep_13_4(debug_mode: bool = False):
             Ld.LdactionTap('echelon2.png', 'isechelon2.png')
             Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
 
-    Ld.LdactionTap('start_fighting.png', wait_time=0.5, sleep_time=1.5)
+    Ld.LdactionTap('start_fighting.png', wait_time=1, sleep_time=1.5)
     Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.95, moveX=124, moveY=-41, tap_times=2,
                    reload_times=2, wait_time=0.3)
     Ld.LdactionTap('supply.png', sleep_time=1.5)
