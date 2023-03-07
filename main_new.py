@@ -45,8 +45,8 @@ class Dnconsole:
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
-        # self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
+        # self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
@@ -187,6 +187,7 @@ class Dnconsole:
         """
         cmd = '-s %d " %s -p %s"' % (index, self.screencap_path, self.devicess_path)
         result = self.ldCMD(cmd)
+        print("==O==")
         return result
 
     def actionOfTap(self, index: int, x: int, y: int):
@@ -248,98 +249,6 @@ class Ldaction(object):
             return False, result
         else:
             return True, result
-
-    def LdactionTap(self, target_img_name_first: str, target_img_name_second: str = None, rgb: bool = False,
-                    need_screenShot: bool = True, threshold: float = 0.9, moveX: int = 0, moveY: int = 0,
-                    tap_times: int = 1, wait_time: float = 0, sleep_time: float = 1, reload_times: int = 1,
-                    reload_sleep_time: float = 0.5, beginning_content: str = None, end_content: str = None,
-                    error_content: str = '请检查界面！', tap_result_check: bool = False):
-        """
-        【查找对应按钮】
-        :param rgb: 比对rgb通道开关
-        :param need_screenShot: 是否需要调用截图程序
-        :param error_content: 异常打印信息
-        :param tap_times: 连续点击次数
-        :param end_content: 结束文本
-        :param beginning_content: 开始文本
-        :param reload_sleep_time: 重试间隔休眠时长
-        :param threshold: 模糊匹配阀值
-        :param reload_times: 重试次数
-        :param wait_time:
-        :param sleep_time: 固定休眠时长
-        :param target_img_name_first: 匹配目标图片名称1
-        :param target_img_name_second: 匹配目标图片名称2
-        :param moveX: 偏移X轴量
-        :param moveY: 偏移Y轴量
-        :param tap_result_check: 点击结果检查开关
-        """
-        if beginning_content is None:
-            print('\n+++++START+++++   %s' % running_script)
-        else:
-            print('\n+++++START+++++ %s  %s' % (beginning_content, running_script))
-        if need_screenShot:
-            if target_img_name_second is None:
-                find_result_first = self.find_target_img(target_img_name_first, rgb, moveX, moveY, reload_sleep_time,
-                                                         reload_times, wait_time, tap_times,
-                                                         threshold)
-                if find_result_first[0] is False:
-                    sys.exit()
-            else:
-                find_result_first = self.find_target_img(target_img_name_first, rgb, moveX, moveY, reload_sleep_time,
-                                                         reload_times, wait_time, tap_times,
-                                                         threshold)
-                if find_result_first[0] is False:
-                    find_result_second = self.find_target_img(target_img_name_second, rgb, moveX, moveY,
-                                                              reload_sleep_time, reload_times, wait_time, tap_times,
-                                                              threshold)
-                    if find_result_second[0] is False:
-                        sys.exit()
-        else:
-            if target_img_name_second is None:
-                find_result_first = self.isExist(target_img_name_first, rgb=rgb, threshold=threshold)[1]
-                if find_result_first is None:
-                    print('未能找到需要的 %s 按钮！' % target_img_name_first)
-                    sys.exit()
-                else:
-                    x = find_result_first['result'][0] - moveX
-                    y = find_result_first['result'][1] - moveY
-                    for t in range(tap_times):
-                        tap = t + 1
-                        print('找到按钮: %s [%d , %d]' % (target_img_name_first, x, y))
-                        time.sleep(wait_time)
-                        self.ld.inputTap(Ld.index, x, y)
-                        print('已点击 %s %d次' % (target_img_name_first, tap))
-            else:
-                find_result_first = self.isExist(target_img_name_first, rgb=rgb, threshold=threshold)[1]
-                if find_result_first is None:
-                    print('未能找到需要的 %s 按钮！' % target_img_name_first)
-                    find_result_second = self.isExist(target_img_name_second, rgb=rgb, threshold=threshold)[1]
-                    if find_result_second is None:
-                        print('未能找到需要的 %s 按钮！' % target_img_name_second)
-                        sys.exit()
-                    else:
-                        x = find_result_second['result'][0] - moveX
-                        y = find_result_second['result'][1] - moveY
-                        for t in range(tap_times):
-                            tap = t + 1
-                            print('找到按钮: %s [%d , %d]' % (target_img_name_second, x, y))
-                            time.sleep(wait_time)
-                            self.ld.inputTap(Ld.index, x, y)
-                            print('已点击 %s %d次' % (target_img_name_second, tap))
-                else:
-                    x = find_result_first['result'][0] - moveX
-                    y = find_result_first['result'][1] - moveY
-                    for t in range(tap_times):
-                        tap = t + 1
-                        print('找到按钮: %s [%d , %d]' % (target_img_name_first, x, y))
-                        time.sleep(wait_time)
-                        self.ld.inputTap(Ld.index, x, y)
-                        print('已点击 %s %d次' % (target_img_name_first, tap))
-        time.sleep(sleep_time)
-        if end_content is None:
-            print('+++++END+++++')
-        else:
-            print('+++++END+++++ %s' % end_content)
 
     def LdactionTapV2(self, target_img_name_list: list, tap_result_check_img_name: str = None, rgb: bool = False,
                       threshold: float = 0.9, need_screenShot: bool = True, moveX: int = 0, moveY: int = 0,
@@ -416,7 +325,7 @@ class Ldaction(object):
                     if s == tap_interval - 1:
                         print("", end="\n")
                 self.ld.inputTap(Ld.index, x, y)
-                print('已点击 %s %d次' % (target_img_name, tap))
+                print('已点击 %s %d次' % (target_img_name, tap), end="")
             after_tap_wait_time = int(after_tap_wait_time * 2)
             for s in range(after_tap_wait_time):
                 time.sleep(0.5)
@@ -424,6 +333,7 @@ class Ldaction(object):
                 if s == after_tap_wait_time - 1:
                     print("", end="\n")
         chuji_time = time.time() - star_time
+        chuji_time = time.strftime("%H:%M:%S", time.gmtime(chuji_time))
         if end_content is None:
             print('+++++END+++++  %s' % chuji_time)
         else:
@@ -452,7 +362,7 @@ class Ldaction(object):
             if find_result is None and search_again_times == 1:
                 print('未能找到需要的 %s 按钮！' % target_img_name)
             elif find_result is None and search_again_times > 1:
-                print('未能找到需要的 %s 按钮！' % target_img_name)
+                print('未能找到需要的 %s 按钮！' % target_img_name, end="")
                 search_times = 1
                 search_times += search
                 search_again_sleep_time = int(search_again_sleep_time * 2)
@@ -469,7 +379,7 @@ class Ldaction(object):
                 y = find_result['result'][1] - moveY
                 for t in range(tap_times):
                     tap = t + 1
-                    print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
+                    print('找到按钮: %s [%d , %d]  ' % (target_img_name, x, y))
                     tap_interval = int(tap_interval * 2)
                     for s in range(tap_interval):
                         time.sleep(0.5)
@@ -477,55 +387,13 @@ class Ldaction(object):
                         if s == tap_interval - 1:
                             print("", end="\n")
                     self.ld.inputTap(Ld.index, x, y)
-                    print('已点击 %s %d次' % (target_img_name, tap))
+                    print('已点击 %s %d次' % (target_img_name, tap), end="")
                 after_tap_wait_time = int(after_tap_wait_time * 2)
                 for s in range(after_tap_wait_time):
                     time.sleep(0.5)
                     print(".", end="")
                     if s == after_tap_wait_time - 1:
                         print("", end="\n")
-                break
-        return result
-
-    def find_target_img(self, target_img_name, rgb, moveX, moveY, reload_sleep_time, reload_times, wait_time, tap_times,
-                        threshold):
-        """
-        【需要截图的模板图片搜索处理】
-        :param moveX:
-        :param moveY:
-        :param reload_sleep_time:
-        :param reload_times:
-        :param rgb:
-        :param tap_times:
-        :param target_img_name:
-        :param threshold:
-        :param wait_time:
-        :return:
-        """
-
-        for sleep in range(reload_times):
-            self.ld.screenShotnewLd(self.index)
-            result = self.isExist(target_img_name, rgb=rgb, threshold=threshold)
-            find_result = result[1]
-            if find_result is None and reload_times == 1:
-                print('未能找到需要的 %s 按钮！' % target_img_name)
-            elif find_result is None and reload_times > 1:
-                print('未能找到需要的 %s 按钮！' % target_img_name)
-                sleep_times = 1
-                sleep_times += sleep
-                time.sleep(reload_sleep_time)
-                print('重新搜索 %s 按钮 %d 次' % (target_img_name, sleep_times))
-                if sleep_times == reload_times:
-                    print('未能找到需要的 %s 按钮！' % target_img_name)
-            else:
-                x = find_result['result'][0] - moveX
-                y = find_result['result'][1] - moveY
-                for t in range(tap_times):
-                    tap = t + 1
-                    print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
-                    time.sleep(wait_time)
-                    self.ld.inputTap(Ld.index, x, y)
-                    print('已点击 %s %d次' % (target_img_name, tap))
                 break
         return result
 
@@ -574,20 +442,20 @@ def T_Dolls_retire(adv_retire: bool = False):
     :param adv_retire:
     :return:
     """
-    Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收')
-    Ld.LdactionTap('intelligent_selection.png', end_content='点击智能选择')
-    Ld.LdactionTap('select_confirm.png', end_content='选择确定')
-    Ld.LdactionTap('retire.png', end_content='开始回收', sleep_time=3)
+    Ld.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收')
+    Ld.LdactionTapV2(['intelligent_selection.png'], end_content='点击智能选择')
+    Ld.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
+    Ld.LdactionTapV2(['retire.png'], after_tap_wait_time=3, end_content='开始回收')
     if adv_retire:
-        Ld.LdactionTap('standing_by_T_Dolls.png', beginning_content='选择角色回收', sleep_time=1)
-        Ld.LdactionTap('show_all.png', sleep_time=1, wait_time=1)
-        Ld.LdactionTap('legendary_III.png', sleep_time=0.5)
-        Ld.LdactionTap('confirm.png', need_screenShot=False, sleep_time=0.5)
+        Ld.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收')
+        Ld.LdactionTapV2(['show_all.png'], before_tap_wait_time=1)
+        Ld.LdactionTapV2(['legendary_III.png'], after_tap_wait_time=0.5)
+        Ld.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
         Dc.screenShotnewLd(Ld.index)
         Ld.List_select('lv_III.png')
-        Ld.LdactionTap('select_confirm.png', end_content='选择确定')
-        Ld.LdactionTap('retire.png', end_content='开始回收', sleep_time=2)
-        Ld.LdactionTap('retire_confirm.png')
+        Ld.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
+        Ld.LdactionTapV2(['retire.png'], after_tap_wait_time=2, end_content='开始回收')
+        Ld.LdactionTapV2(['retire_confirm.png'])
 
 
 def ep_13_4(debug_mode: bool = False):
@@ -600,95 +468,98 @@ def ep_13_4(debug_mode: bool = False):
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isep13.png', threshold=0.9)[0]:
         Ld.LdactionTapV2(['13_4.png'], threshold=0.9, search_again_times=2, beginning_content='选择关卡',
-                         end_content='已选择关卡13-4')
+                         end_content='已选择关卡13-4', need_screenShot=False)
     else:
-        Ld.LdactionTap('ep13.png', 'isep13.png', threshold=0.9, beginning_content='选择作战章节',
-                       end_content='已选择章节13')
-        Ld.LdactionTap('13_4.png', threshold=0.9, reload_times=2, beginning_content='选择关卡',
-                       end_content='已选择关卡13-4')
-    Ld.LdactionTap('common_battle.png', sleep_time=5, wait_time=1, end_content='进入关卡战斗')
+        Ld.LdactionTapV2(['ep13.png', 'isep13.png'], threshold=0.9, beginning_content='选择作战章节',
+                         end_content='已选择章节13', need_screenShot=False)
+        Ld.LdactionTapV2(['13_4.png'], threshold=0.9, search_again_times=2, beginning_content='选择关卡',
+                         end_content='已选择关卡13-4')
+    Ld.LdactionTapV2(['common_battle.png'], after_tap_wait_time=5, tap_interval=1, end_content='进入关卡战斗')
 
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('unit_recycle.png')[0]:
         print('\n+++++单位已满,请回收处理+++++')
-        Ld.LdactionTap('unit_recycle.png', need_screenShot=False, sleep_time=2, beginning_content='准备回收单位')
+        Ld.LdactionTapV2(['unit_recycle.png'], need_screenShot=False, after_tap_wait_time=2,
+                         beginning_content='准备回收单位')
         T_Dolls_retire(adv_retire=True)
-        Ld.LdactionTap('return.png', sleep_time=2, reload_times=2)
+        Ld.LdactionTapV2(['return.png'], after_tap_wait_time=2, search_again_times=2)
         return get_into_mission()
     else:
-        Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, sleep_time=1.5,
-                       beginning_content='....准备投放第一战队....')
+        Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, after_tap_wait_time=1.5,
+                         beginning_content='....准备投放第一战队....')
     # 判断选择第一梯队，进入梯队编辑
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png', rgb=True)[0]:
-        Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=1.5, end_content='进入队伍编辑')
+        Ld.LdactionTapV2(['echelon_editing.png'], need_screenShot=False, after_tap_wait_time=1.5,
+                         end_content='进入队伍编辑')
     else:
-        Ld.LdactionTap('echelon1.png', 'isechelon1.png', sleep_time=1.5)
-        Ld.LdactionTap('echelon_editing.png', need_screenShot=False, sleep_time=2, end_content='进入队伍编辑')
+        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5)
+        Ld.LdactionTapV2(['echelon_editing.png'], need_screenShot=False, after_tap_wait_time=2,
+                         end_content='进入队伍编辑')
 
     Ld.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2, after_tap_wait_time=2,
                      end_content='选择维克托人形', search_again_times=2, search_again_sleep_time=0.5)
 
-    Ld.LdactionTap('show_all.png', sleep_time=0.5)
-    Ld.LdactionTap('legendary_v.png', sleep_time=0.5)
-    Ld.LdactionTap('smg.png', need_screenShot=False, sleep_time=0.5)
-    Ld.LdactionTap('at_max_lv.png', need_screenShot=False, sleep_time=0.5)
-    Ld.LdactionTap('desc.png', need_screenShot=False)
-    Ld.LdactionTap('confirm.png', need_screenShot=False, sleep_time=0.5)
+    Ld.LdactionTapV2(['show_all.png'], after_tap_wait_time=0.5)
+    Ld.LdactionTapV2(['legendary_v.png'], after_tap_wait_time=0.5)
+    Ld.LdactionTapV2(['smg.png'], need_screenShot=False, after_tap_wait_time=0.5)
+    Ld.LdactionTapV2(['at_max_lv.png'], need_screenShot=False, after_tap_wait_time=0.5)
+    Ld.LdactionTapV2(['desc.png'], need_screenShot=False)
+    Ld.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
 
-    Ld.LdactionTap('victor_bak.png', sleep_time=2)
-    Ld.LdactionTap('return.png', sleep_time=3, reload_times=2)
-    Ld.LdactionTap('zhb.png', 'zhb_bak.png', threshold=0.6, reload_times=2)
+    Ld.LdactionTapV2(['victor_bak.png'], after_tap_wait_time=2)
+    Ld.LdactionTapV2(['return.png'], after_tap_wait_time=3, search_again_times=2)
+    Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, search_again_times=2)
 
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png')[0]:
-        Ld.LdactionTap('echelon_confirm.png')
+        Ld.LdactionTapV2(['echelon_confirm.png'])
     else:
-        Ld.LdactionTap('echelon1.png', 'isechelon1.png', threshold=0.7)
-        Ld.LdactionTap('echelon_confirm.png')
-    Ld.LdactionTap('13_4_fjc.png', '13_4_fjc_bak.png', rgb=True, threshold=0.6, reload_times=4)
+        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], threshold=0.7)
+        Ld.LdactionTapV2(['echelon_confirm.png'])
+    Ld.LdactionTapV2(['13_4_fjc.png', '13_4_fjc_bak.png'], rgb=True, threshold=0.6, search_again_times=4)
 
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
         if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
         else:
-            Ld.LdactionTap('echelon2.png', 'isechelon2.png')
-            Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
+            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'])
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
     else:
-        Ld.LdactionTap('select_echelon.png')
+        Ld.LdactionTapV2(['select_echelon.png'])
         if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
         else:
-            Ld.LdactionTap('echelon2.png', 'isechelon2.png')
-            Ld.LdactionTap('echelon_confirm.png', sleep_time=2)
+            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'])
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
 
-    Ld.LdactionTap('start_fighting.png', wait_time=1, sleep_time=1.5)
-    Ld.LdactionTap('echelon2_bak.png', 'echelon2_bak2.png', threshold=0.91, moveX=124, moveY=-41, tap_times=2,
-                   reload_times=2, wait_time=0.3)
-    Ld.LdactionTap('supply.png', sleep_time=1.5)
-    Ld.LdactionTap('echelon1_bak.png', wait_time=1, threshold=0.9, moveX=118, moveY=-39)
-    Ld.LdactionTap('planning_mode.png', wait_time=1)
-    Ld.LdactionTap('17.png', need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2)
-    Ld.LdactionTap('18.png', need_screenShot=False, threshold=0.6, sleep_time=0.5, reload_times=2)
-    Ld.LdactionTap('19.png', rgb=True, need_screenShot=False, threshold=0.7, sleep_time=0.5, reload_times=2,
-                   moveX=51, moveY=-9)
-    Ld.LdactionTap('execution_plan.png', beginning_content='开始执行计划战斗')
-    # Ld.LdactionTap('result_settlement.png', sleep_time=5, wait_time=2, reload_times=80, reload_sleep_time=8)
+    Ld.LdactionTapV2(['start_fighting.png'], tap_interval=1, after_tap_wait_time=1.5)
+    Ld.LdactionTapV2(['echelon2_bak.png', 'echelon2_bak2.png'], threshold=0.91, moveX=124, moveY=-41, tap_times=2,
+                     search_again_times=2, tap_interval=0.3)
+    Ld.LdactionTapV2(['supply.png'], after_tap_wait_time=1.5)
+    Ld.LdactionTapV2(['echelon1_bak.png'], tap_interval=1, threshold=0.9, moveX=118, moveY=-39)
+    Ld.LdactionTapV2(['planning_mode.png'], after_tap_wait_time=1)
+    Ld.LdactionTapV2(['17.png'], need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5, search_again_times=2)
+    Ld.LdactionTapV2(['18.png'], need_screenShot=False, threshold=0.6, after_tap_wait_time=0.5, search_again_times=2)
+    Ld.LdactionTapV2(['19.png'], rgb=True, need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
+                     search_again_times=2, moveX=51, moveY=-9)
+    Ld.LdactionTapV2(['execution_plan.png'], beginning_content='开始执行计划战斗')
     Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
-                     before_tap_wait_time=110, after_tap_wait_time=7, beginning_content='等待战斗完毕结算')
+                     before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
     print('开始结算')
     for tap in range(3):
         taps = tap + 1
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('new_unit.png')[0]:
-            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, before_tap_wait_time=3, after_tap_wait_time=7,
+            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, before_tap_wait_time=2, after_tap_wait_time=6,
                              beginning_content='检查是否有新单位获得', end_content='结算获得1个新单位',
                              error_content='结算未获得新单位', need_screenShot=False)
             print('已获得%s个' % taps)
         elif Ld.isExist('result_settlement.png')[0]:
-            Ld.LdactionTap('result_settlement.png', sleep_time=3, end_content='已完成关卡')
+            Ld.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3, end_content='已完成关卡')
         else:
+            print("未搜索到获得新单位，结束结算")
             break
 
 
@@ -704,7 +575,7 @@ def get_into_mission():
         # 当前在主界面
         print('当前在主界面')
         # 进入战斗菜单
-        Ld.LdactionTapV2(['main_battle.png'], end_content='进入战斗界面')
+        Ld.LdactionTapV2(['main_battle.png'], end_content='进入战斗界面', need_screenShot=False)
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
@@ -779,14 +650,17 @@ if __name__ == '__main__':
     running_script = '共 %d 次，开始执行' % runtimes
     star_time = time.time()
     get_into_mission()
-    running_time: float = 0
-    for isruntimes in range(runtimes):
-        isruntimes_num = isruntimes + 1
-        running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, isruntimes_num)
-        if running_time <= runtime_min:
+    ran_time: float = 0
+    for is_runtimes in range(runtimes):
+        is_runtimes_num = is_runtimes + 1
+        running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
+        if ran_time <= runtime_min:
             ep_13_4(running_script)
             end_time = time.time()
-            running_time = end_time - star_time
-            print('共 %d 次，已执行 %d 次, 已运行 %s 秒' % (runtimes, isruntimes_num, running_time))
+            ran_time = end_time - star_time
+            ran_time_m, ran_time_s = divmod(ran_time, 60)
+            ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+            print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒' % (
+                runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
         else:
             break
