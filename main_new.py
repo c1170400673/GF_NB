@@ -379,11 +379,11 @@ class Ldaction(object):
                 print('未能找到需要的 %s 按钮！' % target_img_name, end="")
                 search_times = 1
                 search_times += search
-                search_again_sleep_time = int(search_again_sleep_time * 2)
-                for s in range(search_again_sleep_time):
+                search_again_sleep_time_double = int(search_again_sleep_time * 2)
+                for s in range(search_again_sleep_time_double):
                     time.sleep(0.5)
                     print(".", end="")
-                    if s == search_again_sleep_time - 1:
+                    if s == search_again_sleep_time_double - 1:
                         print("", end="\n")
                 print('重新搜索 %s 按钮 %d 次' % (target_img_name, search_times))
                 if search_times == search_again_times:
@@ -537,16 +537,20 @@ def ep_13_4(debug_mode: bool = False):
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
         if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队',
-                             need_screenShot=False)
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2,
+                             beginning_content='已在梯队选择，默认第二梯队',
+                             end_content='投放第二梯队', need_screenShot=False)
         else:
-            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False, end_content='选择第二梯队')
+            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False,
+                             beginning_content='已在梯队选择',
+                             end_content='选择第二梯队')
             Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
     else:
         Ld.LdactionTapV2(['select_echelon.png'], need_screenShot=False, end_content='选择投放梯队')
+        Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队',
-                             need_screenShot=False)
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, beginning_content='默认第二梯队',
+                             end_content='投放第二梯队', need_screenShot=False)
         else:
             Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False, end_content='选择第二梯队')
             Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
