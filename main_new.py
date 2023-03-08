@@ -299,6 +299,10 @@ class Ldaction(object):
                         tap_result = self.isExist(tap_result_check_img_name, rgb, threshold)
                         if tap_result[0]:
                             break
+                        else:
+                            find_result = self.find_target_imgV2(target_img_name, rgb, threshold, moveX, moveY,
+                                                                 search_again_sleep_time, search_again_times,
+                                                                 after_tap_wait_time, tap_times, tap_interval)
                     else:
                         break
             if find_result[0] is False:
@@ -306,15 +310,25 @@ class Ldaction(object):
                 sys.exit()
         else:
             for target_img_name in target_img_name_list:
-                result = self.isExist(target_img_name, rgb, threshold)
-                find_result = result[1]
-                if result[0] is False:
-                    print('未能找到需要的 %s 按钮！' % target_img_name)
-                    sys.exit()
-                else:
-                    break
-            x = find_result['result'][0] - moveX
-            y = find_result['result'][1] - moveY
+                find_result = self.isExist(target_img_name, rgb, threshold)
+                if find_result[0]:
+                    if tap_result_check and tap_result_check_img_name is not None:
+                        self.ld.screenShotnewLd(self.index)
+                        tap_result = self.isExist(tap_result_check_img_name, rgb, threshold)
+                        if tap_result[0]:
+                            break
+                        else:
+                            find_result = self.find_target_imgV2(target_img_name, rgb, threshold, moveX, moveY,
+                                                                 search_again_sleep_time, search_again_times,
+                                                                 after_tap_wait_time, tap_times, tap_interval)
+                    else:
+                        break
+            if find_result[0] is False:
+                print('未能找到需要的 %s 按钮！' % target_img_name)
+                sys.exit()
+            result = find_result[1]
+            x = result['result'][0] - moveX
+            y = result['result'][1] - moveY
             for t in range(tap_times):
                 tap = t + 1
                 print('找到按钮: %s [%d , %d]' % (target_img_name, x, y))
@@ -493,9 +507,8 @@ def ep_13_4(debug_mode: bool = False):
         Ld.LdactionTapV2(['echelon_editing.png'], need_screenShot=False, after_tap_wait_time=1.5,
                          end_content='进入队伍编辑')
     else:
-        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5)
-        Ld.LdactionTapV2(['echelon_editing.png'], need_screenShot=False, after_tap_wait_time=2,
-                         end_content='进入队伍编辑')
+        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False)
+        Ld.LdactionTapV2(['echelon_editing.png'], after_tap_wait_time=2, end_content='进入队伍编辑')
 
     Ld.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2, after_tap_wait_time=2,
                      end_content='选择维克托人形', search_again_times=2, search_again_sleep_time=0.5)
@@ -508,38 +521,42 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
 
     Ld.LdactionTapV2(['victor_bak.png'], after_tap_wait_time=2)
-    Ld.LdactionTapV2(['return.png'], after_tap_wait_time=3, search_again_times=2)
+    Ld.LdactionTapV2(['return.png'], moveX=20, after_tap_wait_time=3, search_again_times=2)
     Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, search_again_times=2)
 
     Dc.screenShotnewLd(Ld.index)
-    if Ld.isExist('isechelon1.png')[0]:
-        Ld.LdactionTapV2(['echelon_confirm.png'])
+    if Ld.isExist('isechelon1.png', rgb=True)[0]:
+        Ld.LdactionTapV2(['echelon_confirm.png'], need_screenShot=False)
     else:
-        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], threshold=0.7)
+        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False)
         Ld.LdactionTapV2(['echelon_confirm.png'])
-    Ld.LdactionTapV2(['13_4_fjc.png', '13_4_fjc_bak.png'], rgb=True, threshold=0.6, search_again_times=4)
+
+    Ld.LdactionTapV2(['13_4_fjc.png', '13_4_fjc_bak.png'], rgb=True, threshold=0.6, search_again_times=4,
+                     end_content='准备投放第二梯队')
 
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
         if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队',
+                             need_screenShot=False)
         else:
-            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'])
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
+            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False, end_content='选择第二梯队')
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
     else:
-        Ld.LdactionTapV2(['select_echelon.png'])
+        Ld.LdactionTapV2(['select_echelon.png'], need_screenShot=False, end_content='选择投放梯队')
         if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队',
+                             need_screenShot=False)
         else:
-            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'])
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2)
+            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False, end_content='选择第二梯队')
+            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
 
     Ld.LdactionTapV2(['start_fighting.png'], tap_interval=1, after_tap_wait_time=1.5)
     Ld.LdactionTapV2(['echelon2_bak.png', 'echelon2_bak2.png'], threshold=0.91, moveX=124, moveY=-41, tap_times=2,
                      search_again_times=2, tap_interval=0.3)
-    Ld.LdactionTapV2(['supply.png'], after_tap_wait_time=1.5)
+    Ld.LdactionTapV2(['supply.png'], after_tap_wait_time=1.5, end_content='补给')
     Ld.LdactionTapV2(['echelon1_bak.png'], tap_interval=1, threshold=0.9, moveX=118, moveY=-39)
-    Ld.LdactionTapV2(['planning_mode.png'], after_tap_wait_time=1)
+    Ld.LdactionTapV2(['planning_mode.png'], after_tap_wait_time=1, end_content='计划模式')
     Ld.LdactionTapV2(['17.png'], need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5, search_again_times=2)
     Ld.LdactionTapV2(['18.png'], need_screenShot=False, threshold=0.6, after_tap_wait_time=0.5, search_again_times=2)
     Ld.LdactionTapV2(['19.png'], rgb=True, need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
@@ -549,15 +566,16 @@ def ep_13_4(debug_mode: bool = False):
                      before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
     print('开始结算')
     for tap in range(3):
-        taps = tap + 1
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('new_unit.png')[0]:
-            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, before_tap_wait_time=2, after_tap_wait_time=6,
+            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, after_tap_wait_time=6,
                              beginning_content='检查是否有新单位获得', end_content='结算获得1个新单位',
                              error_content='结算未获得新单位', need_screenShot=False)
+            taps = tap + 1
             print('已获得%s个' % taps)
         elif Ld.isExist('result_settlement.png')[0]:
-            Ld.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3, end_content='已完成关卡')
+            Ld.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3, end_content='已完成关卡',
+                             need_screenShot=False)
         else:
             print("未搜索到获得新单位，结束结算")
             break
@@ -573,41 +591,33 @@ def get_into_mission():
     # 以兼容的界面判断
     if Ld.isExist('main.png', threshold=0.8)[0]:
         # 当前在主界面
-        print('当前在主界面')
         # 进入战斗菜单
-        Ld.LdactionTapV2(['main_battle.png'], end_content='进入战斗界面', need_screenShot=False)
+        Ld.LdactionTapV2(['main_battle.png'], beginning_content='当前在主界面', end_content='进入战斗界面',
+                         need_screenShot=False)
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
-        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
-            print('已在作战任务')
-        else:
-            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='开始选择作战任务')
+        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0] is False:
+            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='当前在战斗界面', end_content='开始选择作战任务',
+                             need_screenShot=False)
         # ep_13_4()
     elif Ld.isExist('battle.png', threshold=0.9)[0]:
         # 当前在战斗界面
-        print('当前在战斗界面')
         # 选择战斗类型
-        Dc.screenShotnewLd(Ld.index)
-        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
-            print('已在作战任务')
-        else:
-            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='开始选择作战任务')
+        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0] is False:
+            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='当前在战斗界面', end_content='开始选择作战任务',
+                             need_screenShot=False)
         # ep_13_4()
     elif Ld.isExist('research.png', threshold=0.9)[0]:
         # 当前在研发界面
-        # 返回主界面
-        print('当前在研发界面')
-        Ld.LdactionTapV2(['return.png'])
-        print('返回主界面')
+        Ld.LdactionTapV2(['return.png'], beginning_content='当前在研发界面', end_content='返回主界面',
+                         need_screenShot=False)
         # 进入战斗菜单
-        Ld.LdactionTapV2(['main_battle.png'])
-        print('进入战斗界面')
+        Ld.LdactionTapV2(['main_battle.png'], end_content='进入战斗界面')
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
-        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0]:
-            print('已在作战任务')
-        else:
-            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='开始选择作战任务')
+        if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0] is False:
+            Ld.LdactionTapV2(['combat_mission.png'], beginning_content='当前在战斗界面', end_content='开始选择作战任务',
+                             need_screenShot=False)
         # ep_13_4()
     else:
         print('....当前页面无法自动返回主界面请手动返回后重试！....')
