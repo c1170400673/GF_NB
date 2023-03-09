@@ -578,7 +578,7 @@ def ep_13_4(debug_mode: bool = False):
             taps = tap + 1
             print('已获得%s个' % taps)
         elif Ld.isExist('result_settlement.png')[0]:
-            Ld.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3, end_content='已完成关卡',
+            Ld.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3.5, end_content='已完成关卡',
                              need_screenShot=False)
         else:
             print("未搜索到获得新单位，结束结算")
@@ -597,7 +597,7 @@ def get_into_mission():
         # 当前在主界面
         # 进入战斗菜单
         Ld.LdactionTapV2(['main_battle.png'], beginning_content='当前在主界面', end_content='进入战斗界面',
-                         need_screenShot=False)
+                         need_screenShot=False, after_tap_wait_time=1.5)
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0] is False:
@@ -616,7 +616,7 @@ def get_into_mission():
         Ld.LdactionTapV2(['return.png'], beginning_content='当前在研发界面', end_content='返回主界面',
                          need_screenShot=False)
         # 进入战斗菜单
-        Ld.LdactionTapV2(['main_battle.png'], end_content='进入战斗界面')
+        Ld.LdactionTapV2(['main_battle.png'], end_content='进入战斗界面', after_tap_wait_time=1.5)
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
         if Ld.isExist('iscombat_mission.png', rgb=True, threshold=0.95)[0] is False:
