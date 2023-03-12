@@ -456,7 +456,7 @@ def T_Dolls_retire(adv_retire: bool = False):
     :param adv_retire:
     :return:
     """
-    Ld.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收')
+    Ld.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收', search_again_times=2)
     Ld.LdactionTapV2(['intelligent_selection.png'], end_content='点击智能选择')
     Ld.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
     Ld.LdactionTapV2(['retire.png'], after_tap_wait_time=3, end_content='开始回收')
@@ -565,7 +565,7 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTapV2(['18.png'], need_screenShot=False, threshold=0.6, after_tap_wait_time=0.5, search_again_times=2)
     Ld.LdactionTapV2(['19.png'], rgb=True, need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
                      search_again_times=2, moveX=51, moveY=-9)
-    Ld.LdactionTapV2(['execution_plan.png'], beginning_content='开始执行计划战斗')
+    Ld.LdactionTapV2(['execution_plan.png'], beginning_content='开始执行计划战斗', tap_interval=0.5)
     Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
                      before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
     print('开始结算')
