@@ -187,7 +187,9 @@ class Dnconsole:
         """
         cmd = '-s %d " %s -p %s"' % (index, self.screencap_path, self.devicess_path)
         result = self.ldCMD(cmd)
-        print("==O==")
+        scp_time = time.time() - star_time
+        scp_time = time.strftime("%H:%M:%S", time.gmtime(scp_time))
+        print("==O== %s" % scp_time)
         return result
 
     def actionOfTap(self, index: int, x: int, y: int):
@@ -490,6 +492,7 @@ def ep_13_4(debug_mode: bool = False):
                          end_content='已选择关卡13-4')
     Ld.LdactionTapV2(['common_battle.png'], after_tap_wait_time=5, tap_interval=1, end_content='进入关卡战斗')
 
+    # 进入关卡，兼容单位仓库已满
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('unit_recycle.png')[0]:
         print('\n+++++单位已满,请回收处理+++++')
@@ -501,6 +504,7 @@ def ep_13_4(debug_mode: bool = False):
     else:
         Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, after_tap_wait_time=1.5,
                          beginning_content='....准备投放第一战队....')
+
     # 判断选择第一梯队，进入梯队编辑
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png', rgb=True)[0]:
@@ -513,27 +517,28 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2, after_tap_wait_time=2,
                      end_content='选择维克托人形', search_again_times=2, search_again_sleep_time=0.5)
 
+    # 筛选victor
     Ld.LdactionTapV2(['show_all.png'], after_tap_wait_time=0.5)
     Ld.LdactionTapV2(['legendary_v.png'], after_tap_wait_time=0.5)
     Ld.LdactionTapV2(['smg.png'], need_screenShot=False, after_tap_wait_time=0.5)
     Ld.LdactionTapV2(['at_max_lv.png'], need_screenShot=False, after_tap_wait_time=0.5)
     Ld.LdactionTapV2(['desc.png'], need_screenShot=False)
     Ld.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
-
     Ld.LdactionTapV2(['victor_bak.png'], after_tap_wait_time=2)
-    Ld.LdactionTapV2(['return.png'], moveX=20, after_tap_wait_time=3, search_again_times=2)
-    Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, search_again_times=2)
+    Ld.LdactionTapV2(['return.png'], 'start_fighting.png', moveX=20, after_tap_wait_time=3, search_again_times=2)
 
+    # 投放换人后的第一梯队
+    Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, search_again_times=2, after_tap_wait_time=1.5)
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isechelon1.png', rgb=True)[0]:
-        Ld.LdactionTapV2(['echelon_confirm.png'], need_screenShot=False)
+        Ld.LdactionTapV2(['echelon_confirm.png'], need_screenShot=False, tap_interval=0.5)
     else:
         Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False)
-        Ld.LdactionTapV2(['echelon_confirm.png'])
+        Ld.LdactionTapV2(['echelon_confirm.png'], tap_interval=0.5)
 
+    # 投放第二梯队
     Ld.LdactionTapV2(['13_4_fjc.png', '13_4_fjc_bak.png'], rgb=True, threshold=0.6, search_again_times=4,
-                     end_content='准备投放第二梯队')
-
+                     end_content='准备投放第二梯队', after_tap_wait_time=1.5)
     Dc.screenShotnewLd(Ld.index)
     if Ld.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
         if Ld.isExist('isechelon2.png')[0]:
@@ -555,10 +560,15 @@ def ep_13_4(debug_mode: bool = False):
             Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False, end_content='选择第二梯队')
             Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
 
+    # 开始战斗
     Ld.LdactionTapV2(['start_fighting.png'], tap_interval=1, after_tap_wait_time=1.5)
-    Ld.LdactionTapV2(['echelon2_bak.png', 'echelon2_bak2.png'], threshold=0.91, moveX=124, moveY=-41, tap_times=2,
-                     search_again_times=2, tap_interval=0.3)
+
+    # 补给第二梯队
+    Ld.LdactionTapV2(['echelon2_bak.png', 'echelon2_bak2.png'], 'supply.png', threshold=0.94, moveX=124, moveY=-41,
+                     tap_times=2, search_again_times=2, tap_interval=0.3, rgb=True)
     Ld.LdactionTapV2(['supply.png'], after_tap_wait_time=1.5, end_content='补给')
+
+    # 选择第一梯队，配置战斗计划
     Ld.LdactionTapV2(['echelon1_bak.png'], tap_interval=1, threshold=0.9, moveX=118, moveY=-39)
     Ld.LdactionTapV2(['planning_mode.png'], after_tap_wait_time=1, end_content='计划模式')
     Ld.LdactionTapV2(['17.png'], need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5, search_again_times=2)
@@ -566,6 +576,8 @@ def ep_13_4(debug_mode: bool = False):
     Ld.LdactionTapV2(['19.png'], rgb=True, need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
                      search_again_times=2, moveX=51, moveY=-9)
     Ld.LdactionTapV2(['execution_plan.png'], beginning_content='开始执行计划战斗', tap_interval=0.5)
+
+    # 等待战斗结束，并结算
     Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
                      before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
     print('开始结算')
