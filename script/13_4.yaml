@@ -1,0 +1,13 @@
+get_into_mission:
+  - main:
+      main_battle:
+        - iscombat_mission:
+            combat_mission:
+  - battle:
+      - iscombat_mission:
+          combat_mission:
+  - research:
+      return:
+      main_battle:
+        - iscombat_mission:
+            combat_mission:
