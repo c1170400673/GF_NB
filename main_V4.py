@@ -764,12 +764,16 @@ def get_into_mission():
         Ld.LdactionTapV3('main_battle', need_screenShot=False)
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
-        if Ld.isExistV2('iscombat_mission')[0] is False:
+        if Ld.isExistV2('iscombat_mission')[0]:
+            pass
+        else:
             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
     elif Ld.isExistV2('battle')[0]:
         # 当前在战斗界面
         # 选择战斗类型
-        if Ld.isExistV2('iscombat_mission')[0] is False:
+        if Ld.isExistV2('iscombat_mission')[0]:
+            pass
+        else:
             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
     elif Ld.isExist('research.png', threshold=0.9)[0]:
         # 当前在研发界面
@@ -778,7 +782,9 @@ def get_into_mission():
         Ld.LdactionTapV3('main_battle')
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
-        if Ld.isExistV2('iscombat_mission')[0] is False:
+        if Ld.isExistV2('iscombat_mission')[0]:
+            pass
+        else:
             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
     else:
         print('....当前页面无法自动返回主界面请手动返回后重试！....')
@@ -793,6 +799,29 @@ def test():
 
     Ld.LdactionTapV3('supply', 'echelon2_bak')
     sys.exit()
+
+
+def for_dict(data_dict: dict):
+    print("dict:")
+    for i in data_dict:
+        print(data_dict[i])
+        test_yaml(data_dict[i])
+
+
+def for_list(data_list: list):
+    print("list:")
+    for i in range(len(data_list)):
+        print(data_list[i])
+        test_yaml(data_list[i])
+
+
+def test_yaml(data):
+    if type(data) == dict:
+        for_dict(data)
+    elif type(data) == list:
+        for_list(data)
+    else:
+        pass
 
 
 if __name__ == '__main__':
