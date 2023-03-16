@@ -1,0 +1,204 @@
+#target2:
+#  target_img_name_list:
+#    - 'echelon2_bak.png'
+#    - 'echelon2_bak2.png'
+#  rgb: True
+#  threshold: 0.94
+#  need_screenShot: False
+#  moveX: 124
+#  moveY: -41
+#  tap_times: 2
+#  tap_interval: 0.5
+#  before_tap_wait_time: 0
+#  after_tap_wait_time: 0
+#  search_again_times: 2
+#  search_again_sleep_time: 0.5
+#  tap_result_check: True
+#  beginning_content: None
+#  end_content: None
+#  error_content: '请检查界面！'
+
+
+
+isep13:
+  target_img_name_list:
+    - 'isep13.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
+
+"13_4":
+  target_img_name_list:
+    - '13_4.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: '选择关卡'
+  end_content: '已选择关卡13-4'
+  error_content: '请检查界面！'
+
+main:
+  target_img_name_list:
+    - 'main.png'
+  rgb: False
+  threshold: 0.8
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
+
+main_battle:
+  target_img_name_list:
+    - 'main_battle.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1.5
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: '当前在主界面'
+  end_content: '进入战斗界面'
+  error_content: '请检查界面！'
+
+iscombat_mission:
+  target_img_name_list:
+    - 'iscombat_mission.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1.5
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
+
+combat_mission:
+  target_img_name_list:
+    - 'combat_mission.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: '当前在战斗界面'
+  end_content: '开始选择作战任务'
+  error_content: '请检查界面！'
+
+battle:
+  target_img_name_list:
+    - 'battle.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
+
+return:
+  target_img_name_list:
+    - 'return.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: '返回界面'
+  error_content: '请检查界面！'
+
+supply:
+  target_img_name_list:
+    - 'supply.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1.5
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: '补给'
+  error_content: '请检查界面！'
+
+echelon2_bak:
+  target_img_name_list:
+    - 'echelon2_bak.png'
+    - 'echelon2_bak2.png'
+  rgb: True
+  threshold: 0.94
+  need_screenShot: False
+  moveX: 124
+  moveY: -41
+  tap_times: 2
+  tap_interval: 0.5
+  before_tap_wait_time: 0
+  after_tap_wait_time: 0
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  tap_result_check: True
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
