@@ -11,3 +11,4 @@ get_into_mission:
       main_battle:
         - iscombat_mission:
             combat_mission:
+
