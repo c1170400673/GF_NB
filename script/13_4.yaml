@@ -1,27 +1,29 @@
 get_into_mission:
   screenShot:
-    - main
-    - battle
-    - research
-    - else: exit
-  main:
-    - main_battle:
-        need_screenShot: False
+    - main:
+        main_battle:
+          need_screenShot: False
         screenShot:
-          - iscombat_mission
-          - combat_mission:
+          - iscombat_mission:
+          - else:
+              combat_mission:
+                need_screenShot: False
+    - battle:
+        - iscombat_mission:
+        - else:
+            combat_mission:
               need_screenShot: False
-  battle:
-    - iscombat_mission
-    - combat_mission:
-        need_screenShot: False
-  research:
-    - return:
-        need_screenShot: False
-    - main_battle:
-    - iscombat_mission
-    - combat_mission:
-        need_screenShot: False
+    - research:
+        return:
+          need_screenShot: False
+        main_battle:
+        screenShot:
+          - iscombat_mission:
+          - else:
+              combat_mission:
+                need_screenShot: False
+    - else:
+        exit
 
 
 

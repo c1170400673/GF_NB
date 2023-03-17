@@ -797,22 +797,83 @@ def test():
     :return:
     """
 
-    Ld.LdactionTapV3('supply', 'echelon2_bak')
+    test_yaml(battle_yaml_data)
     sys.exit()
 
 
+# def for_dict(data_dict: dict):
+#     print("dict:")
+#     for i in data_dict:
+#         print(data_dict[i])
+#         test_yaml(data_dict[i])
+
 def for_dict(data_dict: dict):
-    print("dict:")
+    # print("dict:")
     for i in data_dict:
-        print(data_dict[i])
-        test_yaml(data_dict[i])
+        if i == 'screenShot':
+            Dc.screenShotnewLd(Ld.index)
+            print('%s: %s' % (i, data_dict[i]))
+            isExist_list(data_dict[i])
+        elif 'get' in i:
+            pass
+        else:
+            Ld.LdactionTapV3(i)
+        # print('%s: %s' % (i, data_dict[i]), '\n')
+        # if type(data_dict[i]) == list:
+        #     pass
+        # else:
+
+        # print('%s: %s' % (i, data_dict[i]))
+        qufen_yaml(data_dict[i])
+
+
+def isExist_list(isExist_target_list: list):
+    # print("list:")
+    run_yaml = ''
+    for isExist_target in isExist_target_list:
+        # print(isExist_target)
+        isExist_target_key_aa = False
+        run_yaml = ''
+        for key in isExist_target:
+            isExist_target_key = key
+            isExist_target_value = isExist_target[key]
+            # print(isExist_target_key)
+            if Ld.isExistV2(isExist_target_key)[0]:
+                print(isExist_target_key, isExist_target_value)
+                isExist_target_key_aa = True
+                run_yaml = isExist_target_value
+                break
+            elif key == 'else':
+                sys.exit()
+        if isExist_target_key_aa:
+            break
+    qufen_yaml(run_yaml)
+
+
+# def for_list(data_list: list):
+#     print("list:")
+#     for i in range(len(data_list)):
+#         print(data_list[i])
+#         test_yaml(data_list[i])
 
 
 def for_list(data_list: list):
-    print("list:")
-    for i in range(len(data_list)):
-        print(data_list[i])
-        test_yaml(data_list[i])
+    # print("list:")
+    for i in data_list:
+        if type(i) == dict:
+            pass
+        # else:
+        #     print(i)
+        test_yaml(i)
+
+
+def qufen_yaml(data):
+    if type(data) == dict:
+        for_dict(data)
+    elif type(data) == list:
+        isExist_list(data)
+    else:
+        pass
 
 
 def test_yaml(data):
@@ -828,6 +889,11 @@ if __name__ == '__main__':
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshout_tmp.png')
     target_yaml_data = Dc.YAML('target.yaml')
+
+    # 载入关卡配置
+    battle = '13_4.yaml'
+    battle_yaml_data = Dc.YAML(battle)
+
     # AppPackage = 'com.sunborn.girlsfrontline.cn'
     # App = '少女前线'
     # if Dc.isrunning(0):
@@ -853,13 +919,9 @@ if __name__ == '__main__':
     # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'start_game.png')
 
     # 调试方法
-    # star_time = time.time()
-    # running_script = '1'
-    # test()
-
-    # 载入关卡配置
-    battle = '13_4.yaml'
-    battle_yaml_data = Dc.YAML(battle)
+    star_time = time.time()
+    running_script = '1'
+    test()
 
     # 正式运行
     runtimes = int(input("跑几圈:"))
