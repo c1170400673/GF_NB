@@ -46,10 +46,11 @@ class Dnconsole:
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        # self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
-        self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
+        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        # self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
         # 读取作战参数信息保存路径
-        self.action_path = r'D:\MyCode\GF_NB\script\\'
+        self.action_path = r'D:\GF_NB\script\\'
+        # self.action_path = r'D:\MyCode\GF_NB\script\\'
         # 读取作战参数
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
@@ -796,27 +797,36 @@ def test():
     【调试测试类】
     :return:
     """
-
     test_yaml(battle_yaml_data)
     sys.exit()
 
 
-# def for_dict(data_dict: dict):
-#     print("dict:")
-#     for i in data_dict:
-#         print(data_dict[i])
-#         test_yaml(data_dict[i])
-
 def for_dict(data_dict: dict):
+    """
+
+    :param data_dict:
+    """
+    print("dict:")
+    for i in data_dict:
+        print(data_dict[i])
+        test_yaml(data_dict[i])
+
+
+def tap_dict(data_dict: dict):
+    """
+
+    :param data_dict:
+    """
     # print("dict:")
     for i in data_dict:
         if i == 'screenShot':
             Dc.screenShotnewLd(Ld.index)
-            print('%s: %s' % (i, data_dict[i]))
+            # print('%s: %s' % (i, data_dict[i]))
             isExist_list(data_dict[i])
         elif 'get' in i:
-            pass
+            continue
         else:
+            print('%s: %s' % (i, data_dict[i]), '\n')
             Ld.LdactionTapV3(i)
         # print('%s: %s' % (i, data_dict[i]), '\n')
         # if type(data_dict[i]) == list:
@@ -824,10 +834,14 @@ def for_dict(data_dict: dict):
         # else:
 
         # print('%s: %s' % (i, data_dict[i]))
-        qufen_yaml(data_dict[i])
+
 
 
 def isExist_list(isExist_target_list: list):
+    """
+
+    :param isExist_target_list:
+    """
     # print("list:")
     run_yaml = ''
     for isExist_target in isExist_target_list:
@@ -858,6 +872,10 @@ def isExist_list(isExist_target_list: list):
 
 
 def for_list(data_list: list):
+    """
+
+    :param data_list:
+    """
     # print("list:")
     for i in data_list:
         if type(i) == dict:
@@ -868,8 +886,12 @@ def for_list(data_list: list):
 
 
 def qufen_yaml(data):
+    """
+
+    :param data:
+    """
     if type(data) == dict:
-        for_dict(data)
+        tap_dict(data)
     elif type(data) == list:
         isExist_list(data)
     else:
@@ -878,7 +900,7 @@ def qufen_yaml(data):
 
 def test_yaml(data):
     if type(data) == dict:
-        for_dict(data)
+        tap_dict(data)
     elif type(data) == list:
         for_list(data)
     else:
