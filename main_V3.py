@@ -750,6 +750,40 @@ def ep_13_4(debug_mode: bool = False):
             break
 
 
+# def get_into_mission():
+#     """
+#     【准备进入关卡】
+#     """
+#     # 初始化到主界面操作
+#     print('....准备当前界面分析....')
+#     Dc.screenShotnewLd(Ld.index)
+#     # 以兼容的界面判断
+#     if Ld.isExistV2('main')[0]:
+#         # 当前在主界面
+#         # 进入战斗菜单
+#         Ld.LdactionTapV3('main_battle', need_screenShot=False)
+#         # 选择战斗类型
+#         Dc.screenShotnewLd(Ld.index)
+#         if Ld.isExistV2('iscombat_mission')[0] is False:
+#             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
+#     elif Ld.isExistV2('battle')[0]:
+#         # 当前在战斗界面
+#         # 选择战斗类型
+#         if Ld.isExistV2('iscombat_mission')[0] is False:
+#             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
+#     elif Ld.isExist('research.png', threshold=0.9)[0]:
+#         # 当前在研发界面
+#         Ld.LdactionTapV3('return', need_screenShot=False)
+#         # 进入战斗菜单
+#         Ld.LdactionTapV3('main_battle')
+#         # 选择战斗类型
+#         Dc.screenShotnewLd(Ld.index)
+#         if Ld.isExistV2('iscombat_mission')[0] is False:
+#             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
+#     else:
+#         print('....当前页面无法自动返回主界面请手动返回后重试！....')
+#         sys.exit()
+
 def get_into_mission():
     """
     【准备进入关卡】
@@ -764,12 +798,16 @@ def get_into_mission():
         Ld.LdactionTapV3('main_battle', need_screenShot=False)
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
-        if Ld.isExistV2('iscombat_mission')[0] is False:
+        if Ld.isExistV2('iscombat_mission')[0]:
+            pass
+        else:
             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
     elif Ld.isExistV2('battle')[0]:
         # 当前在战斗界面
         # 选择战斗类型
-        if Ld.isExistV2('iscombat_mission')[0] is False:
+        if Ld.isExistV2('iscombat_mission')[0]:
+            pass
+        else:
             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
     elif Ld.isExist('research.png', threshold=0.9)[0]:
         # 当前在研发界面
@@ -778,12 +816,13 @@ def get_into_mission():
         Ld.LdactionTapV3('main_battle')
         # 选择战斗类型
         Dc.screenShotnewLd(Ld.index)
-        if Ld.isExistV2('iscombat_mission')[0] is False:
+        if Ld.isExistV2('iscombat_mission')[0]:
+            pass
+        else:
             Ld.LdactionTapV3('combat_mission', need_screenShot=False)
     else:
         print('....当前页面无法自动返回主界面请手动返回后重试！....')
         sys.exit()
-
 
 def test():
     """

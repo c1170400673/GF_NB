@@ -38,6 +38,25 @@ isep13:
   end_content: None
   error_content: '请检查界面！'
 
+ep13:
+  target_img_name_list:
+    - 'isep13.png'
+    - 'ep13.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: '选择作战章节'
+  end_content: '已选择章节13'
+  error_content: '请检查界面！'
+
 "13_4":
   target_img_name_list:
     - '13_4.png'
@@ -102,6 +121,24 @@ iscombat_mission:
   tap_times: 1
   tap_interval: 0
   before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
+
+common_battle:
+  target_img_name_list:
+    - 'common_battle.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
   after_tap_wait_time: 1.5
   search_again_times: 2
   search_again_sleep_time: 0.5
@@ -131,6 +168,24 @@ combat_mission:
 battle:
   target_img_name_list:
     - 'battle.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: None
+  end_content: None
+  error_content: '请检查界面！'
+
+research:
+  target_img_name_list:
+    - 'research.png'
   rgb: False
   threshold: 0.9
   moveX: 0

@@ -1,29 +1,49 @@
 get_into_mission:
-  screenShot:
-    - main:
-        main_battle:
-          need_screenShot: False
-        screenShot:
+  - screenShot:
+      - main:
+          main_battle:
+            need_screenShot: False
+          screenShot:
+            - iscombat_mission:
+            - else:
+                combat_mission:
+                  need_screenShot: False
+      - battle:
           - iscombat_mission:
           - else:
               combat_mission:
                 need_screenShot: False
-    - battle:
-        - iscombat_mission:
-        - else:
-            combat_mission:
-              need_screenShot: False
-    - research:
-        return:
-          need_screenShot: False
-        main_battle:
-        screenShot:
-          - iscombat_mission:
-          - else:
-              combat_mission:
-                need_screenShot: False
-    - else:
-        exit
+      - research:
+          return:
+            need_screenShot: False
+          main_battle:
+          screenShot:
+            - iscombat_mission:
+            - else:
+                combat_mission:
+                  need_screenShot: False
+      - else:
+          exit
 
-
+get_13_4:
+  - screenShot:
+      - isep13:
+          '13_4':
+      - else:
+          ep13:
+            need_screenShot: False
+          '13_4':
+  - common_battle:
+  - screenShot:
+      - unit_recycle:
+          unit_recycle:
+            need_screenShot: False
+          get_T_Dolls_retire:
+            fun: True
+            adv_retire: True
+          return:
+            get_into_mission:
+              fun: True
+      - else:
+          zhb:
 
