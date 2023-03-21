@@ -1,49 +1,92 @@
 get_into_mission:
   - screenShot:
-      - main:
-          main_battle:
+      main:
+        - main_battle:
             need_screenShot: False
-          screenShot:
-            - iscombat_mission:
-            - else:
-                combat_mission:
+        - screenShot:
+            iscombat_mission:
+            else:
+              - combat_mission:
                   need_screenShot: False
-      - battle:
-          - iscombat_mission:
-          - else:
-              combat_mission:
-                need_screenShot: False
-      - research:
-          return:
+      battle:
+        iscombat_mission:
+        else:
+          - combat_mission:
+              need_screenShot: False
+      research:
+        - return:
             need_screenShot: False
-          main_battle:
-          screenShot:
-            - iscombat_mission:
-            - else:
-                combat_mission:
+        - main_battle:
+        - screenShot:
+            iscombat_mission:
+            else:
+              - combat_mission:
                   need_screenShot: False
-      - else:
-          exit
+      else:
+        exit
+
+get_T_Dolls_retire:
+  - standing_by_T_Dolls:
+  - intelligent_selection:
+  - select_confirm:
+  - retire:
+  - adv_retire:
+      - standing_by_T_Dolls:
+      - show_all:
+      - legendary_III:
+      - confirm:
+      - screenShot:
+      - lv_III: list
+      - select_confirm:
+      - retire:
+      - retire_confirm:
 
 get_13_4:
   - screenShot:
-      - isep13:
-          '13_4':
-      - else:
-          ep13:
+      isep13:
+        - '13_4':
+      else:
+        - ep13:
             need_screenShot: False
-          '13_4':
+        - '13_4':
   - common_battle:
   - screenShot:
-      - unit_recycle:
-          unit_recycle:
+      unit_recycle:
+        - unit_recycle:
             need_screenShot: False
-          get_T_Dolls_retire:
+        - get_T_Dolls_retire:
             fun: True
             adv_retire: True
-          return:
-            get_into_mission:
-              fun: True
-      - else:
-          zhb:
+        - return:
+        - get_into_mission:
+            fun: True
+      else:
+        - zhb:
+  - screenShot:
+      isechelon1:
+        - echelon_editing:
+      else:
+        - echelon1:
+        - echelon_editing:
+  - victor:
+  - show_all:
+  - legendary_v:
+  - smg:
+  - at_max_lv:
+  - desc:
+  - confirm:
+  - victor_bak:
+  - return:
+      tap_result_check_name: start_fighting
+  - zhb:
+  - screenShot:
+      isechelon1:
+        - echelon_confirm:
+      else:
+        - echelon1:
+        - echelon_confirm:
+  -
+
+
+
 

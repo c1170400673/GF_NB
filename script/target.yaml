@@ -137,13 +137,31 @@ common_battle:
   moveX: 0
   moveY: 0
   tap_times: 1
-  tap_interval: 0
+  tap_interval: 1
   before_tap_wait_time: 0
-  after_tap_wait_time: 1.5
+  after_tap_wait_time: 5
   search_again_times: 2
   search_again_sleep_time: 0.5
   tap_result_check: False
   beginning_content: None
+  end_content: '进入关卡战斗'
+  error_content: '请检查界面！'
+
+unit_recycle:
+  target_img_name_list:
+    - 'unit_recycle.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: '准备回收单位'
   end_content: None
   error_content: '请检查界面！'
 
@@ -217,6 +235,26 @@ return:
   tap_result_check: False
   beginning_content: None
   end_content: '返回界面'
+  error_content: '请检查界面！'
+
+zhb:
+  target_img_name_list:
+    - 'zhb.png'
+    - 'zhb_bak.png'
+  rgb: False
+  threshold: 0.6
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1.5
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  tap_result_check: False
+  beginning_content: '....准备投放第一战队....'
+  end_content: '投放第一战队'
   error_content: '请检查界面！'
 
 supply:

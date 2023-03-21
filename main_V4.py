@@ -799,8 +799,8 @@ def test():
     """
     get_into_mission = battle_yaml_data['get_into_mission']
     get_13_4 = battle_yaml_data['get_13_4']
-    qufen_yaml(get_into_mission)
-    qufen_yaml(get_13_4)
+    # drive_yaml(get_into_mission)
+    drive_yaml(get_13_4)
     sys.exit()
 
 
@@ -813,87 +813,6 @@ def for_dict(data_dict: dict):
     for i in data_dict:
         # print(data_dict[i])
         test_yaml(data_dict[i])
-
-
-def tap_dict(data_dict: dict):
-    """
-
-    :param data_dict:
-    """
-    # print("dict:")
-    for i in data_dict:
-        if 'get' in i:
-            get_def = data_dict[i]
-            fun_info_dict(i, data_dict[i])
-            qufen_yaml(get_def)
-            continue
-        else:
-            need_screenShot = tap_info_dict(data_dict[i])
-            # print('%s: %s' % (i, data_dict[i]), '\n')
-            Ld.LdactionTapV3(i, need_screenShot=need_screenShot)
-        # print('%s: %s' % (i, data_dict[i]), '\n')
-        # if type(data_dict[i]) == list:
-        #     pass
-        # else:
-
-        # print('%s: %s' % (i, data_dict[i]))
-
-
-def tap_info_dict(data_dict: dict):
-    need_screenShot: bool = True
-    if data_dict is None:
-        return need_screenShot
-    else:
-        for i in data_dict:
-            if i == 'need_screenShot':
-                need_screenShot = data_dict[i]
-        return need_screenShot
-
-
-def fun_info_dict(fun: str, data_dict: dict):
-    fun: bool = True
-    for i in data_dict:
-        if fun:
-            battle_yaml_data[fun]
-
-
-def isExist_list(isExist_target_list: list):
-    """
-
-    :param isExist_target_list:
-    """
-    # print("list:")
-    run_yaml = ''
-    for isExist_target in isExist_target_list:
-        if isExist_target == 'screenShot':
-            Dc.screenShotnewLd(Ld.index)
-            # print('%s: %s' % (i, data_dict[i]))
-            return isExist_list(isExist_target)
-        else:
-            # print(isExist_target)
-            isExist_target_key_aa = False
-            run_yaml = ''
-            for key in isExist_target:
-                isExist_target_key = key
-                isExist_target_value = isExist_target[key]
-                # print(isExist_target_key)
-                if Ld.isExistV2(isExist_target_key)[0]:
-                    # print(isExist_target_key, isExist_target_value)
-                    isExist_target_key_aa = True
-                    run_yaml = isExist_target_value
-                    break
-                elif key == 'else':
-                    sys.exit()
-            if isExist_target_key_aa:
-                break
-    qufen_yaml(run_yaml)
-
-
-# def for_list(data_list: list):
-#     print("list:")
-#     for i in range(len(data_list)):
-#         print(data_list[i])
-#         test_yaml(data_list[i])
 
 
 def for_list(data_list: list):
@@ -910,15 +829,126 @@ def for_list(data_list: list):
         test_yaml(i)
 
 
-def qufen_yaml(data):
+def tap_dict(data_dict: dict):
     """
 
+    :param data_dict:
+    """
+    # print("dict:")
+    for i in data_dict:
+        if 'get' in i:
+            get_def = data_dict[i]
+            def_info_dict(i, data_dict[i])
+            drive_yaml(get_def)
+            continue
+        # print('%s: %s' % (i, data_dict[i]), '\n')
+        # if type(data_dict[i]) == list:
+        #     pass
+        # else:
+
+        # print('%s: %s' % (i, data_dict[i]))
+
+
+def screenShot_dict(data_dict: dict):
+    for key in data_dict:
+        isExist_target_key_result = False
+        run_yaml = ''
+        isExist_target_key = key
+        isExist_target_value = data_dict[key]
+        # print(isExist_target_key)
+        if isExist_target_key == 'else':
+            if isExist_target_value == 'exit':
+                print("截图查询元素不存在！")
+                sys.exit()
+            else:
+                tap_list(data_dict[key])
+        elif Ld.isExistV2(isExist_target_key)[0]:
+            print("包含: %s" % isExist_target_key)
+            # print(isExist_target_key, isExist_target_value)
+            isExist_target_key_result = True
+            run_yaml = isExist_target_value
+            break
+    if isExist_target_key_result:
+        drive_yaml(run_yaml)
+
+
+def tap_info_dict(data_dict: dict):
+    need_screenShot: bool = True
+    if data_dict is None:
+        return need_screenShot
+    else:
+        for i in data_dict:
+            if i == 'need_screenShot':
+                need_screenShot = data_dict[i]
+        return need_screenShot
+
+
+def def_info_dict(data_dict: dict):
+    fun: bool = True
+    adv_retire: bool = True
+    for i in data_dict:
+        if i == 'fun':
+            if data_dict[i] == 'True':
+                fun = True
+            else:
+                fun = False
+        elif i == 'adv_retire':
+            if data_dict[i] == 'True':
+                adv_retire = True
+            else:
+                adv_retire = False
+    return fun, adv_retire
+
+
+def tap_list(data_target_list: list, data_info: tuple = None):
+    """
+
+    :param data_info:
+    :param data_target_list:
+    """
+    # print("list:")
+    run_yaml = ''
+    for data_target in data_target_list:
+        for target in data_target:
+            # 是否截图判断target存在
+            if target == 'screenShot':
+                Dc.screenShotnewLd(Ld.index)
+                screenShot_dict_info = data_target[target]
+                # print('%s: %s' % (key, isExist_target[key]))
+                screenShot_dict(screenShot_dict_info)
+            # 是否是驱动方法
+            elif 'get_' in target:
+                get_def_info = data_target[target]
+                def_info = def_info_dict(get_def_info)
+                get_def_yaml = battle_yaml_data[target]
+                drive_yaml(get_def_yaml, def_info)
+                return test()
+            elif target == 'adv_retire':
+                if data_info[1]:
+                    tap_list(data_target[target])
+            else:
+                # print(key)
+                need_screenShot = tap_info_dict(data_target[target])
+                Ld.LdactionTapV3(target, need_screenShot=need_screenShot)
+
+
+# def for_list(data_list: list):
+#     print("list:")
+#     for i in range(len(data_list)):
+#         print(data_list[i])
+#         test_yaml(data_list[i])
+
+
+def drive_yaml(data, data_info: tuple = None):
+    """
+
+    :param data_info:
     :param data:
     """
     if type(data) == dict:
         tap_dict(data)
     elif type(data) == list:
-        isExist_list(data)
+        tap_list(data, data_info)
     else:
         pass
 
