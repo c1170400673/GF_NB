@@ -440,12 +440,6 @@ def tap_dict(data_dict: dict):
             def_info_dict(i, data_dict[i])
             drive_yaml(get_def)
             continue
-        # print('%s: %s' % (i, data_dict[i]), '\n')
-        # if type(data_dict[i]) == list:
-        #     pass
-        # else:
-
-        # print('%s: %s' % (i, data_dict[i]))
 
 
 def screenShot_dict(data_dict: dict):
@@ -542,13 +536,6 @@ def tap_list(data_target_list: list, data_info: dict = None):
                     Ld.LdactionTapV4(target, tap_info)
 
 
-# def for_list(data_list: list):
-#     print("list:")
-#     for i in range(len(data_list)):
-#         print(data_list[i])
-#         test_yaml(data_list[i])
-
-
 def drive_yaml(data, data_info: dict = None):
     """
 
@@ -600,9 +587,9 @@ if __name__ == '__main__':
     # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'start_game.png')
 
     # 调试方法
-    star_time = time.time()
-    running_script = '1'
-    test()
+    # star_time = time.time()
+    # running_script = '1'
+    # test()
 
     # 正式运行
     runtimes = int(input("跑几圈:"))
