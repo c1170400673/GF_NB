@@ -1,8 +1,22 @@
+default_tap_info:
+  need_screenShot: True
+  tap_times: 1
+  tap_interval: 0
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 1
+  search_again_sleep_time: 0.5
+  beginning_content: ''
+  end_content: ''
+  error_content: '请检查界面！'
+
 get_into_mission:
   - screenShot:
       main:
         - main_battle:
             need_screenShot: False
+            beginning_content: 当前在主界面
+            end_content: 进入战斗界面
         - screenShot:
             iscombat_mission:
             else:
@@ -22,12 +36,13 @@ get_into_mission:
             else:
               - combat_mission:
                   need_screenShot: False
-      else:
-        exit
+      else: exit
 
 get_T_Dolls_retire:
   - standing_by_T_Dolls:
+      search_again_times: 2
   - intelligent_selection:
+      end_content: 点击智能选择
   - select_confirm:
   - retire:
   - adv_retire:
@@ -35,19 +50,25 @@ get_T_Dolls_retire:
       - show_all:
       - legendary_III:
       - confirm:
+          need_screenShot: False
       - screenShot:
       - lv_III: list
       - select_confirm:
       - retire:
       - retire_confirm:
+  - return:
 
 get_13_4:
   - screenShot:
       isep13:
         - '13_4':
+            beginning_content: 选择关卡
+            end_content: 已选择关卡13-4
       else:
         - ep13:
             need_screenShot: False
+            beginning_content: 选择作战章节
+            end_content: 已选择章节13
         - '13_4':
   - common_battle:
   - screenShot:
@@ -57,7 +78,6 @@ get_13_4:
         - get_T_Dolls_retire:
             fun: True
             adv_retire: True
-        - return:
         - get_into_mission:
             fun: True
       else:
@@ -65,27 +85,104 @@ get_13_4:
   - screenShot:
       isechelon1:
         - echelon_editing:
+            need_screenShot: False
       else:
         - echelon1:
+            need_screenShot: False
         - echelon_editing:
   - victor:
   - show_all:
   - legendary_v:
   - smg:
+      need_screenShot: False
   - at_max_lv:
+      need_screenShot: False
   - desc:
+      need_screenShot: False
   - confirm:
+      need_screenShot: False
   - victor_bak:
   - return:
       tap_result_check_name: start_fighting
+      after_tap_wait_time: 3
+      search_again_times: 2
   - zhb:
   - screenShot:
       isechelon1:
         - echelon_confirm:
+            need_screenShot: False
       else:
         - echelon1:
+            need_screenShot: False
+            after_tap_wait_time: 1.5
         - echelon_confirm:
-  -
+  - 13_4_fjc:
+      search_again_times: 4
+      after_tap_wait_time: 1.5
+  - screenShot:
+      isselect_echelon:
+        isechelon2:
+          - echelon_confirm:
+              need_screenShot: False
+              after_tap_wait_time: 2
+              beginning_content: 已在梯队选择，默认第二梯队
+              end_content: 投放第二梯队
+        else:
+          - echelon2:
+              need_screenShot: False
+              beginning_content: 已在梯队选择
+              end_content: 投放第二梯队
+          - echelon_confirm:
+              after_tap_wait_time: 2
+              end_content: 投放第二梯队
+      else:
+        - select_echelon:
+            need_screenShot: False
+            end_content: 选择投放梯队
+        - screenShot:
+            isechelon2:
+              - echelon_confirm:
+                  need_screenShot: False
+                  after_tap_wait_time: 2
+                  beginning_content: 默认第二梯队
+                  end_content: 投放第二梯队
+            else:
+              - echelon2:
+                  need_screenShot: False
+                  end_content: 选择第二梯队
+              - echelon_confirm:
+                  after_tap_wait_time: 2
+                  end_content: 投放第二梯队
+  - start_fighting:
+  - echelon2_bak:
+  - supply:
+  - echelon1_bak:
+  - planning_mode:
+      end_content: 计划模式
+  - '17':
+  - '18':
+  - '19':
+  - execution_plan:
+  - result_settlement:
+      search_again_times: 20
+      search_again_sleep_time: 8
+      tap_interval: 1
+      before_tap_wait_time: 110
+      after_tap_wait_time: 6
+      beginning_content: 等待战斗完毕结算
+  - round_new_unit: 3
+
+round_new_unit:
+  - screenShot:
+      new_unit:
+        - new_unit:
+            after_tap_wait_time: 6
+            beginning_content: 检查是否有新单位获得
+            end_content: 结算获得1个新单位
+            error_content: 结算未获得新单位
+      result_settlement:
+        - result_settlement:
+      else: break
 
 
 
