@@ -80,6 +80,7 @@ get_13_4:
             adv_retire: True
         - get_into_mission:
             fun: True
+            fun_return: True
       else:
         - zhb:
   - screenShot:

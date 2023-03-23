@@ -519,7 +519,6 @@ def tap_list(data_target_list: list, data_info: dict = None):
                 def_info = def_info_dict(get_def_info)
                 get_def_yaml = battle_yaml_data[target]
                 drive_yaml(get_def_yaml, def_info)
-                return drive_yaml(get_into_mission)
             elif 'round_' in target:
                 round_times = data_target[target]
                 round_def_yaml = battle_yaml_data[target]
@@ -528,6 +527,9 @@ def tap_list(data_target_list: list, data_info: dict = None):
             elif target == 'adv_retire':
                 if data_info['adv_retire']:
                     tap_list(data_target[target])
+            elif target == 'fun_return':
+                if data_info['fun_return']:
+                    return True
             else:
                 if data_target[target] == 'list':
                     Ld.List_selectV2(target)
@@ -536,16 +538,20 @@ def tap_list(data_target_list: list, data_info: dict = None):
                     Ld.LdactionTapV4(target, tap_info)
 
 
-def drive_yaml(data, data_info: dict = None):
+def drive_yaml(data, data_info: dict = None, fun_return: bool = False):
     """
 
+    :param fun_return:
     :param data_info:
     :param data:
     """
     if type(data) == dict:
         tap_dict(data)
     elif type(data) == list:
-        tap_list(data, data_info)
+        if tap_list(data, data_info):
+            return
+        else:
+            pass
     else:
         pass
 
