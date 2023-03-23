@@ -402,11 +402,7 @@ class Ldaction(object):
         :param self:
         :param target_name:
         """
-        target_yaml = target_yaml_data[target_name]
-        target_img_name = target_yaml['target_img_name_list'][0]
-        rgb = target_yaml['rgb']
-        threshold = target_yaml['threshold']
-        list_result = self.is_all_Exist(target_img_name, rgb=rgb, threshold=threshold)[1]
+        list_result = self.is_all_ExistV2(target_name)[1]
         # print(list_result)
         # print(len(list_result))
         if list_result is not False:
@@ -427,7 +423,8 @@ def test():
     get_into_mission = battle_yaml_data['get_into_mission']
     get_13_4 = battle_yaml_data['get_13_4']
     # drive_yaml(get_into_mission)
-    drive_yaml(get_13_4)
+    for i in range(2):
+        drive_yaml(get_13_4)
     sys.exit()
 
 
@@ -528,7 +525,7 @@ def tap_list(data_target_list: list, data_info: dict = None):
                 def_info = def_info_dict(get_def_info)
                 get_def_yaml = battle_yaml_data[target]
                 drive_yaml(get_def_yaml, def_info)
-                return test()
+                return drive_yaml(get_into_mission)
             elif 'round_' in target:
                 round_times = data_target[target]
                 round_def_yaml = battle_yaml_data[target]
@@ -575,6 +572,9 @@ if __name__ == '__main__':
     battle = '13_4.yaml'
     battle_yaml_data = Dc.YAML(battle)
 
+    get_into_mission = battle_yaml_data['get_into_mission']
+    get_13_4 = battle_yaml_data['get_13_4']
+
     # AppPackage = 'com.sunborn.girlsfrontline.cn'
     # App = '少女前线'
     # if Dc.isrunning(0):
@@ -610,13 +610,13 @@ if __name__ == '__main__':
     runtime_min = runtime * 60
     running_script = '共 %d 次，开始执行' % runtimes
     star_time = time.time()
-    get_into_mission()
+    drive_yaml(get_into_mission)
     ran_time: float = 0
     for is_runtimes in range(runtimes):
         is_runtimes_num = is_runtimes + 1
         running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
         if ran_time <= runtime_min:
-            ep_13_4()
+            drive_yaml(get_13_4)
             end_time = time.time()
             ran_time = end_time - star_time
             ran_time_m, ran_time_s = divmod(ran_time, 60)

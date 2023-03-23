@@ -182,6 +182,7 @@ round_new_unit:
             error_content: 结算未获得新单位
       result_settlement:
         - result_settlement:
+            after_tap_wait_time: 3
       else: break
 
 
