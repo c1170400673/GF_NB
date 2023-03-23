@@ -42,15 +42,15 @@ class Dnconsole:
         # 模拟器截屏程序路径
         self.screencap_path = r'/system/bin/screencap'
         # 模拟器截图保存路径
-        self.devicess_path = r'/sdcard/Pictures/Screenshots/screenshout_tmp.png'
+        self.devicess_path = r'/sdcard/Pictures/Screenshots/screenshot_tmp.png'
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
         # 本地图片样本保存路径
-        # self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
-        self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
+        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
+        # self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
         # 读取作战参数信息保存路径
-        # self.action_path = r'D:\GF_NB\script\\'
-        self.action_path = r'D:\MyCode\GF_NB\script\\'
+        self.action_path = r'D:\GF_NB\script\\'
+        # self.action_path = r'D:\MyCode\GF_NB\script\\'
         # 读取作战参数
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
@@ -209,9 +209,9 @@ class Dnconsole:
         """
         cmd = '-s %d " %s -p %s"' % (index, self.screencap_path, self.devicess_path)
         result = self.ldCMD(cmd)
-        scp_time = time.time() - star_time
+        scp_time = time.time() - start_time
         scp_time = time.strftime("%H:%M:%S", time.gmtime(scp_time))
-        print("==O== %s" % scp_time)
+        print("%s ==O==" % scp_time)
         return result
 
     def actionOfTap(self, index: int, x: int, y: int):
@@ -330,6 +330,8 @@ class Ldaction(object):
                                 print("", end="\n")
                         self.ld.inputTap(Ld.index, x, y)
                         print('已点击 %s %d次' % (target_img_name, tap), end="")
+                        if tap_times > 1:
+                            print("", end="\n")
                     break
             if result[0]:
                 break
@@ -342,12 +344,15 @@ class Ldaction(object):
         :param tap_result_check_name: 点击事件结果校验的按钮target
         :param target_name: 点击事件查询的按钮target
         """
+        running_time = time.time() - start_time
+        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+        tap_result_check_name = tap_info['tap_result_check_name']
         before_tap_wait_time = tap_info['before_tap_wait_time']
         after_tap_wait_time = tap_info['after_tap_wait_time']
         beginning_content = tap_info['beginning_content']
         end_content = tap_info['end_content']
         error_content = tap_info['error_content']
-        print('\n+++++START+++++ %s  %s' % (beginning_content, running_script))
+        print('%s +++++START+++++ [%s %s]' % (running_time, beginning_content, running_script))
         if before_tap_wait_time != 0:
             # print('等待 %s 秒后继续' % before_tap_wait_time)
             before_tap_wait_time = int(before_tap_wait_time * 2)
@@ -365,17 +370,20 @@ class Ldaction(object):
                 print("", end="\n")
         if find_result[0]:
             if tap_result_check_name is not None:
+                print('开始校验')
                 self.ld.screenShotnewLd(self.index)
                 tap_result = self.isExistV2(tap_result_check_name)
                 if tap_result[0] is False:
                     print('点击后结果校验不通过，重新点击！')
                     self.find_target_imgV4(target_name)
+                else:
+                    print('校验通过')
         else:
             print(error_content)
             sys.exit()
-        running_time = time.time() - star_time
+        running_time = time.time() - start_time
         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-        print('+++++END+++++  %s  %s' % (end_content, running_time))
+        print('%s +++++END+++++ [%s]\n' % (running_time, end_content))
 
     def is_all_ExistV2(self, target_name: str):
         """
@@ -422,7 +430,7 @@ def test():
     """
     get_into_mission = battle_yaml_data['get_into_mission']
     get_13_4 = battle_yaml_data['get_13_4']
-    # drive_yaml(get_into_mission)
+    drive_yaml(get_into_mission)
     for i in range(2):
         drive_yaml(get_13_4)
     sys.exit()
@@ -443,6 +451,10 @@ def tap_dict(data_dict: dict):
 
 
 def screenShot_dict(data_dict: dict):
+    """
+
+    :param data_dict:
+    """
     isExist_target_key_result = False
     run_yaml = ''
     for key in data_dict:
@@ -469,10 +481,17 @@ def screenShot_dict(data_dict: dict):
         if type(run_yaml) == dict:
             screenShot_dict(run_yaml)
         else:
-            drive_yaml(run_yaml)
+            if drive_yaml(run_yaml):
+                return True
 
 
 def tap_info_dict(target: str, data_dict: dict):
+    """
+
+    :param target:
+    :param data_dict:
+    :return:
+    """
     # 获取target中的默认的beginning_content与end_content值
     target_yaml = target_yaml_data[target]
     # 默认初始化的tap_info
@@ -487,9 +506,14 @@ def tap_info_dict(target: str, data_dict: dict):
 
 
 def def_info_dict(data_dict: dict):
+    """
+
+    :param data_dict:
+    :return:
+    """
     fun: bool = True
     adv_retire: bool = True
-    def_info: dict = {'fun': fun, 'adv_retire': adv_retire}
+    def_info: dict = {}
     def_info.update(data_dict)
     return def_info
 
@@ -512,13 +536,15 @@ def tap_list(data_target_list: list, data_info: dict = None):
                     Dc.screenShotnewLd(Ld.index)
                     screenShot_dict_info = data_target[target]
                     # print('%s: %s' % (key, isExist_target[key]))
-                    screenShot_dict(screenShot_dict_info)
+                    if screenShot_dict(screenShot_dict_info):
+                        return True
             # 是否是驱动方法
             elif 'get_' in target:
                 get_def_info = data_target[target]
                 def_info = def_info_dict(get_def_info)
                 get_def_yaml = battle_yaml_data[target]
-                drive_yaml(get_def_yaml, def_info)
+                if drive_yaml(get_def_yaml, def_info):
+                    return True
             elif 'round_' in target:
                 round_times = data_target[target]
                 round_def_yaml = battle_yaml_data[target]
@@ -527,9 +553,16 @@ def tap_list(data_target_list: list, data_info: dict = None):
             elif target == 'adv_retire':
                 if data_info['adv_retire']:
                     tap_list(data_target[target])
-            elif target == 'fun_return':
-                if data_info['fun_return']:
-                    return True
+            elif target == 'sleep':
+                sleep_time = data_target[target]
+                if sleep_time != 0:
+                    # print('等待 %s 秒后继续' % sleep_time)
+                    sleep_time = int(sleep_time * 2)
+                    for s in range(sleep_time):
+                        time.sleep(0.5)
+                        print(".", end="")
+                        if s == sleep_time - 1:
+                            print("", end="\n")
             else:
                 if data_target[target] == 'list':
                     Ld.List_selectV2(target)
@@ -538,7 +571,7 @@ def tap_list(data_target_list: list, data_info: dict = None):
                     Ld.LdactionTapV4(target, tap_info)
 
 
-def drive_yaml(data, data_info: dict = None, fun_return: bool = False):
+def drive_yaml(data, data_info: dict = {}, fun_return: bool = False):
     """
 
     :param fun_return:
@@ -549,16 +582,17 @@ def drive_yaml(data, data_info: dict = None, fun_return: bool = False):
         tap_dict(data)
     elif type(data) == list:
         if tap_list(data, data_info):
-            return
-        else:
-            pass
+            return True
+        if 'fun_return' in data_info.keys():
+            if data_info['fun_return']:
+                return True
     else:
         pass
 
 
 if __name__ == '__main__':
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
-    Ld = Ldaction(0, Dc, 'screenshout_tmp.png')
+    Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
     target_yaml_data = Dc.YAML('target.yaml')
 
     # 载入关卡配置
@@ -593,7 +627,7 @@ if __name__ == '__main__':
     # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'start_game.png')
 
     # 调试方法
-    # star_time = time.time()
+    # start_time = time.time()
     # running_script = '1'
     # test()
 
@@ -602,7 +636,7 @@ if __name__ == '__main__':
     runtime = float(input("跑多久(分钟）:"))
     runtime_min = runtime * 60
     running_script = '共 %d 次，开始执行' % runtimes
-    star_time = time.time()
+    start_time = time.time()
     drive_yaml(get_into_mission)
     ran_time: float = 0
     for is_runtimes in range(runtimes):
@@ -611,7 +645,7 @@ if __name__ == '__main__':
         if ran_time <= runtime_min:
             drive_yaml(get_13_4)
             end_time = time.time()
-            ran_time = end_time - star_time
+            ran_time = end_time - start_time
             ran_time_m, ran_time_s = divmod(ran_time, 60)
             ran_time_h, ran_time_m = divmod(ran_time_m, 60)
             print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒' % (

@@ -8,6 +8,7 @@ default_tap_info:
   search_again_sleep_time: 0.5
   beginning_content: ''
   end_content: ''
+  tap_result_check_name:
   error_content: '请检查界面！'
 
 get_into_mission:
@@ -59,6 +60,7 @@ get_T_Dolls_retire:
   - return:
 
 get_13_4:
+  - sleep: 0
   - screenShot:
       isep13:
         - '13_4':
@@ -82,7 +84,10 @@ get_13_4:
             fun: True
             fun_return: True
       else:
+        - sleep: 4
         - zhb:
+            search_again_times: 2
+            search_again_sleep_time: 3
   - screenShot:
       isechelon1:
         - echelon_editing:
@@ -167,7 +172,7 @@ get_13_4:
   - result_settlement:
       search_again_times: 20
       search_again_sleep_time: 8
-      tap_interval: 1
+      tap_interval: 1.5
       before_tap_wait_time: 110
       after_tap_wait_time: 6
       beginning_content: 等待战斗完毕结算
@@ -177,12 +182,14 @@ round_new_unit:
   - screenShot:
       new_unit:
         - new_unit:
+            need_screenShot: False
             after_tap_wait_time: 6
             beginning_content: 检查是否有新单位获得
             end_content: 结算获得1个新单位
             error_content: 结算未获得新单位
       result_settlement:
         - result_settlement:
+            need_screenShot: False
             after_tap_wait_time: 3
       else: break
 

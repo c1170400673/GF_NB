@@ -183,7 +183,7 @@ common_battle:
   moveX: 0
   moveY: 0
   tap_interval: 1
-  after_tap_wait_time: 5
+  after_tap_wait_time: 1
   search_again_times: 2
   end_content: '进入关卡战斗'
   error_content: '请检查界面！'
