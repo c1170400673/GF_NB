@@ -687,7 +687,7 @@ if __name__ == '__main__':
             ran_time = end_time - start_time
             ran_time_m, ran_time_s = divmod(ran_time, 60)
             ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-            print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒' % (
+            print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
                 runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
         else:
             break
