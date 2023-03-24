@@ -91,7 +91,7 @@ confirm:
   after_tap_wait_time: 0.5
   search_again_times: 2
   search_again_sleep_time: 0.5
-  error_content: '请检查界面！'
+  error_content: 请检查界面！
 
 lv_III:
   target_img_name_list:
@@ -120,7 +120,7 @@ retire_confirm:
   after_tap_wait_time: 1
   search_again_times: 1
   search_again_sleep_time: 0.5
-  error_content: '请检查界面！'
+  error_content: 请检查界面！
 
 isep13:
   target_img_name_list:
@@ -141,7 +141,7 @@ ep13:
 
 "13_4":
   target_img_name_list:
-    - '13_4.png'
+    - '13_4_bak.png'
   rgb: False
   threshold: 0.9
   moveX: 0
@@ -185,8 +185,8 @@ common_battle:
   tap_interval: 1
   after_tap_wait_time: 1
   search_again_times: 2
-  end_content: '进入关卡战斗'
-  error_content: '请检查界面！'
+  end_content: 进入关卡战斗
+  error_content: 请检查界面！
 
 unit_recycle:
   target_img_name_list:
@@ -195,7 +195,7 @@ unit_recycle:
   threshold: 0.9
   moveX: 0
   moveY: 0
-  beginning_content: '准备回收单位'
+  beginning_content: 准备回收单位
 
 combat_mission:
   target_img_name_list:
@@ -204,8 +204,8 @@ combat_mission:
   threshold: 0.9
   moveX: 0
   moveY: 0
-  beginning_content: '当前在战斗界面'
-  end_content: '开始选择作战任务'
+  beginning_content: 当前在战斗界面
+  end_content: 开始选择作战任务'
 
 battle:
   target_img_name_list:
@@ -230,7 +230,7 @@ return:
   threshold: 0.9
   moveX: 20
   moveY: 0
-  end_content: '返回界面'
+  end_content: 返回界面
 
 zhb:
   target_img_name_list:
@@ -241,8 +241,8 @@ zhb:
   moveX: 0
   moveY: 0
   after_tap_wait_time: 1.5
-  beginning_content: '....准备投放第一战队....'
-  end_content: '投放第一战队'
+  beginning_content: 准备投放第一战队
+  end_content: 投放第一战队
 
 supply:
   target_img_name_list:
@@ -252,7 +252,7 @@ supply:
   moveX: 0
   moveY: 0
   after_tap_wait_time: 1.5
-  end_content: '补给'
+  end_content: 补给
 
 echelon1:
   target_img_name_list:
@@ -433,9 +433,18 @@ start_fighting:
   threshold: 0.9
   moveX: 0
   moveY: 0
-  tap_interval: 1
+  tap_interval: 1.5
   after_tap_wait_time: 2
   end_content: 开始作战
+
+end_fighting:
+  target_img_name_list:
+    - 'end_fighting.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
 
 planning_mode:
   target_img_name_list:
@@ -482,7 +491,7 @@ execution_plan:
   threshold: 0.9
   moveX: 0
   moveY: 0
-  tap_interval: 0.5
+  tap_interval: 1
   beginning_content: 开始执行计划战斗
 
 result_settlement:

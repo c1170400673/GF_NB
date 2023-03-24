@@ -110,7 +110,7 @@ get_13_4:
   - victor_bak:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 3
+      after_tap_wait_time: 3.5
       search_again_times: 2
   - zhb:
   - screenShot:
@@ -160,6 +160,7 @@ get_13_4:
                   after_tap_wait_time: 2
                   end_content: 投放第二梯队
   - start_fighting:
+      tap_result_check_name: end_fighting
   - echelon2_bak:
   - supply:
   - echelon1_bak:
@@ -190,7 +191,7 @@ round_new_unit:
       result_settlement:
         - result_settlement:
             need_screenShot: False
-            after_tap_wait_time: 3
+            after_tap_wait_time: 3.5
       else: break
 
 
