@@ -191,7 +191,7 @@ round_new_unit:
       result_settlement:
         - result_settlement:
             need_screenShot: False
-            after_tap_wait_time: 3.5
+            after_tap_wait_time: 4
       else: break
 
 
