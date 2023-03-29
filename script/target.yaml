@@ -332,12 +332,12 @@ victor:
     - 'victor.png'
   rgb: False
   threshold: 0.9
-  moveX: 100
-  moveY: 0
+  moveX: 0
+  moveY: 100
   tap_times: 1
   tap_interval: 2
   before_tap_wait_time: 2
-  after_tap_wait_time: 2
+  after_tap_wait_time: 2.5
   search_again_times: 2
   search_again_sleep_time: 0.5
   end_content: 选择维克托人形
@@ -386,7 +386,7 @@ victor_bak:
   rgb: False
   threshold: 0.9
   moveX: 0
-  moveY: 0
+  moveY: 100
   after_tap_wait_time: 2
 
 echelon_confirm:
