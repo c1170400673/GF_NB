@@ -6,9 +6,13 @@
 import os
 import sys
 import time
+from functools import partial
 
 import aircv
 import yaml
+
+# 全局覆盖print函数参数
+print = partial(print, flush=True)
 
 
 class Dnconsole:
@@ -45,12 +49,15 @@ class Dnconsole:
         self.devicess_path = r'/sdcard/Pictures/Screenshots/screenshot_tmp.png'
         # 本地图片保存路径
         self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
+        # if 模拟器的截图保存路径
+        if os.path.exists(self.images_path) is False:
+            print('模拟器截图保存路径不存在！')
+        # 获取当前工作目录路径
+        self.workspace_path = os.getcwd()
         # 本地图片样本保存路径
-        self.target_path = r'D:\GF_NB\target\1080p_dpi280\\'
-        # self.target_path = r'D:\MyCode\GF_NB\target\1080p_dpi280\\'
+        self.target_path = self.workspace_path + r'\target\1080p_dpi280\\'
         # 读取作战参数信息保存路径
-        self.action_path = r'D:\GF_NB\script\\'
-        # self.action_path = r'D:\MyCode\GF_NB\script\\'
+        self.action_path = self.workspace_path + r'\script\\'
         # 读取作战参数
         # 构造完成
         print('Class-Dnconsole is ready.(%s)' % self.ins_path)
@@ -362,7 +369,7 @@ class Ldaction(object):
         if before_tap_wait_time != 0:
             running_time = time.time() - start_time
             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-            print('%s ' % running_time, end='')
+            print('%s ' % running_time, end='', flush=True)
             before_tap_wait_time = int(before_tap_wait_time * 2)
             if before_tap_wait_time > 10:
                 for s in range(before_tap_wait_time):
@@ -642,6 +649,7 @@ def drive_yaml(data, data_info: dict = {}, fun_return: bool = False):
 if __name__ == '__main__':
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
+    print(Dc.workspace_path)
     target_yaml_data = Dc.YAML('target.yaml')
 
     # 载入关卡配置
