@@ -404,6 +404,16 @@ class Ldaction(object):
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                     print('%s 点击后结果校验不通过，重新点击！' % running_time)
                     self.find_target_imgV4(target_name, tap_info)
+                    if after_tap_wait_time != 0:
+                        running_time = time.time() - start_time
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                        print('%s ' % running_time, end='')
+                        after_tap_wait_time = int(after_tap_wait_time * 2)
+                        for s in range(after_tap_wait_time):
+                            time.sleep(0.5)
+                            print(".", end="")
+                            if s == after_tap_wait_time - 1:
+                                print("", end="\n")
                 else:
                     running_time = time.time() - start_time
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
