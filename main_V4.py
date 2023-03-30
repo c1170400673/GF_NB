@@ -47,8 +47,11 @@ class Dnconsole:
         self.screencap_path = r'/system/bin/screencap'
         # 模拟器截图保存路径
         self.devicess_path = r'/sdcard/Pictures/Screenshots/screenshot_tmp.png'
+        # 用户环境
+        self.userprofile = os.environ['USERPROFILE']
+        self.documents_path = os.path.join(self.userprofile, 'Documents')
         # 本地图片保存路径
-        self.images_path = r'C:\Users\11704\Documents\leidian9\Pictures\Screenshots\\'
+        self.images_path = self.documents_path + r'\leidian9\Pictures\Screenshots\\'
         # if 模拟器的截图保存路径
         if os.path.exists(self.images_path) is False:
             print('模拟器截图保存路径不存在！')
@@ -689,23 +692,32 @@ if __name__ == '__main__':
     # test()
 
     # 正式运行
-    runtimes = int(input("跑几圈:"))
-    runtime = float(input("跑多久(分钟）:"))
-    runtime_min = runtime * 60
-    running_script = '共 %d 次，开始执行' % runtimes
-    start_time = time.time()
-    drive_yaml(get_into_mission)
-    ran_time: float = 0
-    for is_runtimes in range(runtimes):
-        is_runtimes_num = is_runtimes + 1
-        running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
-        if ran_time <= runtime_min:
-            drive_yaml(get_13_4)
-            end_time = time.time()
-            ran_time = end_time - start_time
-            ran_time_m, ran_time_s = divmod(ran_time, 60)
-            ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-            print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+
+    user_action = True
+    while user_action:
+        runtimes = int(input("跑几圈:"))
+        runtime = float(input("跑多久(分钟）:"))
+        runtime_min = runtime * 60
+        running_script = '共 %d 次，开始执行' % runtimes
+        start_time = time.time()
+        drive_yaml(get_into_mission)
+        ran_time: float = 0
+        for is_runtimes in range(runtimes):
+            is_runtimes_num = is_runtimes + 1
+            running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
+            if ran_time <= runtime_min:
+                drive_yaml(get_13_4)
+                end_time = time.time()
+                ran_time = end_time - start_time
+                ran_time_m, ran_time_s = divmod(ran_time, 60)
+                ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                    runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+            else:
+                break
+        action = input('是否继续?enter后继续/输入exit退出: ')
+        if action == 'exit':
+            user_action = False
         else:
-            break
+            pass
+        # os.system('pause')  # 按任意键继续

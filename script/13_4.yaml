@@ -66,12 +66,14 @@ get_13_4:
         - '13_4':
             beginning_content: 选择关卡
             end_content: 已选择关卡13-4
+            tap_interval: 0.5
       else:
         - ep13:
             need_screenShot: False
             beginning_content: 选择作战章节
             end_content: 已选择章节13
         - '13_4':
+            tap_interval: 0.5
   - common_battle:
   - screenShot:
       unit_recycle:
@@ -191,7 +193,7 @@ round_new_unit:
       result_settlement:
         - result_settlement:
             need_screenShot: False
-            after_tap_wait_time: 4
+            after_tap_wait_time: 3.5
       else: break
 
 

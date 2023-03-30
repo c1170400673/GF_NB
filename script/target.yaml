@@ -178,6 +178,7 @@ iscombat_mission:
 common_battle:
   target_img_name_list:
     - 'common_battle.png'
+    - 'common_battle_bak.png'
   rgb: True
   threshold: 0.95
   moveX: 0
