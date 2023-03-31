@@ -731,7 +731,7 @@ if __name__ == '__main__':
                     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
             else:
                 break
-        action = input('是否继续?enter后继续/输入exit退出: ')
+        action = input('是否继续跑步机?enter后继续/输入exit退出: ')
         if action == 'exit':
             break
         else:
