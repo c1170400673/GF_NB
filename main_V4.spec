@@ -8,9 +8,9 @@ a = Analysis(
     ['main_V4.py'],
     pathex=[],
     binaries=[],
-    datas=[('D:\\MyCode\\GF_NB\\script\\13_4.yaml','script'),
-	('D:\\MyCode\\GF_NB\\script\\target.yaml','script'),
-	('target/1080p_dpi280/*png','target/1080p_dpi280')],
+    datas=[('script/13_4.yaml','script'),
+	('script/target.yaml','script'),
+	('target/1080p_dpi280/*.png','target/1080p_dpi280')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -28,7 +28,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='main_V4',
+    name='GF_CAR',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -39,6 +39,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='app_icon.ico'
 )
 coll = COLLECT(
     exe,

@@ -3,6 +3,8 @@
 """
 【少前13-4自动刷图】
 """
+
+# 打包命令pyinstaller main_V4.spec
 import os
 import sys
 import time
@@ -357,7 +359,6 @@ class Ldaction(object):
         """
         【查找对应按钮】
         :param tap_info:
-        :param tap_result_check_name: 点击事件结果校验的按钮target
         :param target_name: 点击事件查询的按钮target
         """
         running_time = time.time() - start_time
@@ -391,46 +392,57 @@ class Ldaction(object):
                     print(".", end="")
                     if s == before_tap_wait_time - 1:
                         print("", end="\n")
-        find_result = self.find_target_imgV4(target_name, tap_info)
-        if after_tap_wait_time != 0:
-            running_time = time.time() - start_time
-            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-            print('%s ' % running_time, end='')
-            after_tap_wait_time = int(after_tap_wait_time * 2)
-            for s in range(after_tap_wait_time):
-                time.sleep(0.5)
-                print(".", end="")
-                if s == after_tap_wait_time - 1:
-                    print("", end="\n")
-        if find_result[0]:
-            if tap_result_check_name is not None:
+        result = True
+        while result:
+            find_result = self.find_target_imgV4(target_name, tap_info)
+            if after_tap_wait_time != 0:
                 running_time = time.time() - start_time
                 running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                print('%s 开始校验' % running_time)
-                self.ld.screenShotnewLd(self.index)
-                tap_result = self.isExistV2(tap_result_check_name)
-                if tap_result[0] is False:
+                print('%s ' % running_time, end='')
+                after_tap_wait_time = int(after_tap_wait_time * 2)
+                for s in range(after_tap_wait_time):
+                    time.sleep(0.5)
+                    print(".", end="")
+                    if s == after_tap_wait_time - 1:
+                        print("", end="\n")
+            if find_result[0]:
+                # 找图点击结果为真停止循环
+                if tap_result_check_name is not None:
                     running_time = time.time() - start_time
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                    print('%s 点击后结果校验不通过，重新点击！' % running_time)
-                    self.find_target_imgV4(target_name, tap_info)
-                    if after_tap_wait_time != 0:
+                    print('%s 开始校验' % running_time)
+                    self.ld.screenShotnewLd(self.index)
+                    tap_result = self.isExistV2(tap_result_check_name)
+                    if tap_result[0] is False:
                         running_time = time.time() - start_time
                         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s ' % running_time, end='')
-                        after_tap_wait_time = int(after_tap_wait_time * 2)
-                        for s in range(after_tap_wait_time):
-                            time.sleep(0.5)
-                            print(".", end="")
-                            if s == after_tap_wait_time - 1:
-                                print("", end="\n")
+                        print('%s 点击后结果校验不通过，重新点击！' % running_time)
+                        self.find_target_imgV4(target_name, tap_info)
+                        if after_tap_wait_time != 0:
+                            running_time = time.time() - start_time
+                            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                            print('%s ' % running_time, end='')
+                            after_tap_wait_time = int(after_tap_wait_time * 2)
+                            for s in range(after_tap_wait_time):
+                                time.sleep(0.5)
+                                print(".", end="")
+                                if s == after_tap_wait_time - 1:
+                                    print("", end="\n")
+                    else:
+                        running_time = time.time() - start_time
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                        print('%s 校验通过' % running_time)
+                        break
                 else:
-                    running_time = time.time() - start_time
-                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                    print('%s 校验通过' % running_time)
-        else:
-            print(error_content)
-            sys.exit()
+                    break
+            else:
+                print(error_content)
+                # 暂停后手动操作
+                result_action = input('是否已调整好?enter后再次重试/输入0跳过此步骤: ')
+                if result_action == '0':
+                    break
+                else:
+                    pass
         running_time = time.time() - start_time
         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
         print('%s +++++ END +++++ [%s]\n' % (running_time, end_content))
@@ -514,9 +526,10 @@ def screenShot_dict(data_dict: dict):
         if isExist_target_key == 'else':
             running_time = time.time() - start_time
             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-            print("%s 截图查询元素不存在！" % running_time)
+            print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
             if isExist_target_value == 'exit':
-                sys.exit()
+                return True
+                # sys.exit()
             elif isExist_target_value == 'break':
                 break
             else:
@@ -627,6 +640,8 @@ def tap_list(data_target_list: list, data_info: dict = None):
                     Ld.List_selectV2(target)
                 else:
                     tap_info = tap_info_dict(target, data_target[target])
+                    # if Ld.LdactionTapV4(target, tap_info):
+                    #     return True
                     Ld.LdactionTapV4(target, tap_info)
 
 
@@ -700,7 +715,8 @@ if __name__ == '__main__':
         runtime_min = runtime * 60
         running_script = '共 %d 次，开始执行' % runtimes
         start_time = time.time()
-        drive_yaml(get_into_mission)
+        if drive_yaml(get_into_mission):
+            continue
         ran_time: float = 0
         for is_runtimes in range(runtimes):
             is_runtimes_num = is_runtimes + 1
@@ -717,7 +733,7 @@ if __name__ == '__main__':
                 break
         action = input('是否继续?enter后继续/输入exit退出: ')
         if action == 'exit':
-            user_action = False
+            break
         else:
             pass
         # os.system('pause')  # 按任意键继续
