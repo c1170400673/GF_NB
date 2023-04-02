@@ -10,7 +10,8 @@ a = Analysis(
     binaries=[],
     datas=[('script/13_4.yaml','script'),
 	('script/target.yaml','script'),
-	('target/1080p_dpi280/*.png','target/1080p_dpi280')],
+	('target/1080p_dpi280/*.png','target/1080p_dpi280'),
+	('README.md','.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -49,5 +50,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='main_V4',
+    name='GF_CAR',
 )
