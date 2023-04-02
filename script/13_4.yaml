@@ -119,11 +119,13 @@ get_13_4:
       isechelon1:
         - echelon_confirm:
             need_screenShot: False
+            tap_result_check_name: start_fighting
       else:
         - echelon1:
             need_screenShot: False
             after_tap_wait_time: 1.5
         - echelon_confirm:
+            tap_result_check_name: start_fighting
   - 13_4_fjc:
       search_again_times: 4
       after_tap_wait_time: 1.5
@@ -162,6 +164,7 @@ get_13_4:
                   after_tap_wait_time: 2
                   end_content: 投放第二梯队
   - start_fighting:
+      after_tap_wait_time: 2.5
       tap_result_check_name: end_fighting
   - echelon2_bak:
   - supply:

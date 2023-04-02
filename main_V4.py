@@ -11,6 +11,8 @@ import time
 from functools import partial
 
 import aircv
+import win32api
+import win32con
 import yaml
 
 # 全局覆盖print函数参数
@@ -374,23 +376,23 @@ class Ldaction(object):
             running_time = time.time() - start_time
             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
             print('%s ' % running_time, end='', flush=True)
-            before_tap_wait_time = int(before_tap_wait_time * 2)
-            if before_tap_wait_time > 10:
-                for s in range(before_tap_wait_time):
+            do_before_tap_wait_time = int(before_tap_wait_time * 2)
+            if do_before_tap_wait_time > 10:
+                for s in range(do_before_tap_wait_time):
                     time.sleep(0.5)
                     s_10, d = divmod(s, 10)
-                    d_10, dd = divmod(before_tap_wait_time, 10)
+                    d_10, dd = divmod(do_before_tap_wait_time, 10)
                     if d == 0:
                         print("o", end="")
-                    elif s > before_tap_wait_time - dd:
+                    elif s > do_before_tap_wait_time - dd:
                         print(".", end="")
-                    if s == before_tap_wait_time - 1:
+                    if s == do_before_tap_wait_time - 1:
                         print("", end="\n")
             else:
-                for s in range(before_tap_wait_time):
+                for s in range(do_before_tap_wait_time):
                     time.sleep(0.5)
                     print(".", end="")
-                    if s == before_tap_wait_time - 1:
+                    if s == do_before_tap_wait_time - 1:
                         print("", end="\n")
         result = True
         while result:
@@ -399,35 +401,40 @@ class Ldaction(object):
                 running_time = time.time() - start_time
                 running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                 print('%s ' % running_time, end='')
-                after_tap_wait_time = int(after_tap_wait_time * 2)
-                for s in range(after_tap_wait_time):
+                do_after_tap_wait_time = int(after_tap_wait_time * 2)
+                for s in range(do_after_tap_wait_time):
                     time.sleep(0.5)
                     print(".", end="")
-                    if s == after_tap_wait_time - 1:
+                    if s == do_after_tap_wait_time - 1:
                         print("", end="\n")
             if find_result[0]:
                 # 找图点击结果为真停止循环
                 if tap_result_check_name is not None:
                     running_time = time.time() - start_time
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                    print('%s 开始校验' % running_time)
+                    print('%s 开始校验 %s' % (running_time, tap_result_check_name))
                     self.ld.screenShotnewLd(self.index)
                     tap_result = self.isExistV2(tap_result_check_name)
                     if tap_result[0] is False:
                         running_time = time.time() - start_time
                         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                         print('%s 点击后结果校验不通过，重新点击！' % running_time)
-                        self.find_target_imgV4(target_name, tap_info)
+                        # 为了校验后重新点击target，需启动截图
+                        need_screenShot_tap_info = tap_info.copy()
+                        need_screenShot_tap_info.update({'need_screenShot': True})
+                        find_result = self.find_target_imgV4(target_name, need_screenShot_tap_info)
                         if after_tap_wait_time != 0:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                             print('%s ' % running_time, end='')
-                            after_tap_wait_time = int(after_tap_wait_time * 2)
-                            for s in range(after_tap_wait_time):
+                            do_after_tap_wait_time = int(after_tap_wait_time * 2)
+                            for s in range(do_after_tap_wait_time):
                                 time.sleep(0.5)
                                 print(".", end="")
-                                if s == after_tap_wait_time - 1:
+                                if s == do_after_tap_wait_time - 1:
                                     print("", end="\n")
+                        if find_result[0]:
+                            break
                     else:
                         running_time = time.time() - start_time
                         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
@@ -438,11 +445,12 @@ class Ldaction(object):
             else:
                 print(error_content)
                 # 暂停后手动操作
+                win32api.MessageBox(0, "自动执行异常请检查！", "提醒", win32con.MB_OK)
                 result_action = input('是否已调整好?enter后再次重试/输入0跳过此步骤: ')
                 if result_action == '0':
                     break
                 else:
-                    pass
+                    tap_info.update({'need_screenShot': True})
         running_time = time.time() - start_time
         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
         print('%s +++++ END +++++ [%s]\n' % (running_time, end_content))
@@ -485,19 +493,6 @@ class Ldaction(object):
                 time.sleep(0.5)
 
 
-def test():
-    """
-    【调试测试类】
-    :return:
-    """
-    get_into_mission = battle_yaml_data['get_into_mission']
-    get_13_4 = battle_yaml_data['get_13_4']
-    drive_yaml(get_into_mission)
-    for i in range(2):
-        drive_yaml(get_13_4)
-    sys.exit()
-
-
 def tap_dict(data_dict: dict):
     """
 
@@ -507,7 +502,7 @@ def tap_dict(data_dict: dict):
     for i in data_dict:
         if 'get' in i:
             get_def = data_dict[i]
-            def_info_dict(i, data_dict[i])
+            def_info_dict(i)
             drive_yaml(get_def)
             continue
 
@@ -664,6 +659,21 @@ def drive_yaml(data, data_info: dict = {}, fun_return: bool = False):
         pass
 
 
+def test():
+    """
+    【调试测试类】
+    :return:
+    """
+    # get_into_mission = battle_yaml_data['get_into_mission']
+    # get_13_4 = battle_yaml_data['get_13_4']
+    # drive_yaml(get_into_mission)
+    # for i in range(2):
+    #     drive_yaml(get_13_4)
+    if Ld.isExistV2('end_fighting'):
+        print("True")
+    sys.exit()
+
+
 if __name__ == '__main__':
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
@@ -731,6 +741,7 @@ if __name__ == '__main__':
                     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
             else:
                 break
+        win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_OK | win32con.MB_TOPMOST)
         action = input('是否继续跑步机?enter后继续/输入exit退出: ')
         if action == 'exit':
             break
