@@ -4,7 +4,7 @@ default_tap_info:
   tap_interval: 0
   before_tap_wait_time: 0
   after_tap_wait_time: 1
-  search_again_times: 1
+  search_again_times: 2
   search_again_sleep_time: 0.5
   beginning_content: ''
   end_content: ''
@@ -170,6 +170,7 @@ get_13_4:
   - supply:
   - echelon1_bak:
   - planning_mode:
+      tap_result_check_name: execution_plan
       end_content: 计划模式
   - '17':
   - '18':
