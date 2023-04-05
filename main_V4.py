@@ -394,56 +394,79 @@ class Ldaction(object):
                     print(".", end="")
                     if s == do_before_tap_wait_time - 1:
                         print("", end="\n")
+        else:
+            pass
         result = True
         while result:
+            # 点击target
             find_result = self.find_target_imgV4(target_name, tap_info)
-            if after_tap_wait_time != 0:
-                running_time = time.time() - start_time
-                running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                print('%s ' % running_time, end='')
-                do_after_tap_wait_time = int(after_tap_wait_time * 2)
-                for s in range(do_after_tap_wait_time):
-                    time.sleep(0.5)
-                    print(".", end="")
-                    if s == do_after_tap_wait_time - 1:
-                        print("", end="\n")
+            # 判断点击方法处理结果
             if find_result[0]:
-                # 找图点击结果为真停止循环
+                # 处理点击后等待时间
+                if after_tap_wait_time != 0:
+                    running_time = time.time() - start_time
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                    print('%s ' % running_time, end='')
+                    do_after_tap_wait_time = int(after_tap_wait_time * 2)
+                    for s in range(do_after_tap_wait_time):
+                        time.sleep(0.5)
+                        print(".", end="")
+                        if s == do_after_tap_wait_time - 1:
+                            print("", end="\n")
+                else:
+                    pass
+                # 判断是否有校验对象
                 if tap_result_check_name is not None:
                     running_time = time.time() - start_time
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                    self.ld.screenShotnewLd(self.index)
-                    print('%s 开始校验 %s' % (running_time, tap_result_check_name))
-                    isExist_result = True
-                    while isExist_result:
+                    is_not_Exist_result = True
+                    # 当有校验对象后执行循环校验
+                    while is_not_Exist_result:
+                        # 校验前截图
+                        self.ld.screenShotnewLd(self.index)
+                        print('%s 开始校验 %s' % (running_time, tap_result_check_name))
+                        # 执行校验
                         tap_result = self.isExistV2(tap_result_check_name)
+                        # 判断校验结果，通过后结束校验
                         if tap_result[0]:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                             print('%s 校验通过' % running_time)
+                            is_not_Exist_result = False
                             break
+                        # 不通过重新点击target
                         else:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                             print('%s 点击后结果校验不通过，重新点击！' % running_time)
-                            # 为了校验后重新点击target，需启动截图
+                            # 为了校验执行后重新点击target，需启动截图
                             need_screenShot_tap_info = tap_info.copy()
                             need_screenShot_tap_info.update({'need_screenShot': True})
                             find_result = self.find_target_imgV4(target_name, need_screenShot_tap_info)
+                            # 判断重新点击target后的结果
                             if find_result[0]:
-                                break
+                                # 点击target成功后将会重新执行校验
+                                print('重新点击 %s 成功' % target_name)
+                                if after_tap_wait_time != 0:
+                                    running_time = time.time() - start_time
+                                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                                    print('%s ' % running_time, end='')
+                                    do_after_tap_wait_time = int(after_tap_wait_time * 2)
+                                    for s in range(do_after_tap_wait_time):
+                                        time.sleep(0.5)
+                                        print(".", end="")
+                                        if s == do_after_tap_wait_time - 1:
+                                            print("", end="\n")
+                                else:
+                                    pass
+                            # 点击target失败也将重新执行校验
                             else:
-                                pass
-                    if after_tap_wait_time != 0:
-                        running_time = time.time() - start_time
-                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s ' % running_time, end='')
-                        do_after_tap_wait_time = int(after_tap_wait_time * 2)
-                        for s in range(do_after_tap_wait_time):
-                            time.sleep(0.5)
-                            print(".", end="")
-                            if s == do_after_tap_wait_time - 1:
-                                print("", end="\n")
+                                print('当前界面未能找到 %s ，需重新校验 %s' % (target_name, tap_result_check_name))
+                    if is_not_Exist_result is False:
+                        break
+                    else:
+                        pass
+                # 无校验的直接结束点击处理
                 else:
                     break
             else:
