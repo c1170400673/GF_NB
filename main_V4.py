@@ -417,13 +417,14 @@ class Ldaction(object):
                     pass
                 # 判断是否有校验对象
                 if tap_result_check_name is not None:
-                    running_time = time.time() - start_time
-                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+
                     is_not_Exist_result = True
                     # 当有校验对象后执行循环校验
                     while is_not_Exist_result:
                         # 校验前截图
                         self.ld.screenShotnewLd(self.index)
+                        running_time = time.time() - start_time
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                         print('%s 开始校验 %s' % (running_time, tap_result_check_name))
                         # 执行校验
                         tap_result = self.isExistV2(tap_result_check_name)
