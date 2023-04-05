@@ -414,32 +414,36 @@ class Ldaction(object):
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                     self.ld.screenShotnewLd(self.index)
                     print('%s 开始校验 %s' % (running_time, tap_result_check_name))
-                    tap_result = self.isExistV2(tap_result_check_name)
-                    if tap_result[0] is False:
-                        running_time = time.time() - start_time
-                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s 点击后结果校验不通过，重新点击！' % running_time)
-                        # 为了校验后重新点击target，需启动截图
-                        need_screenShot_tap_info = tap_info.copy()
-                        need_screenShot_tap_info.update({'need_screenShot': True, 'search_again_times': 2})
-                        find_result = self.find_target_imgV4(target_name, need_screenShot_tap_info)
-                        if after_tap_wait_time != 0:
+                    isExist_result = True
+                    while isExist_result:
+                        tap_result = self.isExistV2(tap_result_check_name)
+                        if tap_result[0]:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                            print('%s ' % running_time, end='')
-                            do_after_tap_wait_time = int(after_tap_wait_time * 2)
-                            for s in range(do_after_tap_wait_time):
-                                time.sleep(0.5)
-                                print(".", end="")
-                                if s == do_after_tap_wait_time - 1:
-                                    print("", end="\n")
-                        if find_result[0]:
+                            print('%s 校验通过' % running_time)
                             break
-                    else:
+                        else:
+                            running_time = time.time() - start_time
+                            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                            print('%s 点击后结果校验不通过，重新点击！' % running_time)
+                            # 为了校验后重新点击target，需启动截图
+                            need_screenShot_tap_info = tap_info.copy()
+                            need_screenShot_tap_info.update({'need_screenShot': True})
+                            find_result = self.find_target_imgV4(target_name, need_screenShot_tap_info)
+                            if find_result[0]:
+                                break
+                            else:
+                                pass
+                    if after_tap_wait_time != 0:
                         running_time = time.time() - start_time
                         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s 校验通过' % running_time)
-                        break
+                        print('%s ' % running_time, end='')
+                        do_after_tap_wait_time = int(after_tap_wait_time * 2)
+                        for s in range(do_after_tap_wait_time):
+                            time.sleep(0.5)
+                            print(".", end="")
+                            if s == do_after_tap_wait_time - 1:
+                                print("", end="\n")
                 else:
                     break
             else:

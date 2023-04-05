@@ -319,7 +319,7 @@ echelon2_bak:
     - 'echelon2_bak.png'
     - 'echelon2_bak2.png'
   rgb: True
-  threshold: 0.94
+  threshold: 0.95
   moveX: 124
   moveY: -41
   tap_times: 2

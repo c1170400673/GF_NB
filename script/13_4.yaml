@@ -115,6 +115,7 @@ get_13_4:
       after_tap_wait_time: 4.5
       search_again_times: 2
   - zhb:
+      search_again_sleep_time: 0.5
   - screenShot:
       isechelon1:
         - echelon_confirm:
