@@ -112,7 +112,7 @@ get_13_4:
   - victor_bak:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 3.5
+      after_tap_wait_time: 4.5
       search_again_times: 2
   - zhb:
   - screenShot:
