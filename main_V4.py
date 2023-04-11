@@ -310,11 +310,12 @@ class Ldaction(object):
             for search in range(search_again_times):
                 if need_screenShot:
                     self.ld.screenShotnewLd(self.index)
-                result = self.isExistV2(target_name, target_img_name_list.index(target_img_name))
+                target_img_num = target_img_name_list.index(target_img_name)
+                result = self.isExistV2(target_name, target_img_num)
                 find_result = result[1]
                 running_time = time.time() - start_time
                 running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                if find_result is None and need_screenShot is False:
+                if find_result is None and need_screenShot is False and search_again_times == 1:
                     print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     break
                 elif find_result is None and search_again_times == 1:
@@ -330,6 +331,9 @@ class Ldaction(object):
                         if s == search_again_sleep_time_double - 1:
                             print("", end="\n")
                     print('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
+                    # 判断当不用截图的target节点当search_again_times大于1时重试时触发截图
+                    if need_screenShot is False:
+                        self.ld.screenShotnewLd(self.index)
                     if search_times == search_again_times:
                         print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                 else:
