@@ -64,6 +64,7 @@ get_13_4:
   - screenShot:
       isep13:
         - '13_4':
+            tap_result_check_name: common_battle
             beginning_content: 选择关卡
             end_content: 已选择关卡13-4
             tap_interval: 0.5
@@ -73,6 +74,7 @@ get_13_4:
             beginning_content: 选择作战章节
             end_content: 已选择章节13
         - '13_4':
+            tap_result_check_name: common_battle
             tap_interval: 0.5
   - common_battle:
   - screenShot:
