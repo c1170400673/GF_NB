@@ -99,6 +99,7 @@ get_13_4:
             need_screenShot: False
         - echelon_editing:
   - victor:
+      tap_result_check_name: show_all
   - show_all:
   - legendary_v:
   - smg:
