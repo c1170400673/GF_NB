@@ -111,6 +111,7 @@ get_13_4:
   - desc:
       need_screenShot: False
   - confirm:
+      tap_result_check_name: victor_bak
       need_screenShot: False
   - victor_bak:
   - return:
