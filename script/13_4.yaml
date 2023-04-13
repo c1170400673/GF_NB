@@ -93,7 +93,7 @@ get_13_4:
             search_again_times: 2
             search_again_sleep_time: 3
   - screenShot:
-      isechelon1:
+      is_echelon1:
         - echelon_editing:
             need_screenShot: False
       else:
@@ -121,7 +121,7 @@ get_13_4:
   - zhb:
       search_again_sleep_time: 0.5
   - screenShot:
-      isechelon1:
+      is_echelon1:
         - echelon_confirm:
             need_screenShot: False
             tap_result_check_name: start_fighting
@@ -136,7 +136,7 @@ get_13_4:
       after_tap_wait_time: 1.5
   - screenShot:
       isselect_echelon:
-        isechelon2:
+        is_echelon2:
           - echelon_confirm:
               need_screenShot: False
               after_tap_wait_time: 2
@@ -155,7 +155,7 @@ get_13_4:
             need_screenShot: False
             end_content: 选择投放梯队
         - screenShot:
-            isechelon2:
+            is_echelon2:
               - echelon_confirm:
                   need_screenShot: False
                   after_tap_wait_time: 2

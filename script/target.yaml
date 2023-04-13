@@ -266,7 +266,7 @@ echelon1:
   moveY: 0
   after_tap_wait_time: 1.5
 
-isechelon1:
+is_echelon1:
   target_img_name_list:
     - 'isechelon1.png'
   rgb: False
@@ -276,7 +276,7 @@ isechelon1:
   moveY: 0
   after_tap_wait_time: 1.5
 
-isechelon2:
+is_echelon2:
   target_img_name_list:
     - 'isechelon2.png'
   rgb: False
