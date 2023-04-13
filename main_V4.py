@@ -7,6 +7,7 @@
 # 打包命令pyinstaller main_V4.spec
 import os
 import sys
+import threading
 import time
 from functools import partial
 
@@ -706,50 +707,51 @@ def test():
     sys.exit()
 
 
-if __name__ == '__main__':
+class Job(threading.Thread):
+
+    def __init__(self, *args, **kwargs):
+        super(Job, self).__init__(*args, **kwargs)
+        self.__flag = threading.Event()  # 用于暂停线程的标识
+        self.__flag.set()  # 设置为True
+        self.__running = threading.Event()  # 用于停止线程的标识
+        self.__running.set()  # 将running设置为True
+
+    # def run(self):
+    #     while self.__running.isSet():
+    #         print("thread is run")
+    #         self.__flag.wait()  # 为True时立即返回, 为False时阻塞直到self.__flag为True后返回
+    #         print("run = ", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+    #         time.sleep(1)
+
+    def pause(self):
+        print("thread is pause")
+        self.__flag.clear()  # 设置为False, 让线程阻塞
+
+    def resume(self):
+        print("thread is resume")
+        self.__flag.set()  # 设置为True, 让线程停止阻塞
+
+    def stop(self):
+        print("thread is stop")
+        self.__flag.set()  # 将线程从暂停状态恢复, 如何已经暂停的话
+        self.__running.clear()  # 设置为False
+
+
+def run_config():
+    global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
     print(Dc.workspace_path)
     target_yaml_data = Dc.YAML('target.yaml')
-
     # 载入关卡配置
-    battle = '13_4.yaml'
-    battle_yaml_data = Dc.YAML(battle)
-
+    battle_name = '13_4.yaml'
+    battle_yaml_data = Dc.YAML(battle_name)
     get_into_mission = battle_yaml_data['get_into_mission']
     get_13_4 = battle_yaml_data['get_13_4']
 
-    # AppPackage = 'com.sunborn.girlsfrontline.cn'
-    # App = '少女前线'
-    # if Dc.isrunning(0):
-    #     print('模拟器已启动')
-    #     time.sleep(5)
-    # else:
-    #     Dc.launch(0)
-    #     print('模拟器启动中')
-    #     time.sleep(15)
-    #
-    # if Dc.isruningAPP(0, AppPackage):
-    #     print('%s is running' % AppPackage)
-    # else:
-    #     Dc.runApp(0, AppPackage)
-    #     print('%s is ran' % AppPackage)
-    #
-    # time.sleep(10)
-    # print('%s 已启动' % App)
 
-    # # 登录（暂不支持需要输入密码）
-    # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'sign_in.png', sleeptime=3)
-    # # 开始游戏，进入主界面
-    # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'start_game.png')
-
-    # 调试方法
-    # start_time = time.time()
-    # running_script = '1'
-    # test()
-
-    # 正式运行
-
+def battle():
+    global running_script, start_time
     user_action = True
     while user_action:
         runtimes = int(input("跑几圈:"))
@@ -780,3 +782,50 @@ if __name__ == '__main__':
         else:
             pass
         # os.system('pause')  # 按任意键继续
+
+
+if __name__ == '__main__':
+    # global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
+    # global running_script, start_time
+    base_run = threading.Thread(target=run_config)
+    # base_run = Job(target=run_config)
+    # battle_run = Job(target= battle)
+    battle_run = threading.Thread(target=battle)
+    base_run.start()
+    base_run.join()
+    # time.sleep(1)
+    # battle_run.start()
+    # battle_run.join()
+    # time.sleep(2)
+    # battle_run.pause()
+    # AppPackage = 'com.sunborn.girlsfrontline.cn'
+    # App = '少女前线'
+    # if Dc.isrunning(0):
+    #     print('模拟器已启动')
+    #     time.sleep(5)
+    # else:
+    #     Dc.launch(0)
+    #     print('模拟器启动中')
+    #     time.sleep(15)
+    #
+    # if Dc.isruningAPP(0, AppPackage):
+    #     print('%s is running' % AppPackage)
+    # else:
+    #     Dc.runApp(0, AppPackage)
+    #     print('%s is ran' % AppPackage)
+    #
+    # time.sleep(10)
+    # print('%s 已启动' % App)
+
+    # # 登录（暂不支持需要输入密码）
+    # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'sign_in.png', sleeptime=3)
+    # # 开始游戏，进入主界面
+    # Ld.LdactionTap(0, Dc, r'screenshout_tmp.png', r'start_game.png')
+
+    # 调试方法
+    # start_time = time.time()
+    # running_script = '1'
+    # test()
+
+    # 正式运行
+    # battle_run = threading.Thread(target=battle())
