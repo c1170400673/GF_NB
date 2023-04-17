@@ -775,29 +775,33 @@ def battle():
                     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
             else:
                 break
-        win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_OK | win32con.MB_TOPMOST)
-        action = input('是否继续跑步机?enter后继续/输入exit退出: ')
-        if action == 'exit':
-            break
-        else:
+        result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
+        # action = input('是否继续跑步机?enter后继续/输入exit退出: ')
+        # if action == 'exit':
+        #     break
+        # else:
+        #     pass
+        if result_action == win32con.IDYES:
             pass
+        else:
+            break
         # os.system('pause')  # 按任意键继续
 
 
 if __name__ == '__main__':
-    # global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
-    # global running_script, start_time
-    base_run = threading.Thread(target=run_config)
-    # base_run = Job(target=run_config)
-    # battle_run = Job(target= battle)
-    battle_run = threading.Thread(target=battle)
-    base_run.start()
-    base_run.join()
-    # time.sleep(1)
-    # battle_run.start()
-    # battle_run.join()
-    # time.sleep(2)
+    global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
+    global running_script, start_time
+    # base_run = threading.Thread(target=run_config)
+    # battle_run = threading.Thread(target=battle)
+    # 基础数据和环境初始化
+    run_config()
+
+    battle_run = Job(target=battle)
+    battle_run.start()
+    battle_run.join()
+
     # battle_run.pause()
+
     # AppPackage = 'com.sunborn.girlsfrontline.cn'
     # App = '少女前线'
     # if Dc.isrunning(0):
@@ -828,4 +832,3 @@ if __name__ == '__main__':
     # test()
 
     # 正式运行
-    # battle_run = threading.Thread(target=battle())
