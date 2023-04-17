@@ -782,6 +782,7 @@ def battle():
         # else:
         #     pass
         if result_action == win32con.IDYES:
+            print('继续不要停。。。。')
             pass
         else:
             break
@@ -796,6 +797,7 @@ if __name__ == '__main__':
     # 基础数据和环境初始化
     run_config()
 
+    # 启动战斗运行
     battle_run = Job(target=battle)
     battle_run.start()
     battle_run.join()
@@ -830,5 +832,3 @@ if __name__ == '__main__':
     # start_time = time.time()
     # running_script = '1'
     # test()
-
-    # 正式运行
