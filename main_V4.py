@@ -3,7 +3,7 @@
 """
 【少前13-4自动刷图】
 """
-
+import logging
 # 打包命令pyinstaller main_V4.spec
 import os
 import sys
@@ -68,7 +68,8 @@ class Dnconsole:
         self.action_path = self.workspace_path + r'\script\\'
         # 读取作战参数
         # 构造完成
-        print('Class-Dnconsole is ready.(%s)' % self.ins_path)
+        logging.debug('Class-Dnconsole is ready.(%s)' % self.ins_path)
+        # print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
     def YAML(self, script_name: str):
         """
@@ -79,6 +80,7 @@ class Dnconsole:
         # 读取YAML参数
         yaml_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                                  self.action_path + script_name)
+        logging.debug('yaml_path: %s' % yaml_path)
         try:
             # 打开文件
             with open(yaml_path, "r", encoding="utf-8") as f:
@@ -165,7 +167,7 @@ class Dnconsole:
         cmd = 'runapp --index %d --packagename %s' % (index, packagename)
         return self.CMD(cmd)
 
-    def isruningAPP(self, index: int, packagename: str):
+    def isrunningAPP(self, index: int, packagename: str):
         """
         【检测应用是否启动】
         :param packagename: App包名
@@ -226,7 +228,7 @@ class Dnconsole:
         result = self.ldCMD(cmd)
         scp_time = time.time() - start_time
         scp_time = time.strftime("%H:%M:%S", time.gmtime(scp_time))
-        print("%s ==【O】==" % scp_time)
+        logging.info("%s 已截图" % scp_time)
         return result
 
     def actionOfTap(self, index: int, x: int, y: int):
@@ -299,6 +301,7 @@ class Ldaction(object):
         :param target_name:
         :return:
         """
+        logging.debug('target: %s, 配置信息: %s' % (target_name, tap_info))
         target_img_name_list = tap_info['target_img_name_list']
         need_screenShot = tap_info['need_screenShot']
         moveX = tap_info['moveX']
@@ -317,12 +320,15 @@ class Ldaction(object):
                 running_time = time.time() - start_time
                 running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                 if find_result is None and need_screenShot is False and search_again_times == 1:
-                    print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                    # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                    logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     break
                 elif find_result is None and search_again_times == 1:
-                    print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                    # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                    logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                 elif find_result is None and search_again_times > 1:
-                    print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name), end="")
+                    # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name), end="")
+                    logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     search_times = 1
                     search_times += search
                     search_again_sleep_time_double = int(search_again_sleep_time * 2)
@@ -331,12 +337,14 @@ class Ldaction(object):
                         print(".", end="")
                         if s == search_again_sleep_time_double - 1:
                             print("", end="\n")
-                    print('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
+                    # print('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
+                    logging.info('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
                     # 判断当不用截图的target节点当search_again_times大于1时重试时触发截图
                     if need_screenShot is False:
                         self.ld.screenShotnewLd(self.index)
                     if search_times == search_again_times:
-                        print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                        # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                        logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                 else:
                     x = find_result['result'][0] - moveX
                     y = find_result['result'][1] - moveY
@@ -430,21 +438,24 @@ class Ldaction(object):
                         self.ld.screenShotnewLd(self.index)
                         running_time = time.time() - start_time
                         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s 开始校验 %s' % (running_time, tap_result_check_name))
+                        # print('%s 开始校验 %s' % (running_time, tap_result_check_name))
+                        logging.info('%s 开始校验 %s' % (running_time, tap_result_check_name))
                         # 执行校验
                         tap_result = self.isExistV2(tap_result_check_name)
                         # 判断校验结果，通过后结束校验
                         if tap_result[0]:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                            print('%s 校验通过' % running_time)
+                            # print('%s 校验通过' % running_time)
+                            logging.info('%s 校验通过' % running_time)
                             is_not_Exist_result = False
                             break
                         # 不通过重新点击target
                         else:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                            print('%s 点击后结果校验不通过，重新点击！' % running_time)
+                            # print('%s 点击后结果校验不通过，重新点击！' % running_time)
+                            logging.error('%s 点击后结果校验不通过，重新点击！' % running_time)
                             # 为了校验执行后重新点击target，需启动截图
                             need_screenShot_tap_info = tap_info.copy()
                             need_screenShot_tap_info.update({'need_screenShot': True})
@@ -452,7 +463,8 @@ class Ldaction(object):
                             # 判断重新点击target后的结果
                             if find_result[0]:
                                 # 点击target成功后将会重新执行校验
-                                print('重新点击 %s 成功' % target_name)
+                                # print('重新点击 %s 成功' % target_name)
+                                logging.info('重新点击 %s 成功' % target_name)
                                 if after_tap_wait_time != 0:
                                     running_time = time.time() - start_time
                                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
@@ -467,7 +479,9 @@ class Ldaction(object):
                                     pass
                             # 点击target失败也将重新执行校验
                             else:
-                                print('当前界面未能找到 %s ，需重新校验 %s' % (target_name, tap_result_check_name))
+                                # print('当前界面未能找到 %s ，需重新校验 %s' % (target_name, tap_result_check_name))
+                                logging.error(
+                                    '当前界面未能找到 %s ，需重新校验 %s' % (target_name, tap_result_check_name))
                     if is_not_Exist_result is False:
                         break
                     else:
@@ -478,12 +492,14 @@ class Ldaction(object):
             else:
                 print(error_content)
                 # 暂停后手动操作
-                win32api.MessageBox(0, "自动执行异常请检查！", "提醒", win32con.MB_OK)
-                result_action = input('是否已调整好?enter后再次重试/输入0跳过此步骤: ')
-                if result_action == '0':
+                result_action = win32api.MessageBox(0, "自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:", "提醒",
+                                                    win32con.MB_TOPMOST | win32con.MB_YESNO)
+                if result_action == win32con.IDNO:
+                    logging.info('选择了跳过 %s 步骤' % target_name)
                     break
-                else:
+                elif result_action == win32con.IDYES:
                     tap_info.update({'need_screenShot': True})
+                    logging.info('重置截图触发为启动截图')
         running_time = time.time() - start_time
         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
         print('%s +++++ END +++++ [%s]\n' % (running_time, end_content))
@@ -554,21 +570,26 @@ def screenShot_dict(data_dict: dict):
         if isExist_target_key == 'else':
             running_time = time.time() - start_time
             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-            print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
+            # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
+            logging.error("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
             if isExist_target_value == 'exit':
+                logging.debug('执行exit方法')
                 return True
                 # sys.exit()
             elif isExist_target_value == 'break':
+                logging.debug('执行break方法')
                 break
             else:
                 running_time = time.time() - start_time
                 running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                print("%s 执行else方法" % running_time)
+                # print("%s 执行else方法" % running_time)
+                logging.debug("执行else方法")
                 tap_list(isExist_target_value)
         elif Ld.isExistV2(isExist_target_key)[0]:
             running_time = time.time() - start_time
             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-            print("%s 包含: %s" % (running_time, isExist_target_key))
+            # print("%s 包含: %s" % (running_time, isExist_target_key))
+            logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
             # print(isExist_target_key, isExist_target_value)
             isExist_target_key_result = True
             run_yaml = isExist_target_value
@@ -724,15 +745,15 @@ class Job(threading.Thread):
     #         time.sleep(1)
 
     def pause(self):
-        print("thread is pause")
+        logging.debug("thread is pause")
         self.__flag.clear()  # 设置为False, 让线程阻塞
 
     def resume(self):
-        print("thread is resume")
+        logging.debug("thread is resume")
         self.__flag.set()  # 设置为True, 让线程停止阻塞
 
     def stop(self):
-        print("thread is stop")
+        logging.debug("thread is stop")
         self.__flag.set()  # 将线程从暂停状态恢复, 如何已经暂停的话
         self.__running.clear()  # 设置为False
 
@@ -741,9 +762,11 @@ def run_config():
     global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
-    print(Dc.workspace_path)
+    # print(Dc.workspace_path)
+    logging.debug(Dc.workspace_path)
     target_yaml_data = Dc.YAML('target.yaml')
     # 载入关卡配置
+    logging.info('开始加载关卡配置')
     battle_name = '13_4.yaml'
     battle_yaml_data = Dc.YAML(battle_name)
     get_into_mission = battle_yaml_data['get_into_mission']
@@ -771,8 +794,10 @@ def battle():
                 ran_time = end_time - start_time
                 ran_time_m, ran_time_s = divmod(ran_time, 60)
                 ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-                print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
                     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
             else:
                 break
         result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
@@ -782,21 +807,22 @@ def battle():
         # else:
         #     pass
         if result_action == win32con.IDYES:
-            print('继续不要停。。。。')
+            logging.info('继续执行跑步机')
             pass
         else:
+            logging.info('结束跑步机')
             break
         # os.system('pause')  # 按任意键继续
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d]%(levelname)s %(message)s')
     global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
     global running_script, start_time
     # base_run = threading.Thread(target=run_config)
     # battle_run = threading.Thread(target=battle)
     # 基础数据和环境初始化
     run_config()
-
     # 启动战斗运行
     battle_run = Job(target=battle)
     battle_run.start()
