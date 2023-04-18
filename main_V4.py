@@ -3,7 +3,7 @@
 """
 【少前13-4自动刷图】
 """
-import logging
+import logging.config
 # 打包命令pyinstaller main_V4.spec
 import os
 import sys
@@ -571,7 +571,8 @@ def screenShot_dict(data_dict: dict):
             running_time = time.time() - start_time
             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
             # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
-            logging.error("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
+            dict_keys = list(data_dict.keys())
+            logging.warning("%s 截图查询 %s 元素不存在！" % (running_time, dict_keys))
             if isExist_target_value == 'exit':
                 logging.debug('执行exit方法')
                 return True
@@ -816,7 +817,10 @@ def battle():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(filename)s[line:%(lineno)d]%(levelname)s %(message)s')
+    CON_LOG = 'logger.conf'  # 配置文件路径
+    logging.config.fileConfig(CON_LOG)  # '读取日志配置文件'
+    logger = logging.getLogger('exampleLogger')  # 创建一个日志器logger
+    workspace = os.getcwd()
     global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
     global running_script, start_time
     # base_run = threading.Thread(target=run_config)
