@@ -318,7 +318,7 @@ echelon2_bak:
   target_img_name_list:
     - 'echelon2_bak.png'
     - 'echelon2_bak2.png'
-  rgb: True
+  rgb: False
   threshold: 0.95
   moveX: 124
   moveY: -41
