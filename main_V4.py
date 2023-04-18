@@ -558,6 +558,7 @@ def tap_dict(data_dict: dict):
 
 def screenShot_dict(data_dict: dict):
     """
+
     :param data_dict:
     """
     isExist_target_key_result = False
