@@ -253,6 +253,20 @@ class Dnconsole:
         cmd = '-s %d input tap %d %d' % (index, x, y)
         return self.ldCMD(cmd)
 
+    def inputSwipe(self, index: int, x0: int, y0: int, x1: int, y1, ms: int = 200):
+        """
+        【滑动操作】
+        :param index:
+        :param x0:
+        :param y0:
+        :param x1:
+        :param y1:
+        :param ms:
+        :return:
+        """
+        cmd = '-s %d input swipe %d %d %d %d %d' % (index, x0, y0, x1, y1, ms)
+        return self.ldCMD(cmd)
+
 
 class Ldaction(object):
     """
@@ -346,8 +360,12 @@ class Ldaction(object):
                         # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                         logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                 else:
-                    x = find_result['result'][0] - moveX
-                    y = find_result['result'][1] - moveY
+                    # 按钮坐标
+                    x = find_result['result'][0]
+                    y = find_result['result'][1]
+                    # 点击坐标
+                    tap_x = x - moveX
+                    tap_y = y - moveY
                     for t in range(tap_times):
                         tap = t + 1
                         print('%s 找到按钮: %s [%d , %d]  ' % (running_time, target_img_name, x, y), end="")
@@ -359,10 +377,11 @@ class Ldaction(object):
                                 print("", end="\n")
                         if tap_interval == 0:
                             print("", end="\n")
-                        self.ld.inputTap(Ld.index, x, y)
+                        self.ld.inputTap(Ld.index, tap_x, tap_y)
                         running_time = time.time() - start_time
                         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s 已点击 %s %d次' % (running_time, target_img_name, tap), end="")
+                        print('%s 已点击按钮 %s [%d , %d] %d次' % (running_time, target_img_name, tap_x, tap_y, tap),
+                              end="")
                         if tap_times >= 1:
                             print("", end="\n")
                     break
@@ -685,6 +704,14 @@ def tap_list(data_target_list: list, data_info: dict = None):
                         print(".", end="")
                         if s == sleep_time - 1:
                             print("", end="\n")
+            elif target == 'swipe':
+                swipe_info = data_target[target]
+                x0 = swipe_info[0]
+                y0 = swipe_info[1]
+                x1 = swipe_info[2]
+                y1 = swipe_info[3]
+                ms = swipe_info[4]
+                Dc.inputSwipe(Ld.index, x0, y0, x1, y1, ms)
             else:
                 if data_target[target] == 'list':
                     Ld.List_selectV2(target)
@@ -787,6 +814,9 @@ def battle():
             continue
         ran_time: float = 0
         for is_runtimes in range(runtimes):
+            if runtimes == 1:
+                pass
+
             is_runtimes_num = is_runtimes + 1
             running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
             if ran_time <= runtime_min:

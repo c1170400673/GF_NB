@@ -1,5 +1,9 @@
 default_tap_info:
+  rgb: False
+  threshold: 0.9
   need_screenShot: True
+  moveX: 0
+  moveY: 0
   tap_times: 1
   tap_interval: 0
   before_tap_wait_time: 0
@@ -89,9 +93,9 @@ get_13_4:
             fun_return: True
       else:
         - sleep: 4
-        - zhb:
-            search_again_times: 2
-            search_again_sleep_time: 3
+  - zhb:
+      search_again_times: 2
+      search_again_sleep_time: 3
   - screenShot:
       is_echelon1:
         - echelon_editing:
@@ -102,6 +106,8 @@ get_13_4:
         - echelon_editing:
   - victor:
       tap_result_check_name: show_all
+  - sort_order:
+  - number_sorting:
   - show_all:
   - legendary_v:
   - smg:
@@ -169,7 +175,7 @@ get_13_4:
                   after_tap_wait_time: 2
                   end_content: 投放第二梯队
   - start_fighting:
-      after_tap_wait_time: 2.5
+      after_tap_wait_time: 3
       tap_result_check_name: end_fighting
   - echelon2_bak:
   - supply:
@@ -204,6 +210,7 @@ round_new_unit:
             need_screenShot: False
             after_tap_wait_time: 3.5
       else: break
+
 
 
 

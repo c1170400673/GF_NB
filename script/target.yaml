@@ -235,6 +235,7 @@ return:
 
 zhb:
   target_img_name_list:
+    - 'zhb1.png'
     - 'zhb.png'
     - 'zhb_bak.png'
   rgb: False
@@ -244,6 +245,10 @@ zhb:
   after_tap_wait_time: 1.5
   beginning_content: 准备投放第一战队
   end_content: 投放第一战队
+
+heavy_airport:
+  target_img_name_list:
+    - 'heavy_airport.png'
 
 supply:
   target_img_name_list:
@@ -343,6 +348,24 @@ victor:
   search_again_sleep_time: 0.5
   end_content: 选择维克托人形
 
+sort_order:
+  target_img_name_list:
+    - 'sort_order.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
+number_sorting:
+  target_img_name_list:
+    - 'number_sorting.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
 legendary_v:
   target_img_name_list:
     - 'legendary_v.png'
@@ -402,6 +425,7 @@ echelon_confirm:
 
 13_4_fjc:
   target_img_name_list:
+    - 'heavy_airport.png'
     - '13_4_fjc.png'
     - '13_4_fjc_bak.png'
   rgb: True
@@ -477,6 +501,7 @@ planning_mode:
 '19':
   target_img_name_list:
     - '19.png'
+    - '19_1.png'
   rgb: False
   threshold: 0.7
   moveX: 51
@@ -499,8 +524,14 @@ result_settlement:
     - 'result_settlement.png'
   rgb: False
   threshold: 0.9
-  moveX: 0
-  moveY: 0
+  moveX: -1250
+  moveY: -512
+
+fight_again:
+  target_img_name_list:
+    - 'fight_again.png'
+  rgb: False
+  threshold: 0.9
 
 new_unit:
   target_img_name_list:
