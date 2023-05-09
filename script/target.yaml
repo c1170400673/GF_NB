@@ -281,6 +281,16 @@ is_echelon1:
   moveY: 0
   after_tap_wait_time: 1.5
 
+is_echelon1_1:
+  target_img_name_list:
+    - 'isechelon1_1.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 1.5
+
 is_echelon2:
   target_img_name_list:
     - 'isechelon2.png'
@@ -500,8 +510,8 @@ planning_mode:
 
 '19':
   target_img_name_list:
-    - '19.png'
     - '19_1.png'
+    - '19.png'
   rgb: False
   threshold: 0.7
   moveX: 51
@@ -518,6 +528,7 @@ execution_plan:
   moveY: 0
   tap_interval: 1
   beginning_content: 开始执行计划战斗
+
 
 result_settlement:
   target_img_name_list:

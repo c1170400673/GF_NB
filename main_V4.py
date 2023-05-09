@@ -440,11 +440,23 @@ class Ldaction(object):
                     running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                     print('%s ' % running_time, end='')
                     do_after_tap_wait_time = int(after_tap_wait_time * 2)
-                    for s in range(do_after_tap_wait_time):
-                        time.sleep(0.5)
-                        print(".", end="")
-                        if s == do_after_tap_wait_time - 1:
-                            print("", end="\n")
+                    if do_after_tap_wait_time > 10:
+                        for s in range(do_after_tap_wait_time):
+                            time.sleep(0.5)
+                            s_10, d = divmod(s, 10)
+                            d_10, dd = divmod(do_after_tap_wait_time, 10)
+                            if d == 0:
+                                print("o", end="")
+                            elif s > do_after_tap_wait_time - dd:
+                                print(".", end="")
+                            if s == do_after_tap_wait_time - 1:
+                                print("", end="\n")
+                    else:
+                        for s in range(do_after_tap_wait_time):
+                            time.sleep(0.5)
+                            print(".", end="")
+                            if s == do_after_tap_wait_time - 1:
+                                print("", end="\n")
                 else:
                     pass
                 # 判断是否有校验对象
@@ -787,7 +799,8 @@ class Job(threading.Thread):
 
 
 def run_config():
-    global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
+    global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+        end_combat_1, end_combat_2
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
     # print(Dc.workspace_path)
@@ -798,7 +811,11 @@ def run_config():
     battle_name = '13_4.yaml'
     battle_yaml_data = Dc.YAML(battle_name)
     get_into_mission = battle_yaml_data['get_into_mission']
-    get_13_4 = battle_yaml_data['get_13_4']
+    select_13_4 = battle_yaml_data['select_13_4']
+    battle_13_4_1 = battle_yaml_data['battle_13_4_1']
+    battle_13_4_2 = battle_yaml_data['battle_13_4_2']
+    end_combat_1 = battle_yaml_data['end_combat_1']
+    end_combat_2 = battle_yaml_data['end_combat_2']
 
 
 def battle():
@@ -813,24 +830,35 @@ def battle():
         if drive_yaml(get_into_mission):
             continue
         ran_time: float = 0
-        for is_runtimes in range(runtimes):
-            if runtimes == 1:
-                pass
-
-            is_runtimes_num = is_runtimes + 1
-            running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
-            if ran_time <= runtime_min:
-                drive_yaml(get_13_4)
-                end_time = time.time()
-                ran_time = end_time - start_time
-                ran_time_m, ran_time_s = divmod(ran_time, 60)
-                ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-                logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                    runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
-                # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
-            else:
-                break
+        if runtimes == 1:
+            drive_yaml(select_13_4)
+            drive_yaml(battle_13_4_1)
+            drive_yaml(end_combat_1)
+        else:
+            drive_yaml(select_13_4)
+            for is_runtimes in range(runtimes):
+                is_runtimes_num = is_runtimes + 1
+                running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
+                drive_yaml(battle_13_4_1)
+                if ran_time < runtime_min:
+                    drive_yaml(end_combat_2)
+                    end_time = time.time()
+                    ran_time = end_time - start_time
+                    ran_time_m, ran_time_s = divmod(ran_time, 60)
+                    ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                    logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                        runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                    # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                    #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                else:
+                    drive_yaml(end_combat_1)
+                    end_time = time.time()
+                    ran_time = end_time - start_time
+                    ran_time_m, ran_time_s = divmod(ran_time, 60)
+                    ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                    logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                        runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                    break
         result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
         # action = input('是否继续跑步机?enter后继续/输入exit退出: ')
         # if action == 'exit':
@@ -851,8 +879,8 @@ if __name__ == '__main__':
     logging.config.fileConfig(CON_LOG)  # '读取日志配置文件'
     logger = logging.getLogger('exampleLogger')  # 创建一个日志器logger
     workspace = os.getcwd()
-    global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, get_13_4
-    global running_script, start_time
+    global Dc, Ld, target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+        end_combat_1, end_combat_2, running_script, start_time
     # base_run = threading.Thread(target=run_config)
     # battle_run = threading.Thread(target=battle)
     # 基础数据和环境初始化
