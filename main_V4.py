@@ -411,12 +411,13 @@ class Ldaction(object):
             do_before_tap_wait_time = int(before_tap_wait_time * 2)
             if do_before_tap_wait_time > 10:
                 for s in range(do_before_tap_wait_time):
+                    half_second = s + 1
                     time.sleep(0.5)
-                    s_10, d = divmod(s, 10)
+                    s_10, d = divmod(half_second, 10)
                     d_10, dd = divmod(do_before_tap_wait_time, 10)
                     if d == 0:
                         print("o", end="")
-                    elif s > do_before_tap_wait_time - dd:
+                    elif half_second > do_before_tap_wait_time - dd:
                         print(".", end="")
                     if s == do_before_tap_wait_time - 1:
                         print("", end="\n")
@@ -442,12 +443,13 @@ class Ldaction(object):
                     do_after_tap_wait_time = int(after_tap_wait_time * 2)
                     if do_after_tap_wait_time > 10:
                         for s in range(do_after_tap_wait_time):
+                            half_second = s + 1
                             time.sleep(0.5)
-                            s_10, d = divmod(s, 10)
+                            s_10, d = divmod(half_second, 10)
                             d_10, dd = divmod(do_after_tap_wait_time, 10)
-                            if d == 0:
+                            if d == 0 and s_10 > 0:
                                 print("o", end="")
-                            elif s > do_after_tap_wait_time - dd:
+                            elif half_second > do_after_tap_wait_time - dd:
                                 print(".", end="")
                             if s == do_after_tap_wait_time - 1:
                                 print("", end="\n")
@@ -693,13 +695,22 @@ def tap_list(data_target_list: list, data_info: dict = None):
                 get_def_info = data_target[target]
                 def_info = def_info_dict(get_def_info)
                 get_def_yaml = battle_yaml_data[target]
-                if drive_yaml(get_def_yaml, def_info):
+                drive_yaml_result = drive_yaml(get_def_yaml, def_info)
+                if drive_yaml_result:
                     return True
+                elif drive_yaml_result is False:
+                    return False
             elif 'round_' in target:
                 round_times = data_target[target]
                 round_def_yaml = battle_yaml_data[target]
                 for i in range(round_times):
-                    drive_yaml(round_def_yaml)
+                    round_result = drive_yaml(round_def_yaml)
+                    if round_result:
+                        return True
+                    elif round_result is False:
+                        return False
+                    else:
+                        pass
             elif target == 'adv_retire':
                 if data_info['adv_retire']:
                     tap_list(data_target[target])
@@ -747,8 +758,11 @@ def drive_yaml(data, data_info: dict = {}, fun_return: bool = False):
         if tap_list(data, data_info):
             return True
         if 'fun_return' in data_info.keys():
-            if data_info['fun_return']:
+            data_info_result = data_info['fun_return']
+            if data_info_result:
                 return True
+            else:
+                return False
     else:
         pass
 
@@ -811,7 +825,7 @@ def run_config():
     battle_name = '13_4.yaml'
     battle_yaml_data = Dc.YAML(battle_name)
     get_into_mission = battle_yaml_data['get_into_mission']
-    select_13_4 = battle_yaml_data['select_13_4']
+    select_13_4 = battle_yaml_data['get_select_13_4']
     battle_13_4_1 = battle_yaml_data['battle_13_4_1']
     battle_13_4_2 = battle_yaml_data['battle_13_4_2']
     end_combat_1 = battle_yaml_data['end_combat_1']
@@ -822,9 +836,18 @@ def battle():
     global running_script, start_time
     user_action = True
     while user_action:
-        runtimes = int(input("跑几圈:"))
-        runtime = float(input("跑多久(分钟）:"))
-        runtime_min = runtime * 60
+        try:
+            runtimes = int(input("跑几圈:"))
+        except ValueError:
+            print("请正确输入圈数")
+            runtimes = 1
+        try:
+            runtime = float(input("跑多久(分钟）:"))
+        except ValueError:
+            print("请正确输入执行时间")
+            runtime = 1
+        finally:
+            runtime_min = runtime * 60
         running_script = '共 %d 次，开始执行' % runtimes
         start_time = time.time()
         if drive_yaml(get_into_mission):
@@ -834,14 +857,27 @@ def battle():
             drive_yaml(select_13_4)
             drive_yaml(battle_13_4_1)
             drive_yaml(end_combat_1)
-        else:
+        elif runtimes > 1:
+            # 执行次数大于1，默认执行再次战斗流程
+            fight_again: bool = True
             drive_yaml(select_13_4)
             for is_runtimes in range(runtimes):
                 is_runtimes_num = is_runtimes + 1
                 running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
-                drive_yaml(battle_13_4_1)
-                if ran_time < runtime_min:
-                    drive_yaml(end_combat_2)
+                if is_runtimes_num > 1 and fight_again is True:
+                    drive_yaml(battle_13_4_2)
+                elif is_runtimes_num == 1 and fight_again is True:
+                    drive_yaml(battle_13_4_1)
+                elif is_runtimes_num > 1 and fight_again is False:
+                    drive_yaml(battle_13_4_1)
+                end_time = time.time()
+                ran_time = end_time - start_time
+                if ran_time < runtime_min and is_runtimes_num < runtimes:
+                    fight_again = True
+                    end_result = drive_yaml(end_combat_2)
+                    # 【结束流程】校验执行了特殊方法后判断，是否是使用再次战斗执行的战斗流程
+                    if end_result:
+                        fight_again = False
                     end_time = time.time()
                     ran_time = end_time - start_time
                     ran_time_m, ran_time_s = divmod(ran_time, 60)
@@ -850,6 +886,14 @@ def battle():
                         runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
                     # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
                     #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                elif ran_time < runtime_min and is_runtimes_num == runtimes:
+                    drive_yaml(end_combat_1)
+                    end_time = time.time()
+                    ran_time = end_time - start_time
+                    ran_time_m, ran_time_s = divmod(ran_time, 60)
+                    ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                    logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                        runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
                 else:
                     drive_yaml(end_combat_1)
                     end_time = time.time()

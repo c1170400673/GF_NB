@@ -331,7 +331,7 @@ echelon1_bak:
 
 echelon2_bak:
   target_img_name_list:
-    - 'echelon2_bak.png'
+    - 'echelon2_bak1.png'
     - 'echelon2_bak2.png'
   rgb: False
   threshold: 0.95
@@ -514,7 +514,7 @@ planning_mode:
     - '19.png'
   rgb: False
   threshold: 0.7
-  moveX: 51
+  moveX: 101
   moveY: -9
   after_tap_wait_time: 0.5
   search_again_times: 2

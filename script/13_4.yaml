@@ -45,7 +45,7 @@ get_into_mission:
 
 get_T_Dolls_retire:
   - standing_by_T_Dolls:
-      search_again_times: 2
+      search_again_times: 4
   - intelligent_selection:
       end_content: 点击智能选择
   - select_confirm:
@@ -63,7 +63,7 @@ get_T_Dolls_retire:
       - retire_confirm:
   - return:
 
-select_13_4:
+get_select_13_4:
   - sleep: 0
   - screenShot:
       isep13:
@@ -89,6 +89,9 @@ select_13_4:
             fun: True
             adv_retire: True
         - get_into_mission:
+            fun: True
+        #            fun_return: True
+        - get_select_13_4:
             fun: True
             fun_return: True
       else:
@@ -219,8 +222,8 @@ battle_13_4_2:
       after_tap_wait_time: 4.5
       search_again_times: 2
   - start_fighting:
-      moveX: 213
-      moveY: 0
+      moveX: 0
+      moveY: 300
   - start_fighting:
       after_tap_wait_time: 3
       tap_result_check_name: end_fighting
@@ -282,6 +285,19 @@ round_new_unit_2:
         - fight_again:
             need_screenShot: False
             after_tap_wait_time: 3.5
+      unit_recycle:
+        - unit_recycle:
+            need_screenShot: False
+        - get_T_Dolls_retire:
+            fun: True
+            adv_retire: True
+        - sleep: 1
+        - get_into_mission:
+            fun: True
+        #            fun_return: True
+        - get_select_13_4:
+            fun: True
+            fun_return: True
       else: break
 
 
