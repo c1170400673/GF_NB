@@ -370,11 +370,24 @@ class Ldaction(object):
                         tap = t + 1
                         print('%s 找到按钮: %s [%d , %d]  ' % (running_time, target_img_name, x, y), end="")
                         tap_interval_time = int(tap_interval * 2)
-                        for s in range(tap_interval_time):
-                            time.sleep(0.5)
-                            print(".", end="")
-                            if s == tap_interval_time - 1:
-                                print("", end="\n")
+                        if tap_interval_time > 10:
+                            for s in range(tap_interval_time):
+                                half_second = s + 1
+                                time.sleep(0.5)
+                                s_10, d = divmod(half_second, 10)
+                                d_10, dd = divmod(tap_interval_time, 10)
+                                if d == 0:
+                                    print("o", end="")
+                                elif half_second > tap_interval_time - dd:
+                                    print(".", end="")
+                                if s == tap_interval_time - 1:
+                                    print("", end="\n")
+                        else:
+                            for s in range(tap_interval_time):
+                                time.sleep(0.5)
+                                print(".", end="")
+                                if s == tap_interval_time - 1:
+                                    print("", end="\n")
                         if tap_interval == 0:
                             print("", end="\n")
                         self.ld.inputTap(Ld.index, tap_x, tap_y)
