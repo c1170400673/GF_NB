@@ -255,7 +255,7 @@ end_combat_2:
       tap_interval: 1.5
       after_tap_wait_time: 6
       beginning_content: 等待战斗完毕结算
-  - round_new_unit_2: 3
+  - round_new_unit_2: 4
 
 round_new_unit_1:
   - screenShot:
@@ -291,10 +291,16 @@ round_new_unit_2:
         - get_T_Dolls_retire:
             fun: True
             adv_retire: True
-        - sleep: 1
-        - get_into_mission:
-            fun: True
-        #            fun_return: True
+        - sleep: 2
+        - screenShot:
+            go_to_logistics:
+              - all_go_to_logistics:
+                  after_tap_wait_time: 1.5
+              - get_into_mission:
+                  fun: True
+            else:
+              - get_into_mission:
+                  fun: True
         - get_select_13_4:
             fun: True
             fun_return: True

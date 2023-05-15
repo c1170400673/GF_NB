@@ -551,3 +551,15 @@ new_unit:
   threshold: 0.9
   moveX: -423
   moveY: -521
+
+go_to_logistics:
+  target_img_name_list:
+    - 'go_to_logistics.png'
+  rgb: False
+  threshold: 0.9
+
+all_go_to_logistics:
+  target_img_name_list:
+    - 'all_go_to_logistics.png'
+  rgb: False
+  threshold: 0.9
