@@ -277,7 +277,7 @@ round_new_unit_2:
       new_unit:
         - new_unit:
             need_screenShot: False
-            after_tap_wait_time: 6
+            after_tap_wait_time: 5
             beginning_content: 检查是否有新单位获得
             end_content: 结算获得1个新单位
             error_content: 结算未获得新单位
