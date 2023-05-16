@@ -291,14 +291,14 @@ round_new_unit_2:
         - get_T_Dolls_retire:
             fun: True
             adv_retire: True
-        - sleep: 2
         - screenShot:
-            go_to_logistics:
-              - all_go_to_logistics:
-                  after_tap_wait_time: 1.5
+            main:
               - get_into_mission:
                   fun: True
             else:
+              - all_go_to_logistics:
+                  before_tap_wait_time: 2
+                  after_tap_wait_time: 1.5
               - get_into_mission:
                   fun: True
         - get_select_13_4:
