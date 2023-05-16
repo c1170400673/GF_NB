@@ -476,7 +476,7 @@ class Ldaction(object):
                     pass
                 # 判断是否有校验对象
                 if tap_result_check_name is not None:
-
+                    # 赋值未校验标记
                     is_not_Exist_result = True
                     # 当有校验对象后执行循环校验
                     while is_not_Exist_result:
@@ -497,7 +497,7 @@ class Ldaction(object):
                             is_not_Exist_result = False
                             break
                         # 不通过重新点击target
-                        else:
+                        elif tap_result[0] is False:
                             running_time = time.time() - start_time
                             running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                             # print('%s 点击后结果校验不通过，重新点击！' % running_time)

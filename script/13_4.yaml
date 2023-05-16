@@ -12,6 +12,7 @@ default_tap_info:
   search_again_sleep_time: 0.5
   beginning_content: ''
   end_content: ''
+  # 点击结果要检查的按钮名称
   tap_result_check_name:
   error_content: '请检查界面！'
 
