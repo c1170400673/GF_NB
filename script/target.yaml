@@ -18,6 +18,221 @@
 #  end_content: None
 #  error_content: '请检查界面！'
 
+# 主要菜单类
+main:
+  target_img_name_list:
+    - 'main.png'
+  rgb: False
+  threshold: 0.8
+  moveX: 0
+  moveY: 0
+
+main_battle:
+  target_img_name_list:
+    - 'main_battle.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 1.5
+  search_again_times: 2
+
+research:
+  target_img_name_list:
+    - 'research.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+factory:
+  target_img_name_list:
+    - 'factory.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+# 战斗菜单类
+combat_mission:
+  target_img_name_list:
+    - 'combat_mission.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  beginning_content: 当前在战斗界面
+  end_content: 开始选择作战任务'
+
+is_combat_mission:
+  target_img_name_list:
+    - 'is_combat_mission.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+  search_again_times: 2
+
+
+
+# 作战关卡菜单类
+common_battle:
+  target_img_name_list:
+    - 'common_battle.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+  tap_interval: 1
+  after_tap_wait_time: 1
+  search_again_times: 2
+  end_content: 进入关卡战斗
+  error_content: 请检查界面！
+
+is_ep13:
+  target_img_name_list:
+    - 'is_ep13.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+ep13:
+  target_img_name_list:
+    - 'is_ep13.png'
+    - 'ep13.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+"13_4":
+  target_img_name_list:
+    - '13_4.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  search_again_times: 2
+
+
+# 13_4关卡内target
+zhb:
+  target_img_name_list:
+    - 'zhb.png'
+    - 'zhb1.png'
+  rgb: False
+  threshold: 0.5
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 1.5
+  beginning_content: 准备投放第一战队
+  end_content: 投放第一战队
+
+heavy_airport:
+  target_img_name_list:
+    - 'heavy_airport.png'
+    - heavy_airport1.png
+    - heavy_airport2.png
+  rgb: True
+  threshold: 0.5
+  moveX: 0
+  moveY: 0
+  end_content: 准备投放第二梯队
+
+'17':
+  target_img_name_list:
+    - '17.png'
+  rgb: False
+  threshold: 0.7
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 0.5
+  search_again_times: 2
+
+'18':
+  target_img_name_list:
+    - '18.png'
+  rgb: False
+  threshold: 0.6
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 0.5
+  search_again_times: 2
+
+'19':
+  target_img_name_list:
+    - '19.png'
+  rgb: False
+  threshold: 0.7
+  moveX: 65
+  moveY: -9
+  after_tap_wait_time: 0.5
+  search_again_times: 2
+
+# 通用选择类target
+echelon1:
+  target_img_name_list:
+    - 'echelon1.png'
+    - 'is_echelon1.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 1.5
+
+is_echelon1:
+  target_img_name_list:
+    - 'is_echelon1.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 1.5
+
+is_echelon1_1:
+  target_img_name_list:
+    - 'is_echelon1_1.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 1.5
+
+is_echelon2:
+  target_img_name_list:
+    - 'is_echelon2.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
+echelon1_bak:
+  target_img_name_list:
+    - 'echelon1_bak.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 118
+  moveY: -39
+
+echelon2_bak:
+  target_img_name_list:
+    - 'echelon2_bak1.png'
+    - 'echelon2_bak2.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 124
+  moveY: -41
+  tap_times: 2
+  tap_interval: 0.5
+  before_tap_wait_time: 1
+  after_tap_wait_time: 1
+  search_again_times: 2
+
 standing_by_T_Dolls:
   target_img_name_list:
     - 'standing_by_T_Dolls.png'
@@ -122,73 +337,6 @@ retire_confirm:
   search_again_sleep_time: 0.5
   error_content: 请检查界面！
 
-isep13:
-  target_img_name_list:
-    - 'isep13.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-
-ep13:
-  target_img_name_list:
-    - 'isep13.png'
-    - 'ep13.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-
-"13_4":
-  target_img_name_list:
-    - '13_4_bak.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-  search_again_times: 2
-
-main:
-  target_img_name_list:
-    - 'main.png'
-  rgb: False
-  threshold: 0.8
-  moveX: 0
-  moveY: 0
-
-main_battle:
-  target_img_name_list:
-    - 'main_battle.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 1.5
-  search_again_times: 2
-
-iscombat_mission:
-  target_img_name_list:
-    - 'iscombat_mission.png'
-  rgb: True
-  threshold: 0.95
-  moveX: 0
-  moveY: 0
-  search_again_times: 2
-
-common_battle:
-  target_img_name_list:
-    - 'common_battle.png'
-    - 'common_battle_bak.png'
-  rgb: True
-  threshold: 0.95
-  moveX: 0
-  moveY: 0
-  tap_interval: 1
-  after_tap_wait_time: 1
-  search_again_times: 2
-  end_content: 进入关卡战斗
-  error_content: 请检查界面！
-
 unit_recycle:
   target_img_name_list:
     - 'unit_recycle.png'
@@ -198,15 +346,7 @@ unit_recycle:
   moveY: 0
   beginning_content: 准备回收单位
 
-combat_mission:
-  target_img_name_list:
-    - 'combat_mission.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-  beginning_content: 当前在战斗界面
-  end_content: 开始选择作战任务'
+
 
 battle:
   target_img_name_list:
@@ -216,13 +356,7 @@ battle:
   moveX: 0
   moveY: 0
 
-research:
-  target_img_name_list:
-    - 'research.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
+
 
 return:
   target_img_name_list:
@@ -232,23 +366,6 @@ return:
   moveX: 20
   moveY: 0
   end_content: 返回界面
-
-zhb:
-  target_img_name_list:
-    - 'zhb1.png'
-    - 'zhb.png'
-    - 'zhb_bak.png'
-  rgb: False
-  threshold: 0.6
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 1.5
-  beginning_content: 准备投放第一战队
-  end_content: 投放第一战队
-
-heavy_airport:
-  target_img_name_list:
-    - 'heavy_airport.png'
 
 supply:
   target_img_name_list:
@@ -260,45 +377,7 @@ supply:
   after_tap_wait_time: 1.5
   end_content: 补给
 
-echelon1:
-  target_img_name_list:
-    - 'echelon1.png'
-    - 'isechelon1.png'
-  rgb: False
-  threshold: 0.9
-  need_screenShot: True
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 1.5
 
-is_echelon1:
-  target_img_name_list:
-    - 'isechelon1.png'
-  rgb: False
-  threshold: 0.9
-  need_screenShot: True
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 1.5
-
-is_echelon1_1:
-  target_img_name_list:
-    - 'isechelon1_1.png'
-  rgb: False
-  threshold: 0.9
-  need_screenShot: True
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 1.5
-
-is_echelon2:
-  target_img_name_list:
-    - 'isechelon2.png'
-  rgb: False
-  threshold: 0.9
-  need_screenShot: True
-  moveX: 0
-  moveY: 0
 
 echelon_editing:
   target_img_name_list:
@@ -320,28 +399,7 @@ echelon2:
   moveX: 0
   moveY: 0
 
-echelon1_bak:
-  target_img_name_list:
-    - 'echelon1_bak.png'
-  rgb: False
-  threshold: 0.9
-  need_screenShot: True
-  moveX: 118
-  moveY: -39
 
-echelon2_bak:
-  target_img_name_list:
-    - 'echelon2_bak1.png'
-    - 'echelon2_bak2.png'
-  rgb: False
-  threshold: 0.95
-  moveX: 124
-  moveY: -41
-  tap_times: 2
-  tap_interval: 0.5
-  before_tap_wait_time: 1
-  after_tap_wait_time: 1
-  search_again_times: 2
 
 victor:
   target_img_name_list:
@@ -353,7 +411,7 @@ victor:
   tap_times: 1
   tap_interval: 2
   before_tap_wait_time: 2
-  after_tap_wait_time: 2.5
+  after_tap_wait_time: 2
   search_again_times: 2
   search_again_sleep_time: 0.5
   end_content: 选择维克托人形
@@ -414,9 +472,9 @@ desc:
   moveY: 0
   after_tap_wait_time: 0.5
 
-victor_bak:
+victor_echelon2:
   target_img_name_list:
-    - 'victor_bak.png'
+    - 'victor_echelon2.png'
   rgb: False
   threshold: 0.9
   moveX: 0
@@ -433,17 +491,6 @@ echelon_confirm:
   tap_interval: 0.5
   end_content: 投放第一梯队
 
-13_4_fjc:
-  target_img_name_list:
-    - 'heavy_airport.png'
-    - '13_4_fjc.png'
-    - '13_4_fjc_bak.png'
-  rgb: True
-  threshold: 0.6
-  moveX: 0
-  moveY: 0
-  end_content: 准备投放第二梯队
-
 select_echelon:
   target_img_name_list:
     - 'select_echelon.png'
@@ -452,9 +499,9 @@ select_echelon:
   moveX: 0
   moveY: 0
 
-isselect_echelon:
+is_select_echelon:
   target_img_name_list:
-    - 'isselect_echelon.png'
+    - 'is_select_echelon.png'
   rgb: True
   threshold: 0.98
   moveX: 0
@@ -479,7 +526,6 @@ end_fighting:
   moveX: 0
   moveY: 0
 
-
 planning_mode:
   target_img_name_list:
     - 'planning_mode.png'
@@ -487,37 +533,6 @@ planning_mode:
   threshold: 0.9
   moveX: 0
   moveY: 0
-
-'17':
-  target_img_name_list:
-    - '17.png'
-  rgb: False
-  threshold: 0.7
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 0.5
-  search_again_times: 2
-
-'18':
-  target_img_name_list:
-    - '18.png'
-  rgb: False
-  threshold: 0.6
-  moveX: 0
-  moveY: 0
-  after_tap_wait_time: 0.5
-  search_again_times: 2
-
-'19':
-  target_img_name_list:
-    - '19_1.png'
-    - '19.png'
-  rgb: False
-  threshold: 0.7
-  moveX: 101
-  moveY: -9
-  after_tap_wait_time: 0.5
-  search_again_times: 2
 
 execution_plan:
   target_img_name_list:
@@ -529,18 +544,17 @@ execution_plan:
   tap_interval: 1
   beginning_content: 开始执行计划战斗
 
-
 result_settlement:
   target_img_name_list:
     - 'result_settlement.png'
   rgb: False
   threshold: 0.9
-  moveX: -1250
-  moveY: -512
+  moveX: -850
+  moveY: -412
 
 fight_again:
   target_img_name_list:
-    - 'fight_again.png'
+    - fight_again1.png
   rgb: False
   threshold: 0.9
 
@@ -550,7 +564,7 @@ new_unit:
   rgb: False
   threshold: 0.9
   moveX: -423
-  moveY: -521
+  moveY: -321
 
 go_to_logistics:
   target_img_name_list:

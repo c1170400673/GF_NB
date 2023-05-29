@@ -63,7 +63,8 @@ class Dnconsole:
         # 获取当前工作目录路径
         self.workspace_path = os.getcwd()
         # 本地图片样本保存路径
-        self.target_path = self.workspace_path + r'\target\1080p_dpi280\\'
+        # self.target_path = self.workspace_path + r'\target\1080p_dpi280\\'
+        self.target_path = self.workspace_path + r'\target\720p_dpi240\\'
         # 读取作战参数信息保存路径
         self.action_path = self.workspace_path + r'\script\\'
         # 读取作战参数
@@ -748,6 +749,10 @@ def tap_list(data_target_list: list, data_info: dict = None):
                 y1 = swipe_info[3]
                 ms = swipe_info[4]
                 Dc.inputSwipe(Ld.index, x0, y0, x1, y1, ms)
+            elif target == 'loop':
+                pass
+            elif target == 'goto':
+                pass
             else:
                 if data_target[target] == 'list':
                     Ld.List_selectV2(target)

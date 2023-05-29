@@ -24,12 +24,12 @@ get_into_mission:
             beginning_content: 当前在主界面
             end_content: 进入战斗界面
         - screenShot:
-            iscombat_mission:
+            is_combat_mission:
             else:
               - combat_mission:
                   need_screenShot: False
       battle:
-        iscombat_mission:
+        is_combat_mission:
         else:
           - combat_mission:
               need_screenShot: False
@@ -38,7 +38,16 @@ get_into_mission:
             need_screenShot: False
         - main_battle:
         - screenShot:
-            iscombat_mission:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      factory:
+        - return:
+            need_screenShot: False
+        - main_battle:
+        - screenShot:
+            is_combat_mission:
             else:
               - combat_mission:
                   need_screenShot: False
@@ -63,16 +72,18 @@ get_T_Dolls_retire:
       - retire:
       - retire_confirm:
   - return:
+      after_tap_wait_time: 2
 
 get_select_13_4:
   - sleep: 0
   - screenShot:
-      isep13:
+      is_ep13:
         - '13_4':
             tap_result_check_name: common_battle
             beginning_content: 选择关卡
             end_content: 已选择关卡13-4
             tap_interval: 0.5
+            after_tap_wait_time: 0.5
       else:
         - ep13:
             need_screenShot: False
@@ -81,7 +92,10 @@ get_select_13_4:
         - '13_4':
             tap_result_check_name: common_battle
             tap_interval: 0.5
+            after_tap_wait_time: 0.5
   - common_battle:
+      tap_interval: 0.5
+      after_tap_wait_time: 0.5
   - screenShot:
       unit_recycle:
         - unit_recycle:
@@ -96,10 +110,11 @@ get_select_13_4:
             fun: True
             fun_return: True
       else:
-        - sleep: 4
+        - sleep: 3.5
 
 battle_13_4_1:
   - zhb:
+      tap_interval: 0.5
       search_again_times: 2
       search_again_sleep_time: 3
   - screenShot:
@@ -123,9 +138,8 @@ battle_13_4_1:
   - desc:
       need_screenShot: False
   - confirm:
-      tap_result_check_name: victor_bak
       need_screenShot: False
-  - victor_bak:
+  - victor_echelon2:
   - return:
       tap_result_check_name: start_fighting
       after_tap_wait_time: 4.5
@@ -143,11 +157,11 @@ battle_13_4_1:
             after_tap_wait_time: 1.5
         - echelon_confirm:
             tap_result_check_name: start_fighting
-  - 13_4_fjc:
+  - heavy_airport:
       search_again_times: 4
       after_tap_wait_time: 1.5
   - screenShot:
-      isselect_echelon:
+      is_select_echelon:
         is_echelon2:
           - echelon_confirm:
               need_screenShot: False
@@ -191,7 +205,9 @@ battle_13_4_1:
       end_content: 计划模式
   - '17':
   - '18':
+      need_screenShot: False
   - '19':
+      need_screenShot: False
   - execution_plan:
       after_tap_wait_time: 110
 
@@ -215,9 +231,8 @@ battle_13_4_2:
   - desc:
       need_screenShot: False
   - confirm:
-      tap_result_check_name: victor_bak
       need_screenShot: False
-  - victor_bak:
+  - victor_echelon2:
   - return:
       tap_result_check_name: start_fighting
       after_tap_wait_time: 4.5
@@ -236,23 +251,25 @@ battle_13_4_2:
       end_content: 计划模式
   - '17':
   - '18':
+      need_screenShot: False
   - '19':
+      need_screenShot: False
   - execution_plan:
       after_tap_wait_time: 110
 
 end_combat_1:
   - result_settlement:
       search_again_times: 20
-      search_again_sleep_time: 8
+      search_again_sleep_time: 5
       tap_interval: 1.5
       after_tap_wait_time: 6
       beginning_content: 等待战斗完毕结算
-  - round_new_unit_1: 3
+  - round_new_unit_1: 4
 
 end_combat_2:
   - fight_again:
       search_again_times: 20
-      search_again_sleep_time: 8
+      search_again_sleep_time: 5
       tap_interval: 1.5
       after_tap_wait_time: 6
       beginning_content: 等待战斗完毕结算
@@ -292,6 +309,7 @@ round_new_unit_2:
         - get_T_Dolls_retire:
             fun: True
             adv_retire: True
+        - sleep: 1
         - screenShot:
             main:
               - get_into_mission:
@@ -299,6 +317,8 @@ round_new_unit_2:
             else:
               - all_go_to_logistics:
                   before_tap_wait_time: 2
+                  after_tap_wait_time: 1
+              - retire_confirm:
                   after_tap_wait_time: 1.5
               - get_into_mission:
                   fun: True
