@@ -18,7 +18,9 @@
 #  end_content: None
 #  error_content: '请检查界面！'
 
-# 主要菜单类
+###################################
+########## 主要菜单类  ##############
+###################################
 main:
   target_img_name_list:
     - 'main.png'
@@ -52,7 +54,23 @@ factory:
   threshold: 0.9
   moveX: 0
   moveY: 0
-# 战斗菜单类
+
+battle:
+  target_img_name_list:
+    - 'battle.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+###################################
+
+
+
+###################################
+############ 战斗菜单类 #############
+###################################
+
 combat_mission:
   target_img_name_list:
     - 'combat_mission.png'
@@ -72,9 +90,13 @@ is_combat_mission:
   moveY: 0
   search_again_times: 2
 
+###################################
 
 
-# 作战关卡菜单类
+
+###################################
+######### 作战关卡菜单类 #############
+###################################
 common_battle:
   target_img_name_list:
     - 'common_battle.png'
@@ -114,13 +136,105 @@ ep13:
   moveY: 0
   search_again_times: 2
 
+start_fighting:
+  target_img_name_list:
+    - 'start_fighting.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_interval: 1.5
+  after_tap_wait_time: 2
+  end_content: 开始作战
 
-# 13_4关卡内target
+end_fighting:
+  target_img_name_list:
+    - 'end_fighting.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+planning_mode:
+  target_img_name_list:
+    - 'planning_mode.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+execution_plan:
+  target_img_name_list:
+    - 'execution_plan.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_interval: 1
+  beginning_content: 开始执行计划战斗
+
+result_settlement:
+  target_img_name_list:
+    - 'result_settlement.png'
+  rgb: False
+  threshold: 0.9
+  moveX: -850
+  moveY: -412
+
+fight_again:
+  target_img_name_list:
+    - fight_again.png
+    - fight_again1.png
+  rgb: False
+  threshold: 0.8
+
+echelon_confirm:
+  target_img_name_list:
+    - 'echelon_confirm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  tap_interval: 0.5
+  end_content: 投放第一梯队
+
+select_echelon:
+  target_img_name_list:
+    - 'select_echelon.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+is_select_echelon:
+  target_img_name_list:
+    - 'is_select_echelon.png'
+  rgb: True
+  threshold: 0.98
+  moveX: 0
+  moveY: 0
+
+new_unit:
+  target_img_name_list:
+    - 'new_unit.png'
+  rgb: False
+  threshold: 0.9
+  moveX: -423
+  moveY: -321
+
+###################################
+
+
+
+###################################
+######## 13_4关卡内target ##########
+###################################
+
 zhb:
   target_img_name_list:
     - 'zhb.png'
     - 'zhb1.png'
-  rgb: False
+  rgb: True
   threshold: 0.5
   moveX: 0
   moveY: 0
@@ -138,6 +252,30 @@ heavy_airport:
   moveX: 0
   moveY: 0
   end_content: 准备投放第二梯队
+
+victor:
+  target_img_name_list:
+    - 'victor.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  tap_times: 1
+  tap_interval: 2
+  before_tap_wait_time: 2
+  after_tap_wait_time: 2
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  end_content: 选择维克托人形
+
+victor_echelon2:
+  target_img_name_list:
+    - 'victor_echelon2.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  after_tap_wait_time: 2
 
 '17':
   target_img_name_list:
@@ -169,7 +307,23 @@ heavy_airport:
   after_tap_wait_time: 0.5
   search_again_times: 2
 
-# 通用选择类target
+###################################
+
+
+
+###################################
+######## 通用选择类target ###########
+###################################
+
+return:
+  target_img_name_list:
+    - 'return.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 20
+  moveY: 0
+  end_content: 返回界面
+
 echelon1:
   target_img_name_list:
     - 'echelon1.png'
@@ -346,27 +500,6 @@ unit_recycle:
   moveY: 0
   beginning_content: 准备回收单位
 
-
-
-battle:
-  target_img_name_list:
-    - 'battle.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-
-
-
-return:
-  target_img_name_list:
-    - 'return.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 20
-  moveY: 0
-  end_content: 返回界面
-
 supply:
   target_img_name_list:
     - 'supply.png'
@@ -376,8 +509,6 @@ supply:
   moveY: 0
   after_tap_wait_time: 1.5
   end_content: 补给
-
-
 
 echelon_editing:
   target_img_name_list:
@@ -398,23 +529,6 @@ echelon2:
   need_screenShot: True
   moveX: 0
   moveY: 0
-
-
-
-victor:
-  target_img_name_list:
-    - 'victor.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 100
-  tap_times: 1
-  tap_interval: 2
-  before_tap_wait_time: 2
-  after_tap_wait_time: 2
-  search_again_times: 2
-  search_again_sleep_time: 0.5
-  end_content: 选择维克托人形
 
 sort_order:
   target_img_name_list:
@@ -472,105 +586,11 @@ desc:
   moveY: 0
   after_tap_wait_time: 0.5
 
-victor_echelon2:
-  target_img_name_list:
-    - 'victor_echelon2.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 100
-  after_tap_wait_time: 2
-
-echelon_confirm:
-  target_img_name_list:
-    - 'echelon_confirm.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-  tap_interval: 0.5
-  end_content: 投放第一梯队
-
-select_echelon:
-  target_img_name_list:
-    - 'select_echelon.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-
-is_select_echelon:
-  target_img_name_list:
-    - 'is_select_echelon.png'
-  rgb: True
-  threshold: 0.98
-  moveX: 0
-  moveY: 0
-
-start_fighting:
-  target_img_name_list:
-    - 'start_fighting.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-  tap_interval: 1.5
-  after_tap_wait_time: 2
-  end_content: 开始作战
-
-end_fighting:
-  target_img_name_list:
-    - 'end_fighting.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-
-planning_mode:
-  target_img_name_list:
-    - 'planning_mode.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-
-execution_plan:
-  target_img_name_list:
-    - 'execution_plan.png'
-  rgb: False
-  threshold: 0.9
-  moveX: 0
-  moveY: 0
-  tap_interval: 1
-  beginning_content: 开始执行计划战斗
-
-result_settlement:
-  target_img_name_list:
-    - 'result_settlement.png'
-  rgb: False
-  threshold: 0.9
-  moveX: -850
-  moveY: -412
-
-fight_again:
-  target_img_name_list:
-    - fight_again1.png
-  rgb: False
-  threshold: 0.9
-
-new_unit:
-  target_img_name_list:
-    - 'new_unit.png'
-  rgb: False
-  threshold: 0.9
-  moveX: -423
-  moveY: -321
-
-go_to_logistics:
-  target_img_name_list:
-    - 'go_to_logistics.png'
-  rgb: False
-  threshold: 0.9
+#go_to_logistics:
+#  target_img_name_list:
+#    - 'go_to_logistics.png'
+#  rgb: False
+#  threshold: 0.9
 
 all_go_to_logistics:
   target_img_name_list:
