@@ -210,7 +210,7 @@ is_select_echelon:
   target_img_name_list:
     - 'is_select_echelon.png'
   rgb: True
-  threshold: 0.98
+  threshold: 0.99
   moveX: 0
   moveY: 0
 
@@ -261,8 +261,8 @@ victor:
   moveX: 0
   moveY: 100
   tap_times: 1
-  tap_interval: 2
-  before_tap_wait_time: 2
+  tap_interval: 1
+  before_tap_wait_time: 1
   after_tap_wait_time: 2
   search_again_times: 2
   search_again_sleep_time: 0.5

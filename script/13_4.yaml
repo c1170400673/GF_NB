@@ -116,7 +116,7 @@ battle_13_4_1:
   - zhb:
       tap_interval: 0.5
       search_again_times: 2
-      search_again_sleep_time: 3
+      search_again_sleep_time: 2
   - screenShot:
       is_echelon1:
         - echelon_editing:
@@ -143,7 +143,7 @@ battle_13_4_1:
   - victor_echelon2:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 4.5
+      after_tap_wait_time: 3.5
       search_again_times: 2
   - zhb:
       search_again_sleep_time: 0.5
@@ -166,7 +166,7 @@ battle_13_4_1:
         is_echelon2:
           - echelon_confirm:
               need_screenShot: False
-              after_tap_wait_time: 2
+              after_tap_wait_time: 1.5
               beginning_content: 已在梯队选择，默认第二梯队
               end_content: 投放第二梯队
         else:
@@ -207,7 +207,7 @@ battle_13_4_1:
   - '17':
   - '18':
       need_screenShot: False
-  - '19':
+  - '17':
       need_screenShot: False
   - execution_plan:
       after_tap_wait_time: 110
@@ -238,7 +238,7 @@ battle_13_4_2:
   - victor_echelon2:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 4.5
+      after_tap_wait_time: 3.5
       search_again_times: 2
   - start_fighting:
       moveX: 0
@@ -255,7 +255,7 @@ battle_13_4_2:
   - '17':
   - '18':
       need_screenShot: False
-  - '19':
+  - '17':
       need_screenShot: False
   - execution_plan:
       after_tap_wait_time: 110
@@ -264,7 +264,7 @@ end_combat_1:
   - result_settlement:
       search_again_times: 20
       search_again_sleep_time: 5
-      tap_interval: 1.5
+      tap_interval: 1
       after_tap_wait_time: 6
       beginning_content: 等待战斗完毕结算
   - round_new_unit_1: 4
@@ -273,7 +273,7 @@ end_combat_2:
   - fight_again:
       search_again_times: 20
       search_again_sleep_time: 5
-      tap_interval: 1.5
+      tap_interval: 1
       after_tap_wait_time: 6
       beginning_content: 等待战斗完毕结算
   - round_new_unit_2: 4

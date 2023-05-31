@@ -344,7 +344,7 @@ class Ldaction(object):
                 elif find_result is None and search_again_times > 1:
                     running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                     # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name), end="")
-                    logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
+                    logging.warning('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     search_times = 1
                     search_times += search
                     if search_again_sleep_time != 0:
@@ -354,7 +354,10 @@ class Ldaction(object):
                             half_second = s
                             s_10, d = divmod(half_second, 10)
                             print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                            time.sleep(0.5)
+                            if s == search_again_sleep_time_double:
+                                pass
+                            else:
+                                time.sleep(0.5)
                         print('\n', end='')
                     else:
                         pass
@@ -378,7 +381,7 @@ class Ldaction(object):
                     for t in range(tap_times):
                         tap = t + 1
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                        print('%s 找到按钮: %s [%d , %d]  ' % (running_time, target_img_name, x, y), end="")
+                        print('%s 找到按钮: %s [%d , %d]  ' % (running_time, target_img_name, x, y))
                         if tap_interval != 0:
                             tap_interval_time = int(tap_interval * 2)
                             for s in range(tap_interval_time + 1):
@@ -386,16 +389,16 @@ class Ldaction(object):
                                 half_second = s
                                 s_10, d = divmod(half_second, 10)
                                 print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                                time.sleep(0.5)
+                                if s == tap_interval_time:
+                                    pass
+                                else:
+                                    time.sleep(0.5)
                             print('\n', end='')
                         else:
                             pass
                         self.ld.inputTap(Ld.index, tap_x, tap_y)
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                        print('\n%s 已点击按钮 %s [%d , %d] %d次' % (running_time, target_img_name, tap_x, tap_y, tap),
-                              end="")
-                        if tap_times >= 1:
-                            print('\n', end='')
+                        print('%s 已点击按钮 %s [%d , %d] %d次' % (running_time, target_img_name, tap_x, tap_y, tap))
                     break
             if result[0]:
                 break
@@ -423,7 +426,10 @@ class Ldaction(object):
                 half_second = s
                 s_10, d = divmod(half_second, 10)
                 print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                time.sleep(0.5)
+                if s == do_before_tap_wait_time:
+                    pass
+                else:
+                    time.sleep(0.5)
             print('\n', end='')
         else:
             pass
@@ -441,7 +447,10 @@ class Ldaction(object):
                         half_second = s
                         s_10, d = divmod(half_second, 10)
                         print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                        time.sleep(0.5)
+                        if s == do_after_tap_wait_time:
+                            pass
+                        else:
+                            time.sleep(0.5)
                     print('\n', end='')
                 else:
                     pass
@@ -486,7 +495,10 @@ class Ldaction(object):
                                         half_second = s
                                         s_10, d = divmod(half_second, 10)
                                         print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                                        time.sleep(0.5)
+                                        if s == do_after_tap_wait_time:
+                                            pass
+                                        else:
+                                            time.sleep(0.5)
                                     print('\n', end='')
                                 else:
                                     pass
@@ -698,8 +710,11 @@ def tap_list(data_target_list: list, data_info: dict = None):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         half_second = s
                         s_10, d = divmod(half_second, 10)
-                        print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                        time.sleep(0.5)
+                        print("\r%s 请稍等 %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                        if s == do_sleep_time:
+                            pass
+                        else:
+                            time.sleep(0.5)
                     print('\n', end='')
                 else:
                     pass
@@ -819,13 +834,13 @@ def battle():
         try:
             runtimes = int(input("跑几圈:"))
         except ValueError:
-            print("请正确输入圈数")
+            print("请正确输入圈数,未输入将默认执行1次")
             runtimes = 1
         try:
             runtime = float(input("跑多久(分钟）:"))
         except ValueError:
-            print("请正确输入执行时间")
-            runtime = 1
+            print("请正确输入执行时间，未输入将默认执行999分钟限制")
+            runtime = 999
         finally:
             runtime_min = runtime * 60
         running_script = '共 %d 次，开始执行' % runtimes
