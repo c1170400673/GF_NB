@@ -130,6 +130,7 @@ battle_13_4_1:
   - sort_order:
   - number_sorting:
   - show_all:
+      tap_interval: 0.5
   - legendary_v:
   - smg:
       need_screenShot: False
@@ -224,6 +225,7 @@ battle_13_4_2:
   - sort_order:
   - number_sorting:
   - show_all:
+      tap_interval: 0.5
   - legendary_v:
   - smg:
       need_screenShot: False
@@ -318,6 +320,7 @@ round_new_unit_2:
             else:
               - all_go_to_logistics:
                   before_tap_wait_time: 2
+                  tap_interval: 1
                   after_tap_wait_time: 1
               - retire_confirm:
                   after_tap_wait_time: 1.5
