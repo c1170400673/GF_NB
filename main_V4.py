@@ -3,8 +3,8 @@
 """
 【少前13-4自动刷图】
 """
-import logging.config
 # 打包命令pyinstaller main_V4.spec
+import logging.config
 import os
 import sys
 import threading
@@ -332,32 +332,40 @@ class Ldaction(object):
                 target_img_num = target_img_name_list.index(target_img_name)
                 result = self.isExistV2(target_name, target_img_num)
                 find_result = result[1]
-                running_time = time.time() - start_time
-                running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
                 if find_result is None and need_screenShot is False and search_again_times == 1:
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                     # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     break
                 elif find_result is None and search_again_times == 1:
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                     # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                 elif find_result is None and search_again_times > 1:
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                     # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name), end="")
                     logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                     search_times = 1
                     search_times += search
-                    search_again_sleep_time_double = int(search_again_sleep_time * 2)
-                    for s in range(search_again_sleep_time_double):
-                        time.sleep(0.5)
-                        print(".", end="")
-                        if s == search_again_sleep_time_double - 1:
-                            print("", end="\n")
+                    if search_again_sleep_time != 0:
+                        search_again_sleep_time_double = int(search_again_sleep_time * 2)
+                        for s in range(search_again_sleep_time_double + 1):
+                            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                            half_second = s
+                            s_10, d = divmod(half_second, 10)
+                            print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                            time.sleep(0.5)
+                        print('\n', end='')
+                    else:
+                        pass
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                     # print('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
                     logging.info('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
                     # 判断当不用截图的target节点当search_again_times大于1时重试时触发截图
                     if need_screenShot is False:
                         self.ld.screenShotnewLd(self.index)
                     if search_times == search_again_times:
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                         logging.error('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
                 else:
@@ -369,35 +377,25 @@ class Ldaction(object):
                     tap_y = y - moveY
                     for t in range(tap_times):
                         tap = t + 1
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         print('%s 找到按钮: %s [%d , %d]  ' % (running_time, target_img_name, x, y), end="")
-                        tap_interval_time = int(tap_interval * 2)
-                        if tap_interval_time > 10:
-                            for s in range(tap_interval_time):
-                                half_second = s + 1
-                                time.sleep(0.5)
+                        if tap_interval != 0:
+                            tap_interval_time = int(tap_interval * 2)
+                            for s in range(tap_interval_time + 1):
+                                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                                half_second = s
                                 s_10, d = divmod(half_second, 10)
-                                d_10, dd = divmod(tap_interval_time, 10)
-                                if d == 0:
-                                    print("o", end="")
-                                elif half_second > tap_interval_time - dd:
-                                    print(".", end="")
-                                if s == tap_interval_time - 1:
-                                    print("", end="\n")
-                        else:
-                            for s in range(tap_interval_time):
+                                print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
                                 time.sleep(0.5)
-                                print(".", end="")
-                                if s == tap_interval_time - 1:
-                                    print("", end="\n")
-                        if tap_interval == 0:
-                            print("", end="\n")
+                            print('\n', end='')
+                        else:
+                            pass
                         self.ld.inputTap(Ld.index, tap_x, tap_y)
-                        running_time = time.time() - start_time
-                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                        print('%s 已点击按钮 %s [%d , %d] %d次' % (running_time, target_img_name, tap_x, tap_y, tap),
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                        print('\n%s 已点击按钮 %s [%d , %d] %d次' % (running_time, target_img_name, tap_x, tap_y, tap),
                               end="")
                         if tap_times >= 1:
-                            print("", end="\n")
+                            print('\n', end='')
                     break
             if result[0]:
                 break
@@ -419,28 +417,14 @@ class Ldaction(object):
         error_content = tap_info['error_content']
         print('%s +++++START+++++ [目标%s: %s %s]' % (running_time, target_name, beginning_content, running_script))
         if before_tap_wait_time != 0:
-            running_time = time.time() - start_time
-            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-            print('%s ' % running_time, end='', flush=True)
             do_before_tap_wait_time = int(before_tap_wait_time * 2)
-            if do_before_tap_wait_time > 10:
-                for s in range(do_before_tap_wait_time):
-                    half_second = s + 1
-                    time.sleep(0.5)
-                    s_10, d = divmod(half_second, 10)
-                    d_10, dd = divmod(do_before_tap_wait_time, 10)
-                    if d == 0:
-                        print("o", end="")
-                    elif half_second > do_before_tap_wait_time - dd:
-                        print(".", end="")
-                    if s == do_before_tap_wait_time - 1:
-                        print("", end="\n")
-            else:
-                for s in range(do_before_tap_wait_time):
-                    time.sleep(0.5)
-                    print(".", end="")
-                    if s == do_before_tap_wait_time - 1:
-                        print("", end="\n")
+            for s in range(do_before_tap_wait_time + 1):
+                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                half_second = s
+                s_10, d = divmod(half_second, 10)
+                print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                time.sleep(0.5)
+            print('\n', end='')
         else:
             pass
         result = True
@@ -451,28 +435,14 @@ class Ldaction(object):
             if find_result[0]:
                 # 处理点击后等待时间
                 if after_tap_wait_time != 0:
-                    running_time = time.time() - start_time
-                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                    print('%s ' % running_time, end='')
                     do_after_tap_wait_time = int(after_tap_wait_time * 2)
-                    if do_after_tap_wait_time > 10:
-                        for s in range(do_after_tap_wait_time):
-                            half_second = s + 1
-                            time.sleep(0.5)
-                            s_10, d = divmod(half_second, 10)
-                            d_10, dd = divmod(do_after_tap_wait_time, 10)
-                            if d == 0 and s_10 > 0:
-                                print("o", end="")
-                            elif half_second > do_after_tap_wait_time - dd:
-                                print(".", end="")
-                            if s == do_after_tap_wait_time - 1:
-                                print("", end="\n")
-                    else:
-                        for s in range(do_after_tap_wait_time):
-                            time.sleep(0.5)
-                            print(".", end="")
-                            if s == do_after_tap_wait_time - 1:
-                                print("", end="\n")
+                    for s in range(do_after_tap_wait_time + 1):
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                        half_second = s
+                        s_10, d = divmod(half_second, 10)
+                        print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                        time.sleep(0.5)
+                    print('\n', end='')
                 else:
                     pass
                 # 判断是否有校验对象
@@ -483,24 +453,21 @@ class Ldaction(object):
                     while is_not_Exist_result:
                         # 校验前截图
                         self.ld.screenShotnewLd(self.index)
-                        running_time = time.time() - start_time
-                        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         # print('%s 开始校验 %s' % (running_time, tap_result_check_name))
                         logging.info('%s 开始校验 %s' % (running_time, tap_result_check_name))
                         # 执行校验
                         tap_result = self.isExistV2(tap_result_check_name)
                         # 判断校验结果，通过后结束校验
                         if tap_result[0]:
-                            running_time = time.time() - start_time
-                            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             # print('%s 校验通过' % running_time)
                             logging.info('%s 校验通过' % running_time)
                             is_not_Exist_result = False
                             break
                         # 不通过重新点击target
                         elif tap_result[0] is False:
-                            running_time = time.time() - start_time
-                            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             # print('%s 点击后结果校验不通过，重新点击！' % running_time)
                             logging.error('%s 点击后结果校验不通过，重新点击！' % running_time)
                             # 为了校验执行后重新点击target，需启动截图
@@ -513,15 +480,14 @@ class Ldaction(object):
                                 # print('重新点击 %s 成功' % target_name)
                                 logging.info('重新点击 %s 成功' % target_name)
                                 if after_tap_wait_time != 0:
-                                    running_time = time.time() - start_time
-                                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                                    print('%s ' % running_time, end='')
                                     do_after_tap_wait_time = int(after_tap_wait_time * 2)
-                                    for s in range(do_after_tap_wait_time):
+                                    for s in range(do_after_tap_wait_time + 1):
+                                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                                        half_second = s
+                                        s_10, d = divmod(half_second, 10)
+                                        print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
                                         time.sleep(0.5)
-                                        print(".", end="")
-                                        if s == do_after_tap_wait_time - 1:
-                                            print("", end="\n")
+                                    print('\n', end='')
                                 else:
                                     pass
                             # 点击target失败也将重新执行校验
@@ -547,8 +513,7 @@ class Ldaction(object):
                 elif result_action == win32con.IDYES:
                     tap_info.update({'need_screenShot': True})
                     logging.info('重置截图触发为启动截图')
-        running_time = time.time() - start_time
-        running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
         print('%s +++++ END +++++ [%s]\n' % (running_time, end_content))
 
     def is_all_ExistV2(self, target_name: str):
@@ -615,8 +580,7 @@ def screenShot_dict(data_dict: dict):
         isExist_target_value = data_dict[key]
         # print(isExist_target_key)
         if isExist_target_key == 'else':
-            running_time = time.time() - start_time
-            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
             # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
             dict_keys = list(data_dict.keys())
             logging.warning("%s 截图查询 %s 元素不存在！" % (running_time, dict_keys))
@@ -628,14 +592,12 @@ def screenShot_dict(data_dict: dict):
                 logging.debug('执行break方法')
                 break
             else:
-                running_time = time.time() - start_time
-                running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                 # print("%s 执行else方法" % running_time)
                 logging.debug("执行else方法")
                 tap_list(isExist_target_value)
         elif Ld.isExistV2(isExist_target_key)[0]:
-            running_time = time.time() - start_time
-            running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
+            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
             # print("%s 包含: %s" % (running_time, isExist_target_key))
             logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
             # print(isExist_target_key, isExist_target_value)
@@ -731,16 +693,16 @@ def tap_list(data_target_list: list, data_info: dict = None):
             elif target == 'sleep':
                 sleep_time = data_target[target]
                 if sleep_time != 0:
-                    running_time = time.time() - start_time
-                    running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
-                    print('%s ' % running_time, end='')
-                    # print('等待 %s 秒后继续' % sleep_time)
-                    sleep_time = int(sleep_time * 2)
-                    for s in range(sleep_time):
+                    do_sleep_time = int(sleep_time * 2)
+                    for s in range(do_sleep_time + 1):
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                        half_second = s
+                        s_10, d = divmod(half_second, 10)
+                        print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
                         time.sleep(0.5)
-                        print(".", end="")
-                        if s == sleep_time - 1:
-                            print("", end="\n")
+                    print('\n', end='')
+                else:
+                    pass
             elif target == 'swipe':
                 swipe_info = data_target[target]
                 x0 = swipe_info[0]
