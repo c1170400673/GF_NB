@@ -3,6 +3,7 @@
 """
 【少前13-4自动刷图】
 """
+import io
 # 打包命令pyinstaller main_V4.spec
 import logging.config
 import os
@@ -12,7 +13,10 @@ import threading
 import time
 from functools import partial
 
+import PIL.Image
 import aircv
+import cv2
+import numpy as np
 import win32api
 import win32con
 import yaml
@@ -73,24 +77,6 @@ class Dnconsole:
         logging.debug('Class-Dnconsole is ready.(%s)' % self.ins_path)
         # print('Class-Dnconsole is ready.(%s)' % self.ins_path)
 
-    def YAML(self, script_name: str):
-        """
-        【读取Yaml文件】
-        :param script_name:
-        :return:
-        """
-        # 读取YAML参数
-        yaml_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                                 self.action_path + script_name)
-        logging.debug('yaml_path: %s' % yaml_path)
-        try:
-            # 打开文件
-            with open(yaml_path, "r", encoding="utf-8") as f:
-                data = yaml.load(f, Loader=yaml.FullLoader)
-                return data
-        except:
-            return None
-
     def CMD(self, cmd: str):
         """
         【执行控制台命令语句】
@@ -123,8 +109,7 @@ class Dnconsole:
         """
         CMD = self.adb_path + cmd  # adb命令
         # os.system('chcp 65001')
-        p = subprocess.Popen(['C:\\leidian\\LDPlayer9\\adb', '-s', '127.0.0.1:5555', 'exec-out', 'screencap', '-p'],
-                             stdout=subprocess.PIPE)
+        p = subprocess.Popen(CMD, stdout=subprocess.PIPE)
         output, _ = p.communicate()
         return output
 
@@ -213,7 +198,24 @@ class Dnconsole:
         self.CMD(cmd1)
         self.CMD(cmd2)
 
-    def screenShotnew(self, index: int):
+    def ScreenShot_Adb(self):
+        cmd1 = 'devices'
+        cmd2 = '-s 127.0.0.1:5555 exec-out screencap -p'
+        print(self.ADB(cmd1).decode('utf-8').replace('\r\n', '\n '))
+        output = self.ADB(cmd2)
+        img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        # img.save('C:\\Users\\11704\\Documents\\leidian9\\Pictures\\Screenshots\\screenshot_tmp2.png', 'PNG')
+        # output = raw_data.decode('utf-8').replace('\r\n', ' ')
+        # print(output)
+        # img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        # img_np = np.array(img)
+        img_np = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR).astype(np.uint8)
+        # # logging.info("%s 已截图")
+        print("已截图")
+        return img_np
+        # return img
+
+    def ScreenShot_v1(self, index: int):
         """
         【截屏并保存到本地】
         :param index: 模拟器序号
@@ -222,7 +224,7 @@ class Dnconsole:
         result = self.CMD(cmd)
         return result
 
-    def screenShotnewLd(self, index: int):
+    def ScreenShot_Ld(self, index: int):
         """
         【截屏并保存到本地ld调用方式】
         :param index: 模拟器序号
@@ -271,27 +273,122 @@ class Dnconsole:
         return self.ldCMD(cmd)
 
 
-class Ldaction(object):
+class BlueStacks_Console:
     """
-    【雷电操作类】
-    import该文件需先实例化 Dconsole
+    BlueStacks
     """
 
-    def __init__(self, index: int, console, screenshot_img_name: str):
+    def __init__(self, installation_path: str):
+        """
+        [BlueStacks]的构造
+        :param installation_path:
+        """
+        # 模拟器安装路径存在性检测
+        if os.path.exists(installation_path):
+            pass
+        else:
+            print('模拟器安装路径不存在！')
+        # 获取模拟器安装路径
+        self.ins_path = installation_path
+        # HD-Adb.exe程序路径
+        self.adb_path = self.ins_path + r'\HD-Adb.exe '
+        self.adb_path_cmd = self.ins_path + r'\HD-Adb.exe '
+        if os.path.exists(self.adb_path):
+            pass
+        else:
+            print('HD-Adb.exe程序路径不存在！\n请确认模拟器安装文件是否完整！')
+        # 模拟器截屏程序路径
+        self.screencap_path = r'/system/bin/screencap'
+        # 获取当前工作目录路径
+        self.workspace_path = os.getcwd()
+        # 本地图片样本保存路径
+        self.target_path = self.workspace_path + '\\target\\' + target_path + '\\'
+        # 读取作战参数信息保存路径
+        self.action_path = self.workspace_path + '\\script\\'
+        # 读取作战参数
+        # 构造完成
+        # logging.debug('Class-Dnconsole is ready.(%s)' % self.ins_path)
+        print('BlueStacks is ready.(%s)' % self.ins_path)
+
+    def ADB(self, cmd: str):
+        """
+        【执行ADB命令语句】
+        :param cmd: 命令
+        :return: 控制台调试内容
+        """
+        CMD = self.adb_path_cmd + cmd  # adb命令
+        # os.system('chcp 65001')
+        # p = subprocess.Popen(
+        #     ['C:\\Program Files\\BlueStacks_nxt\\HD-Adb', '-s', '127.0.0.1:5555', 'exec-out', 'screencap', '-p'],
+        #     stdout=subprocess.PIPE)
+        p = subprocess.Popen(CMD, stdout=subprocess.PIPE)
+        output, _ = p.communicate()
+        return output
+
+    def Adb_Status(self):
+        cmd = 'devices'
+        output = self.ADB(cmd).decode('utf-8').replace('\r\n', '\n ')
+        return output
+
+    def Adb_Connect(self, adb_terminal):
+        cmd = 'connect ' + adb_terminal
+        output = self.ADB(cmd)
+        return output
+
+    def ScreenShot_Adb(self, index):
+        cmd2 = '-s %s exec-out screencap -p' % index
+        # print(self.ADB(cmd1))
+        output = self.ADB(cmd2)
+        img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        # img.save('C:\\Users\\11704\\Documents\\leidian9\\Pictures\\Screenshots\\screenshot_tmp2.png', 'PNG')
+        # img_np = np.array(img)
+        img_np = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR).astype(np.uint8)
+        # # logging.info("%s 已截图")
+        # print("已截图")
+        return img_np
+
+    def inputTap(self, index: str, x: int, y: int):
+        """
+        【点击操作】
+        :param index: 模拟器序号
+        :param x: x
+        :param y: y
+        :return: 控制台调试内容
+        """
+        cmd = '-s %s shell input tap %d %d' % (index, x, y)
+        return self.ADB(cmd)
+
+    def inputSwipe(self, index: str, x0: int, y0: int, x1: int, y1, ms: int = 200):
+        """
+        【滑动操作】
+        :param index:
+        :param x0:
+        :param y0:
+        :param x1:
+        :param y1:
+        :param ms:
+        :return:
+        """
+        cmd = '-s %s shell input swipe %d %d %d %d %d' % (index, x0, y0, x1, y1, ms)
+        return self.ADB(cmd)
+
+
+class Action(object):
+    """
+    【事件操作类】
+    import该文件需先实例化 对应模拟器的console
+    """
+
+    def __init__(self, index: str, console):
         """
         【构造方法】
         :param index: 模拟器号
-        :param console: 传入的console对象
-        :param screenshot_img_name:
-        :return:
+        :param console: 传入的Console对象
         """
-        self.screenshot_img_file = console.images_path + screenshot_img_name
-        # self.screenshot_img = aircv.imread(self.screenshot_img_file)
         self.index = index
-        self.ld = console
-        self.tap_info = self.ld.YAML
+        self.console = console
 
-    def isExistV2(self, target_name: str, target_img_num: int = 0):
+    def is_Exist_V3(self, target_name: str, target_img_num: int = 0):
         """
         【判断指定图片是否包含在截图中】
         :param target_name:
@@ -302,8 +399,8 @@ class Ldaction(object):
         target_img_name = target_yaml['target_img_name_list'][target_img_num]
         rgb = target_yaml['rgb']
         threshold = target_yaml['threshold']
-        screenshot_img = aircv.imread(self.screenshot_img_file)
-        target_img_name_file = self.ld.target_path + target_img_name
+        screenshot_img = ScreenShot_Img
+        target_img_name_file = self.console.target_path + target_img_name
         target_img = aircv.imread(target_img_name_file)
         result = aircv.find_template(screenshot_img, target_img, rgb=rgb, threshold=threshold)
         if result is None:
@@ -311,13 +408,14 @@ class Ldaction(object):
         else:
             return True, result
 
-    def find_target_imgV4(self, target_name: str, tap_info: dict):
+    def find_target_img_V5(self, target_name: str, tap_info: dict):
         """
         【改进后的目标图片搜索方法】
         :param tap_info:
         :param target_name:
         :return:
         """
+        global ScreenShot_Img
         logging.debug('target: %s, 配置信息: %s' % (target_name, tap_info))
         target_img_name_list = tap_info['target_img_name_list']
         need_screenShot = tap_info['need_screenShot']
@@ -330,9 +428,9 @@ class Ldaction(object):
         for target_img_name in target_img_name_list:
             for search in range(search_again_times):
                 if need_screenShot:
-                    self.ld.ScreenShot_Ld(self.index)
+                    ScreenShot_Img = self.console.ScreenShot_Adb(self.index)
                 target_img_num = target_img_name_list.index(target_img_name)
-                result = self.isExistV2(target_name, target_img_num)
+                result = self.is_Exist_V3(target_name, target_img_num)
                 find_result = result[1]
                 if find_result is None and need_screenShot is False and search_again_times == 1:
                     running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
@@ -368,7 +466,7 @@ class Ldaction(object):
                     logging.info('%s 重新搜索 %s 按钮 %d 次' % (running_time, target_img_name, search_times))
                     # 判断当不用截图的target节点当search_again_times大于1时重试时触发截图
                     if need_screenShot is False:
-                        self.ld.ScreenShot_Ld(self.index)
+                        ScreenShot_Img = self.console.ScreenShot_Adb(self.index)
                     if search_times == search_again_times:
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         # print('%s 未能找到需要的 %s 按钮！' % (running_time, target_img_name))
@@ -398,7 +496,7 @@ class Ldaction(object):
                             print('\n', end='')
                         else:
                             pass
-                        self.ld.inputTap(Console_Action.index, tap_x, tap_y)
+                        self.console.inputTap(Console_Action.index, tap_x, tap_y)
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         print('%s 已点击按钮 %s [%d , %d] %d次' % (running_time, target_img_name, tap_x, tap_y, tap))
                     break
@@ -406,12 +504,13 @@ class Ldaction(object):
                 break
         return result
 
-    def LdactionTapV4(self, target_name: str, tap_info: dict):
+    def Action_Tap_V5(self, target_name: str, tap_info: dict):
         """
         【查找对应按钮】
         :param tap_info:
         :param target_name: 点击事件查询的按钮target
         """
+        global ScreenShot_Img
         running_time = time.time() - start_time
         running_time = time.strftime("%H:%M:%S", time.gmtime(running_time))
         tap_result_check_name = tap_info['tap_result_check_name']
@@ -438,7 +537,7 @@ class Ldaction(object):
         result = True
         while result:
             # 点击target
-            find_result = self.find_target_imgV4(target_name, tap_info)
+            find_result = self.find_target_img_V5(target_name, tap_info)
             # 判断点击方法处理结果
             if find_result[0]:
                 # 处理点击后等待时间
@@ -463,12 +562,12 @@ class Ldaction(object):
                     # 当有校验对象后执行循环校验
                     while is_not_Exist_result:
                         # 校验前截图
-                        self.ld.ScreenShot_Ld(self.index)
+                        ScreenShot_Img = self.console.ScreenShot_Adb(self.index)
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         # print('%s 开始校验 %s' % (running_time, tap_result_check_name))
                         logging.info('%s 开始校验 %s' % (running_time, tap_result_check_name))
                         # 执行校验
-                        tap_result = self.isExistV2(tap_result_check_name)
+                        tap_result = self.is_Exist_V3(tap_result_check_name)
                         # 判断校验结果，通过后结束校验
                         if tap_result[0]:
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
@@ -484,7 +583,7 @@ class Ldaction(object):
                             # 为了校验执行后重新点击target，需启动截图
                             need_screenShot_tap_info = tap_info.copy()
                             need_screenShot_tap_info.update({'need_screenShot': True})
-                            find_result = self.find_target_imgV4(target_name, need_screenShot_tap_info)
+                            find_result = self.find_target_img_V5(target_name, need_screenShot_tap_info)
                             # 判断重新点击target后的结果
                             if find_result[0]:
                                 # 点击target成功后将会重新执行校验
@@ -530,7 +629,7 @@ class Ldaction(object):
         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
         print('%s +++++ END +++++ [%s]\n' % (running_time, end_content))
 
-    def is_all_ExistV2(self, target_name: str):
+    def is_all_Exist_V3(self, target_name: str):
         """
         【判断多个指定图片是否包含在截图中】
         :param target_name:
@@ -540,8 +639,8 @@ class Ldaction(object):
         target_img_name = target_yaml['target_img_name_list'][0]
         rgb = target_yaml['rgb']
         threshold = target_yaml['threshold']
-        screenshot_img = aircv.imread(self.screenshot_img_file)
-        target_img_name_file = self.ld.target_path + target_img_name
+        screenshot_img = ScreenShot_Img
+        target_img_name_file = self.console.target_path + target_img_name
         target_img = aircv.imread(target_img_name_file)
         result = aircv.find_all_template(screenshot_img, target_img, rgb=rgb, threshold=threshold)
         if result is None:
@@ -549,13 +648,13 @@ class Ldaction(object):
         else:
             return True, result
 
-    def List_selectV2(self, target_name: str):
+    def List_select_V3(self, target_name: str):
         """
         【从人形列表选择人形】
         :param self:
         :param target_name:
         """
-        list_result = self.is_all_ExistV2(target_name)[1]
+        list_result = self.is_all_Exist_V3(target_name)[1]
         # print(list_result)
         # print(len(list_result))
         if list_result is not False:
@@ -564,67 +663,40 @@ class Ldaction(object):
                 x = coordinate[0] - 100
                 y = coordinate[1] + 200
                 print('选中人形 X: %s  Y: %s' % (x, y))
-                self.ld.inputTap(Console_Action.index, x, y)
+                self.console.inputTap(Console_Action.index, x, y)
                 time.sleep(0.5)
 
 
-def tap_dict(data_dict: dict):
+class Tools:
+    """
+    tools:工具类
     """
 
-    :param data_dict:
-    """
-    # print("dict:")
-    for i in data_dict:
-        if 'get' in i:
-            get_def = data_dict[i]
-            def_info_dict(i)
-            drive_yaml(get_def)
-            continue
+    def __init__(self):
+        # 获取当前工作目录路径
+        self.workspace_path = os.getcwd()
+        # 本地图片样本保存路径
+        self.target_path = self.workspace_path + '\\target\\'
+        # 读取作战参数信息保存路径
+        self.action_path = self.workspace_path + '\\script\\'
 
-
-def screenShot_dict(data_dict: dict):
-    """
-
-    :param data_dict:
-    """
-    isExist_target_key_result = False
-    run_yaml = ''
-    for key in data_dict:
-        isExist_target_key = key
-        isExist_target_value = data_dict[key]
-        # print(isExist_target_key)
-        if isExist_target_key == 'else':
-            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-            # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
-            dict_keys = list(data_dict.keys())
-            logging.warning("%s 截图查询 %s 元素不存在！" % (running_time, dict_keys))
-            if isExist_target_value == 'exit':
-                logging.debug('执行exit方法')
-                return True
-                # sys.exit()
-            elif isExist_target_value == 'break':
-                logging.debug('执行break方法')
-                break
-            else:
-                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                # print("%s 执行else方法" % running_time)
-                logging.debug("执行else方法")
-                tap_list(isExist_target_value)
-        elif Console_Action.isExistV2(isExist_target_key)[0]:
-            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-            # print("%s 包含: %s" % (running_time, isExist_target_key))
-            logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
-            # print(isExist_target_key, isExist_target_value)
-            isExist_target_key_result = True
-            run_yaml = isExist_target_value
-            break
-    if isExist_target_key_result:
-        # 截图对象查询到后，判断后续处理对象还是
-        if type(run_yaml) == dict:
-            screenShot_dict(run_yaml)
-        else:
-            if drive_yaml(run_yaml):
-                return True
+    def YAML(self, script_name: str):
+        """
+        【读取Yaml文件】
+        :param script_name:
+        :return:
+        """
+        # 读取YAML参数
+        yaml_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                 self.action_path + script_name)
+        logging.debug('yaml_path: %s' % yaml_path)
+        try:
+            # 打开文件
+            with open(yaml_path, "r", encoding="utf-8") as f:
+                data = yaml.load(f, Loader=yaml.FullLoader)
+                return data
+        except:
+            return None
 
 
 def tap_info_dict(target: str, data_dict: dict):
@@ -647,121 +719,183 @@ def tap_info_dict(target: str, data_dict: dict):
         return tap_info
 
 
-def def_info_dict(data_dict: dict):
+class Yaml_Drive:
+    """
+    基于Yaml文件驱动的脚本执行器
     """
 
-    :param data_dict:
-    :return:
-    """
-    fun: bool = True
-    adv_retire: bool = True
-    def_info: dict = {}
-    def_info.update(data_dict)
-    return def_info
+    def __init__(self, console, console_action):
+        self.console_action = console_action
+        self.console = console
 
+    def tap_dict(self, data_dict: dict):
+        """
 
-def tap_list(data_target_list: list, data_info: dict = None):
-    """
+        :param data_dict:
+        """
+        # print("dict:")
+        for i in data_dict:
+            if 'get' in i:
+                get_def = data_dict[i]
+                self.def_info_dict(i)
+                self.drive_yaml(get_def)
+                continue
 
-    :param data_info:
-    :param data_target_list:
-    """
-    # print("list:")
-    for data_target in data_target_list:
-        for target in data_target:
-            # 是否截图判断target存在
-            if target == 'screenShot':
-                if data_target[target] is None:
-                    Console.ScreenShot_Ld(Console_Action.index)
+    def screenShot_dict(self, data_dict: dict):
+        """
+
+        :param data_dict:
+        """
+        isExist_target_key_result = False
+        run_yaml = ''
+        for key in data_dict:
+            isExist_target_key = key
+            isExist_target_value = data_dict[key]
+            # print(isExist_target_key)
+            if isExist_target_key == 'else':
+                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
+                dict_keys = list(data_dict.keys())
+                logging.warning("%s 截图查询 %s 元素不存在！" % (running_time, dict_keys))
+                if isExist_target_value == 'exit':
+                    logging.debug('执行exit方法')
+                    return True
+                    # sys.exit()
+                elif isExist_target_value == 'break':
+                    logging.debug('执行break方法')
                     break
                 else:
-                    Console.ScreenShot_Ld(Console_Action.index)
-                    screenShot_dict_info = data_target[target]
-                    # print('%s: %s' % (key, isExist_target[key]))
-                    if screenShot_dict(screenShot_dict_info):
-                        return True
-            # 是否是驱动方法
-            elif 'get_' in target:
-                get_def_info = data_target[target]
-                def_info = def_info_dict(get_def_info)
-                get_def_yaml = battle_yaml_data[target]
-                drive_yaml_result = drive_yaml(get_def_yaml, def_info)
-                if drive_yaml_result:
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                    # print("%s 执行else方法" % running_time)
+                    logging.debug("执行else方法")
+                    self.tap_list(isExist_target_value)
+            elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
+                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                # print("%s 包含: %s" % (running_time, isExist_target_key))
+                logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
+                # print(isExist_target_key, isExist_target_value)
+                isExist_target_key_result = True
+                run_yaml = isExist_target_value
+                break
+        if isExist_target_key_result:
+            # 截图对象查询到后，判断后续处理对象还是
+            if type(run_yaml) == dict:
+                self.screenShot_dict(run_yaml)
+            else:
+                if self.drive_yaml(run_yaml):
                     return True
-                elif drive_yaml_result is False:
-                    return False
-            elif 'round_' in target:
-                round_times = data_target[target]
-                round_def_yaml = battle_yaml_data[target]
-                for i in range(round_times):
-                    round_result = drive_yaml(round_def_yaml)
-                    if round_result:
+
+    def def_info_dict(self, data_dict: dict):
+        """
+        :param data_dict:
+        :return:
+        """
+        fun: bool = True
+        adv_retire: bool = True
+        def_info: dict = {}
+        def_info.update(data_dict)
+        return def_info
+
+    def tap_list(self, data_target_list: list, data_info: dict = None):
+        """
+
+        :param data_info:
+        :param data_target_list:
+        """
+        # print("list:")
+        global ScreenShot_Img
+        for data_target in data_target_list:
+            for target in data_target:
+                # 是否截图判断target存在
+                if target == 'screenShot':
+                    if data_target[target] is None:
+                        ScreenShot_Img = self.console.ScreenShot_Adb(device)
+                        break
+                    else:
+                        ScreenShot_Img = self.console.ScreenShot_Adb(device)
+                        screenShot_dict_info = data_target[target]
+                        # print('%s: %s' % (key, isExist_target[key]))
+                        if self.screenShot_dict(screenShot_dict_info):
+                            return True
+                # 是否是驱动方法
+                elif 'get_' in target:
+                    get_def_info = data_target[target]
+                    def_info = self.def_info_dict(get_def_info)
+                    get_def_yaml = battle_yaml_data[target]
+                    drive_yaml_result = self.drive_yaml(get_def_yaml, def_info)
+                    if drive_yaml_result:
                         return True
-                    elif round_result is False:
+                    elif drive_yaml_result is False:
                         return False
+                elif 'round_' in target:
+                    round_times = data_target[target]
+                    round_def_yaml = battle_yaml_data[target]
+                    for i in range(round_times):
+                        round_result = self.drive_yaml(round_def_yaml)
+                        if round_result:
+                            return True
+                        elif round_result is False:
+                            return False
+                        else:
+                            pass
+                elif target == 'adv_retire':
+                    if data_info['adv_retire']:
+                        self.tap_list(data_target[target])
+                elif target == 'sleep':
+                    sleep_time = data_target[target]
+                    if sleep_time != 0:
+                        do_sleep_time = int(sleep_time * 2)
+                        for s in range(do_sleep_time + 1):
+                            running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                            half_second = s
+                            s_10, d = divmod(half_second, 10)
+                            print("\r%s 请稍等 %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                            if s == do_sleep_time:
+                                pass
+                            else:
+                                time.sleep(0.5)
+                        print('\n', end='')
                     else:
                         pass
-            elif target == 'adv_retire':
-                if data_info['adv_retire']:
-                    tap_list(data_target[target])
-            elif target == 'sleep':
-                sleep_time = data_target[target]
-                if sleep_time != 0:
-                    do_sleep_time = int(sleep_time * 2)
-                    for s in range(do_sleep_time + 1):
-                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                        half_second = s
-                        s_10, d = divmod(half_second, 10)
-                        print("\r%s 请稍等 %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
-                        if s == do_sleep_time:
-                            pass
-                        else:
-                            time.sleep(0.5)
-                    print('\n', end='')
-                else:
+                elif target == 'swipe':
+                    swipe_info = data_target[target]
+                    x0 = swipe_info[0]
+                    y0 = swipe_info[1]
+                    x1 = swipe_info[2]
+                    y1 = swipe_info[3]
+                    ms = swipe_info[4]
+                    self.console.inputSwipe(device, x0, y0, x1, y1, ms)
+                elif target == 'loop':
                     pass
-            elif target == 'swipe':
-                swipe_info = data_target[target]
-                x0 = swipe_info[0]
-                y0 = swipe_info[1]
-                x1 = swipe_info[2]
-                y1 = swipe_info[3]
-                ms = swipe_info[4]
-                Console.inputSwipe(Console_Action.index, x0, y0, x1, y1, ms)
-            elif target == 'loop':
-                pass
-            elif target == 'goto':
-                pass
-            else:
-                if data_target[target] == 'list':
-                    Console_Action.List_selectV2(target)
+                elif target == 'goto':
+                    pass
                 else:
-                    tap_info = tap_info_dict(target, data_target[target])
-                    # if Ld.LdactionTapV4(target, tap_info):
-                    #     return True
-                    Console_Action.Action_Tap_V4(target, tap_info)
+                    if data_target[target] == 'list':
+                        self.console_action.List_select_V3(target)
+                    else:
+                        tap_info = tap_info_dict(target, data_target[target])
+                        self.console_action.Action_Tap_V5(target, tap_info)
 
+    def drive_yaml(self, data, data_info: dict = {}, fun_return: bool = False):
+        """
 
-def drive_yaml(data, data_info: dict = {}, fun_return: bool = False):
-    """
-
-    :param fun_return:
-    :param data_info:
-    :param data:
-    """
-    if type(data) == dict:
-        tap_dict(data)
-    elif type(data) == list:
-        if tap_list(data, data_info):
-            return True
-        if 'fun_return' in data_info.keys():
-            data_info_result = data_info['fun_return']
-            if data_info_result:
+        :param fun_return:
+        :param data_info:
+        :param data:
+        """
+        if type(data) == dict:
+            self.tap_dict(data)
+        elif type(data) == list:
+            if self.tap_list(data, data_info):
                 return True
-            else:
-                return False
-    else:
-        pass
+            if 'fun_return' in data_info.keys():
+                data_info_result = data_info['fun_return']
+                if data_info_result:
+                    return True
+                else:
+                    return False
+        else:
+            pass
 
 
 def test():
@@ -810,17 +944,51 @@ class Job(threading.Thread):
 
 
 def run_config():
-    global Console, Console_Action, target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+    """
+    构建基础配置
+
+    """
+    Girl_Frontline = Tools()
+    basic_config = 'config.yaml'
+    basic_config_data = Girl_Frontline.YAML(basic_config)
+    global console_name, target_path, device, Console, Console_Action
+    # 模拟器配置
+    console_config = basic_config_data['console_config']
+    console_name = console_config['console']
+    # target调用配置
+    target_config = basic_config_data['target_config']
+    target_path = target_config['target']
+    global target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
         end_combat_1, end_combat_2
-    Dc = Dnconsole(r'C:\leidian\LDPlayer9')
-    Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
-    # print(Dc.workspace_path)
-    logging.debug(Dc.workspace_path)
-    target_yaml_data = Dc.YAML('target.yaml')
+    # 模拟器adb终端默认地址
+    adb_terminal = '127.0.0.1:5555'
+    # 判断调用模拟器的方法
+    if console_name == 'BlueStacks':
+        # bluestacks模拟器目录
+        bluestacks_path = "C:\\Program Files\\BlueStacks_nxt"
+        # 模拟器终端名称
+        device = 'emulator-5554'
+        Console = BlueStacks_Console(bluestacks_path)
+        # 获取判断bluestacks模拟器的连接状态
+        if device in Console.Adb_Status():
+            pass
+        else:
+            Console.ADB('kill-server')
+            time.sleep(1)
+            Console.ADB('start-server')
+        Console_Action = Action(device, Console)
+    elif console_name == 'LDplayer':
+        # 雷电模拟器目录
+        ldplayer_path = r'C:\leidian\LDPlayer9'
+        Console = Dnconsole(ldplayer_path)
+        Console_Action = Action('0', Console)
+        # print(Dc.workspace_path)
+        logging.debug(Girl_Frontline.workspace_path)
+    target_yaml_data = Girl_Frontline.YAML('target.yaml')
     # 载入关卡配置
     logging.info('开始加载关卡配置')
     battle_name = '13_4.yaml'
-    battle_yaml_data = Dc.YAML(battle_name)
+    battle_yaml_data = Girl_Frontline.YAML(battle_name)
     get_into_mission = battle_yaml_data['get_into_mission']
     select_13_4 = battle_yaml_data['get_select_13_4']
     battle_13_4_1 = battle_yaml_data['battle_13_4_1']
@@ -831,6 +999,7 @@ def run_config():
 
 def battle():
     global running_script, start_time
+    yaml_drive = Yaml_Drive(Console, Console_Action)
     user_action = True
     while user_action:
         try:
@@ -847,31 +1016,31 @@ def battle():
             runtime_min = runtime * 60
         running_script = '共 %d 次，开始执行' % runtimes
         start_time = time.time()
-        if drive_yaml(get_into_mission):
+        if yaml_drive.drive_yaml(get_into_mission):
             continue
         ran_time: float = 0
         if runtimes == 1:
-            drive_yaml(select_13_4)
-            drive_yaml(battle_13_4_1)
-            drive_yaml(end_combat_1)
+            yaml_drive.drive_yaml(select_13_4)
+            yaml_drive.drive_yaml(battle_13_4_1)
+            yaml_drive.drive_yaml(end_combat_1)
         elif runtimes > 1:
             # 执行次数大于1，默认执行再次战斗流程
             fight_again: bool = True
-            drive_yaml(select_13_4)
+            yaml_drive.drive_yaml(select_13_4)
             for is_runtimes in range(runtimes):
                 is_runtimes_num = is_runtimes + 1
                 running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
                 if is_runtimes_num > 1 and fight_again is True:
-                    drive_yaml(battle_13_4_2)
+                    yaml_drive.drive_yaml(battle_13_4_2)
                 elif is_runtimes_num == 1 and fight_again is True:
-                    drive_yaml(battle_13_4_1)
+                    yaml_drive.drive_yaml(battle_13_4_1)
                 elif is_runtimes_num > 1 and fight_again is False:
-                    drive_yaml(battle_13_4_1)
+                    yaml_drive.drive_yaml(battle_13_4_1)
                 end_time = time.time()
                 ran_time = end_time - start_time
                 if ran_time < runtime_min and is_runtimes_num < runtimes:
                     fight_again = True
-                    end_result = drive_yaml(end_combat_2)
+                    end_result = yaml_drive.drive_yaml(end_combat_2)
                     # 【结束流程】校验执行了特殊方法后判断，是否是使用再次战斗执行的战斗流程
                     if end_result:
                         fight_again = False
@@ -884,7 +1053,7 @@ def battle():
                     # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
                     #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
                 elif ran_time < runtime_min and is_runtimes_num == runtimes:
-                    drive_yaml(end_combat_1)
+                    yaml_drive.drive_yaml(end_combat_1)
                     end_time = time.time()
                     ran_time = end_time - start_time
                     ran_time_m, ran_time_s = divmod(ran_time, 60)
@@ -892,7 +1061,7 @@ def battle():
                     logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
                         runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
                 else:
-                    drive_yaml(end_combat_1)
+                    yaml_drive.drive_yaml(end_combat_1)
                     end_time = time.time()
                     ran_time = end_time - start_time
                     ran_time_m, ran_time_s = divmod(ran_time, 60)
@@ -919,8 +1088,10 @@ if __name__ == '__main__':
     CON_LOG = 'logger.conf'  # 配置文件路径
     logging.config.fileConfig(CON_LOG)  # '读取日志配置文件'
     logger = logging.getLogger('exampleLogger')  # 创建一个日志器logger
+    # 获取程序工作目录
     workspace = os.getcwd()
-    global Console, Console_Action, target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+    global console_name, target_path, ScreenShot_Img, device, Console, Console_Action
+    global target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
         end_combat_1, end_combat_2, running_script, start_time
     # base_run = threading.Thread(target=run_config)
     # battle_run = threading.Thread(target=battle)

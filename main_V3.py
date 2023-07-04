@@ -339,7 +339,7 @@ class Ldaction(object):
                                                      tap_times, tap_interval)
                 if find_result[0]:
                     if tap_result_check and tap_result_check_img_name is not None:
-                        self.ld.screenShotnewLd(self.index)
+                        self.ld.ScreenShot_Ld(self.index)
                         tap_result = self.isExist(tap_result_check_img_name, rgb, threshold)
                         if tap_result[0]:
                             break
@@ -358,7 +358,7 @@ class Ldaction(object):
                 find_result = self.isExist(target_img_name, rgb, threshold)
                 if find_result[0]:
                     if tap_result_check and tap_result_check_img_name is not None:
-                        self.ld.screenShotnewLd(self.index)
+                        self.ld.ScreenShot_Ld(self.index)
                         tap_result = self.isExist(tap_result_check_img_name, rgb, threshold)
                         if tap_result[0]:
                             break
@@ -384,7 +384,7 @@ class Ldaction(object):
                     print(".", end="")
                     if s == tap_interval - 1:
                         print("", end="\n")
-                self.ld.inputTap(Ld.index, x, y)
+                self.ld.inputTap(Console_Action.index, x, y)
                 print('已点击 %s %d次' % (target_img_name, tap), end="")
             after_tap_wait_time = int(after_tap_wait_time * 2)
             for s in range(after_tap_wait_time):
@@ -416,7 +416,7 @@ class Ldaction(object):
         :return:
         """
         for search in range(search_again_times):
-            self.ld.screenShotnewLd(self.index)
+            self.ld.ScreenShot_Ld(self.index)
             result = self.isExist(target_img_name, rgb, threshold)
             find_result = result[1]
             if find_result is None and search_again_times == 1:
@@ -446,7 +446,7 @@ class Ldaction(object):
                         print(".", end="")
                         if s == tap_interval - 1:
                             print("", end="\n")
-                    self.ld.inputTap(Ld.index, x, y)
+                    self.ld.inputTap(Console_Action.index, x, y)
                     print('已点击 %s %d次' % (target_img_name, tap), end="")
                 after_tap_wait_time = int(after_tap_wait_time * 2)
                 for s in range(after_tap_wait_time):
@@ -475,7 +475,7 @@ class Ldaction(object):
         for target_img_name in target_img_name_list:
             for search in range(search_again_times):
                 if need_screenShot:
-                    self.ld.screenShotnewLd(self.index)
+                    self.ld.ScreenShot_Ld(self.index)
                 result = self.isExistV2(target_name, target_img_name_list.index(target_img_name))
                 find_result = result[1]
                 if find_result is None and need_screenShot is False:
@@ -508,7 +508,7 @@ class Ldaction(object):
                             print(".", end="")
                             if s == tap_interval - 1:
                                 print("", end="\n")
-                        self.ld.inputTap(Ld.index, x, y)
+                        self.ld.inputTap(Console_Action.index, x, y)
                         print('已点击 %s %d次' % (target_img_name, tap), end="")
                     break
             if result[0]:
@@ -551,7 +551,7 @@ class Ldaction(object):
                 print("", end="\n")
         if find_result[0]:
             if tap_result_check and tap_result_check_name is not None:
-                self.ld.screenShotnewLd(self.index)
+                self.ld.ScreenShot_Ld(self.index)
                 tap_result = self.isExistV2(tap_result_check_name)
                 if tap_result[0] is False:
                     print('点击后结果校验不通过，重新点击！')
@@ -601,7 +601,7 @@ class Ldaction(object):
                 x = coordinate[0] - 100
                 y = coordinate[1] + 200
                 print('选中人形 X: %s  Y: %s' % (x, y))
-                self.ld.inputTap(Ld.index, x, y)
+                self.ld.inputTap(Console_Action.index, x, y)
                 time.sleep(0.5)
 
 
@@ -611,20 +611,20 @@ def T_Dolls_retire(adv_retire: bool = False):
     :param adv_retire:
     :return:
     """
-    Ld.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收', search_again_times=2)
-    Ld.LdactionTapV2(['intelligent_selection.png'], end_content='点击智能选择')
-    Ld.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
-    Ld.LdactionTapV2(['retire.png'], after_tap_wait_time=3, end_content='开始回收')
+    Console_Action.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收', search_again_times=2)
+    Console_Action.LdactionTapV2(['intelligent_selection.png'], end_content='点击智能选择')
+    Console_Action.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
+    Console_Action.LdactionTapV2(['retire.png'], after_tap_wait_time=3, end_content='开始回收')
     if adv_retire:
-        Ld.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收')
-        Ld.LdactionTapV2(['show_all.png'], before_tap_wait_time=1)
-        Ld.LdactionTapV2(['legendary_III.png'], after_tap_wait_time=0.5)
-        Ld.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
-        Dc.screenShotnewLd(Ld.index)
-        Ld.List_select('lv_III.png')
-        Ld.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
-        Ld.LdactionTapV2(['retire.png'], after_tap_wait_time=2, end_content='开始回收')
-        Ld.LdactionTapV2(['retire_confirm.png'])
+        Console_Action.LdactionTapV2(['standing_by_T_Dolls.png'], beginning_content='选择角色回收')
+        Console_Action.LdactionTapV2(['show_all.png'], before_tap_wait_time=1)
+        Console_Action.LdactionTapV2(['legendary_III.png'], after_tap_wait_time=0.5)
+        Console_Action.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
+        Console.screenShotnewLd(Console_Action.index)
+        Console_Action.List_select('lv_III.png')
+        Console_Action.LdactionTapV2(['select_confirm.png'], end_content='选择确定')
+        Console_Action.LdactionTapV2(['retire.png'], after_tap_wait_time=2, end_content='开始回收')
+        Console_Action.LdactionTapV2(['retire_confirm.png'])
 
 
 def ep_13_4(debug_mode: bool = False):
@@ -633,118 +633,130 @@ def ep_13_4(debug_mode: bool = False):
     :return:
     """
     # 判断选择13章节
-    Dc.screenShotnewLd(Ld.index)
-    if Ld.isExistV2('isep13')[0]:
-        Ld.LdactionTapV3('13_4')
+    Console.screenShotnewLd(Console_Action.index)
+    if Console_Action.isExistV2('isep13')[0]:
+        Console_Action.LdactionTapV3('13_4')
     else:
-        Ld.LdactionTapV2(['ep13.png', 'isep13.png'], threshold=0.9, beginning_content='选择作战章节',
-                         end_content='已选择章节13', need_screenShot=False)
-        Ld.LdactionTapV2(['13_4.png'], threshold=0.9, search_again_times=2, beginning_content='选择关卡',
-                         end_content='已选择关卡13-4')
-    Ld.LdactionTapV2(['common_battle.png'], after_tap_wait_time=5, tap_interval=1, end_content='进入关卡战斗')
+        Console_Action.LdactionTapV2(['ep13.png', 'isep13.png'], threshold=0.9, beginning_content='选择作战章节',
+                                     end_content='已选择章节13', need_screenShot=False)
+        Console_Action.LdactionTapV2(['13_4.png'], threshold=0.9, search_again_times=2, beginning_content='选择关卡',
+                                     end_content='已选择关卡13-4')
+    Console_Action.LdactionTapV2(['common_battle.png'], after_tap_wait_time=5, tap_interval=1,
+                                 end_content='进入关卡战斗')
 
     # 进入关卡，兼容单位仓库已满
-    Dc.screenShotnewLd(Ld.index)
-    if Ld.isExist('unit_recycle.png')[0]:
+    Console.screenShotnewLd(Console_Action.index)
+    if Console_Action.isExist('unit_recycle.png')[0]:
         print('\n+++++单位已满,请回收处理+++++')
-        Ld.LdactionTapV2(['unit_recycle.png'], need_screenShot=False, after_tap_wait_time=2,
-                         beginning_content='准备回收单位')
+        Console_Action.LdactionTapV2(['unit_recycle.png'], need_screenShot=False, after_tap_wait_time=2,
+                                     beginning_content='准备回收单位')
         T_Dolls_retire(adv_retire=True)
-        Ld.LdactionTapV2(['return.png'], after_tap_wait_time=2, search_again_times=2)
+        Console_Action.LdactionTapV2(['return.png'], after_tap_wait_time=2, search_again_times=2)
         return get_into_mission()
     else:
-        Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, after_tap_wait_time=1.5,
-                         beginning_content='....准备投放第一战队....')
+        Console_Action.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, after_tap_wait_time=1.5,
+                                     beginning_content='....准备投放第一战队....')
 
     # 判断选择第一梯队，进入梯队编辑
-    Dc.screenShotnewLd(Ld.index)
-    if Ld.isExist('isechelon1.png', rgb=True)[0]:
-        Ld.LdactionTapV2(['echelon_editing.png'], need_screenShot=False, after_tap_wait_time=1.5,
-                         end_content='进入队伍编辑')
+    Console.screenShotnewLd(Console_Action.index)
+    if Console_Action.isExist('isechelon1.png', rgb=True)[0]:
+        Console_Action.LdactionTapV2(['echelon_editing.png'], need_screenShot=False, after_tap_wait_time=1.5,
+                                     end_content='进入队伍编辑')
     else:
-        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False)
-        Ld.LdactionTapV2(['echelon_editing.png'], after_tap_wait_time=2, end_content='进入队伍编辑')
+        Console_Action.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False)
+        Console_Action.LdactionTapV2(['echelon_editing.png'], after_tap_wait_time=2, end_content='进入队伍编辑')
 
-    Ld.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2, after_tap_wait_time=2,
-                     end_content='选择维克托人形', search_again_times=2, search_again_sleep_time=0.5)
+    Console_Action.LdactionTapV2(['victor.png'], moveY=100, tap_interval=2, before_tap_wait_time=2,
+                                 after_tap_wait_time=2,
+                                 end_content='选择维克托人形', search_again_times=2, search_again_sleep_time=0.5)
 
     # 筛选victor
-    Ld.LdactionTapV2(['show_all.png'], after_tap_wait_time=0.5)
-    Ld.LdactionTapV2(['legendary_v.png'], after_tap_wait_time=0.5)
-    Ld.LdactionTapV2(['smg.png'], need_screenShot=False, after_tap_wait_time=0.5)
-    Ld.LdactionTapV2(['at_max_lv.png'], need_screenShot=False, after_tap_wait_time=0.5)
-    Ld.LdactionTapV2(['desc.png'], need_screenShot=False)
-    Ld.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
-    Ld.LdactionTapV2(['victor_bak.png'], after_tap_wait_time=2)
-    Ld.LdactionTapV2(['return.png'], 'start_fighting.png', moveX=20, after_tap_wait_time=3, search_again_times=2)
+    Console_Action.LdactionTapV2(['show_all.png'], after_tap_wait_time=0.5)
+    Console_Action.LdactionTapV2(['legendary_v.png'], after_tap_wait_time=0.5)
+    Console_Action.LdactionTapV2(['smg.png'], need_screenShot=False, after_tap_wait_time=0.5)
+    Console_Action.LdactionTapV2(['at_max_lv.png'], need_screenShot=False, after_tap_wait_time=0.5)
+    Console_Action.LdactionTapV2(['desc.png'], need_screenShot=False)
+    Console_Action.LdactionTapV2(['confirm.png'], need_screenShot=False, after_tap_wait_time=0.5)
+    Console_Action.LdactionTapV2(['victor_bak.png'], after_tap_wait_time=2)
+    Console_Action.LdactionTapV2(['return.png'], 'start_fighting.png', moveX=20, after_tap_wait_time=3,
+                                 search_again_times=2)
 
     # 投放换人后的第一梯队
-    Ld.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, search_again_times=2, after_tap_wait_time=1.5,
-                     end_content='选中指挥部')
-    Dc.screenShotnewLd(Ld.index)
-    if Ld.isExist('isechelon1.png', rgb=True)[0]:
-        Ld.LdactionTapV2(['echelon_confirm.png'], need_screenShot=False, tap_interval=0.5, end_content='投放第一梯队')
+    Console_Action.LdactionTapV2(['zhb.png', 'zhb_bak.png'], threshold=0.6, search_again_times=2,
+                                 after_tap_wait_time=1.5,
+                                 end_content='选中指挥部')
+    Console.screenShotnewLd(Console_Action.index)
+    if Console_Action.isExist('isechelon1.png', rgb=True)[0]:
+        Console_Action.LdactionTapV2(['echelon_confirm.png'], need_screenShot=False, tap_interval=0.5,
+                                     end_content='投放第一梯队')
     else:
-        Ld.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False,
-                         end_content='选中第一梯队')
-        Ld.LdactionTapV2(['echelon_confirm.png'], tap_interval=0.5, end_content='投放第一梯队')
+        Console_Action.LdactionTapV2(['echelon1.png', 'isechelon1.png'], after_tap_wait_time=1.5, need_screenShot=False,
+                                     end_content='选中第一梯队')
+        Console_Action.LdactionTapV2(['echelon_confirm.png'], tap_interval=0.5, end_content='投放第一梯队')
 
     # 投放第二梯队
-    Ld.LdactionTapV2(['13_4_fjc.png', '13_4_fjc_bak.png'], rgb=True, threshold=0.6, search_again_times=4,
-                     end_content='准备投放第二梯队', after_tap_wait_time=1.5)
-    Dc.screenShotnewLd(Ld.index)
-    if Ld.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
-        if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2,
-                             beginning_content='已在梯队选择，默认第二梯队',
-                             end_content='投放第二梯队', need_screenShot=False)
+    Console_Action.LdactionTapV2(['13_4_fjc.png', '13_4_fjc_bak.png'], rgb=True, threshold=0.6, search_again_times=4,
+                                 end_content='准备投放第二梯队', after_tap_wait_time=1.5)
+    Console.screenShotnewLd(Console_Action.index)
+    if Console_Action.isExist('isselect_echelon.png', rgb=True, threshold=0.98)[0]:
+        if Console_Action.isExist('isechelon2.png')[0]:
+            Console_Action.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2,
+                                         beginning_content='已在梯队选择，默认第二梯队',
+                                         end_content='投放第二梯队', need_screenShot=False)
         else:
-            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False,
-                             beginning_content='已在梯队选择',
-                             end_content='选择第二梯队')
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
+            Console_Action.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False,
+                                         beginning_content='已在梯队选择',
+                                         end_content='选择第二梯队')
+            Console_Action.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
     else:
-        Ld.LdactionTapV2(['select_echelon.png'], need_screenShot=False, end_content='选择投放梯队')
-        Dc.screenShotnewLd(Ld.index)
-        if Ld.isExist('isechelon2.png')[0]:
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, beginning_content='默认第二梯队',
-                             end_content='投放第二梯队', need_screenShot=False)
+        Console_Action.LdactionTapV2(['select_echelon.png'], need_screenShot=False, end_content='选择投放梯队')
+        Console.screenShotnewLd(Console_Action.index)
+        if Console_Action.isExist('isechelon2.png')[0]:
+            Console_Action.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2,
+                                         beginning_content='默认第二梯队',
+                                         end_content='投放第二梯队', need_screenShot=False)
         else:
-            Ld.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False, end_content='选择第二梯队')
-            Ld.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
+            Console_Action.LdactionTapV2(['echelon2.png', 'isechelon2.png'], need_screenShot=False,
+                                         end_content='选择第二梯队')
+            Console_Action.LdactionTapV2(['echelon_confirm.png'], after_tap_wait_time=2, end_content='投放第二梯队')
 
     # 开始战斗
-    Ld.LdactionTapV2(['start_fighting.png'], tap_interval=1, after_tap_wait_time=1.5, end_content='开始作战')
+    Console_Action.LdactionTapV2(['start_fighting.png'], tap_interval=1, after_tap_wait_time=1.5,
+                                 end_content='开始作战')
 
     # 补给第二梯队
-    Ld.LdactionTapV2(['echelon2_bak.png', 'echelon2_bak2.png'], 'supply.png', threshold=0.94, moveX=124, moveY=-41,
-                     tap_times=2, search_again_times=2, tap_interval=0.3, rgb=True)
-    Ld.LdactionTapV3('supply')
+    Console_Action.LdactionTapV2(['echelon2_bak.png', 'echelon2_bak2.png'], 'supply.png', threshold=0.94, moveX=124,
+                                 moveY=-41,
+                                 tap_times=2, search_again_times=2, tap_interval=0.3, rgb=True)
+    Console_Action.LdactionTapV3('supply')
 
     # 选择第一梯队，配置战斗计划
-    Ld.LdactionTapV2(['echelon1_bak.png'], tap_interval=1, threshold=0.9, moveX=118, moveY=-39)
-    Ld.LdactionTapV2(['planning_mode.png'], after_tap_wait_time=1, end_content='计划模式')
-    Ld.LdactionTapV2(['17.png'], need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5, search_again_times=2)
-    Ld.LdactionTapV2(['18.png'], need_screenShot=False, threshold=0.6, after_tap_wait_time=0.5, search_again_times=2)
-    Ld.LdactionTapV2(['19.png'], rgb=True, need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
-                     search_again_times=2, moveX=51, moveY=-9)
-    Ld.LdactionTapV2(['execution_plan.png'], beginning_content='开始执行计划战斗', tap_interval=0.5)
+    Console_Action.LdactionTapV2(['echelon1_bak.png'], tap_interval=1, threshold=0.9, moveX=118, moveY=-39)
+    Console_Action.LdactionTapV2(['planning_mode.png'], after_tap_wait_time=1, end_content='计划模式')
+    Console_Action.LdactionTapV2(['17.png'], need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
+                                 search_again_times=2)
+    Console_Action.LdactionTapV2(['18.png'], need_screenShot=False, threshold=0.6, after_tap_wait_time=0.5,
+                                 search_again_times=2)
+    Console_Action.LdactionTapV2(['19.png'], rgb=True, need_screenShot=False, threshold=0.7, after_tap_wait_time=0.5,
+                                 search_again_times=2, moveX=51, moveY=-9)
+    Console_Action.LdactionTapV2(['execution_plan.png'], beginning_content='开始执行计划战斗', tap_interval=0.5)
 
     # 等待战斗结束，并结算
-    Ld.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8, tap_interval=1,
-                     before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
+    Console_Action.LdactionTapV2(['result_settlement.png'], search_again_times=20, search_again_sleep_time=8,
+                                 tap_interval=1,
+                                 before_tap_wait_time=110, after_tap_wait_time=6, beginning_content='等待战斗完毕结算')
     print('开始结算')
     for tap in range(3):
-        Dc.screenShotnewLd(Ld.index)
-        if Ld.isExist('new_unit.png')[0]:
-            Ld.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, after_tap_wait_time=6,
-                             beginning_content='检查是否有新单位获得', end_content='结算获得1个新单位',
-                             error_content='结算未获得新单位', need_screenShot=False)
+        Console.screenShotnewLd(Console_Action.index)
+        if Console_Action.isExist('new_unit.png')[0]:
+            Console_Action.LdactionTapV2(['new_unit.png'], moveX=-423, moveY=-521, after_tap_wait_time=6,
+                                         beginning_content='检查是否有新单位获得', end_content='结算获得1个新单位',
+                                         error_content='结算未获得新单位', need_screenShot=False)
             taps = tap + 1
             print('已获得%s个' % taps)
-        elif Ld.isExist('result_settlement.png')[0]:
-            Ld.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3.5, end_content='已完成关卡',
-                             need_screenShot=False)
+        elif Console_Action.isExist('result_settlement.png')[0]:
+            Console_Action.LdactionTapV2(['result_settlement.png'], after_tap_wait_time=3.5, end_content='已完成关卡',
+                                         need_screenShot=False)
         else:
             print("未搜索到获得新单位，结束结算")
             break
@@ -790,36 +802,36 @@ def get_into_mission():
     """
     # 初始化到主界面操作
     print('....准备当前界面分析....')
-    Dc.screenShotnewLd(Ld.index)
+    Console.screenShotnewLd(Console_Action.index)
     # 以兼容的界面判断
-    if Ld.isExistV2('main')[0]:
+    if Console_Action.isExistV2('main')[0]:
         # 当前在主界面
         # 进入战斗菜单
-        Ld.LdactionTapV3('main_battle', need_screenShot=False)
+        Console_Action.LdactionTapV3('main_battle', need_screenShot=False)
         # 选择战斗类型
-        Dc.screenShotnewLd(Ld.index)
-        if Ld.isExistV2('iscombat_mission')[0]:
+        Console.screenShotnewLd(Console_Action.index)
+        if Console_Action.isExistV2('iscombat_mission')[0]:
             pass
         else:
-            Ld.LdactionTapV3('combat_mission', need_screenShot=False)
-    elif Ld.isExistV2('battle')[0]:
+            Console_Action.LdactionTapV3('combat_mission', need_screenShot=False)
+    elif Console_Action.isExistV2('battle')[0]:
         # 当前在战斗界面
         # 选择战斗类型
-        if Ld.isExistV2('iscombat_mission')[0]:
+        if Console_Action.isExistV2('iscombat_mission')[0]:
             pass
         else:
-            Ld.LdactionTapV3('combat_mission', need_screenShot=False)
-    elif Ld.isExist('research.png', threshold=0.9)[0]:
+            Console_Action.LdactionTapV3('combat_mission', need_screenShot=False)
+    elif Console_Action.isExist('research.png', threshold=0.9)[0]:
         # 当前在研发界面
-        Ld.LdactionTapV3('return', need_screenShot=False)
+        Console_Action.LdactionTapV3('return', need_screenShot=False)
         # 进入战斗菜单
-        Ld.LdactionTapV3('main_battle')
+        Console_Action.LdactionTapV3('main_battle')
         # 选择战斗类型
-        Dc.screenShotnewLd(Ld.index)
-        if Ld.isExistV2('iscombat_mission')[0]:
+        Console.screenShotnewLd(Console_Action.index)
+        if Console_Action.isExistV2('iscombat_mission')[0]:
             pass
         else:
-            Ld.LdactionTapV3('combat_mission', need_screenShot=False)
+            Console_Action.LdactionTapV3('combat_mission', need_screenShot=False)
     else:
         print('....当前页面无法自动返回主界面请手动返回后重试！....')
         sys.exit()
@@ -830,14 +842,14 @@ def test():
     :return:
     """
 
-    Ld.LdactionTapV3('supply', 'echelon2_bak')
+    Console_Action.LdactionTapV3('supply', 'echelon2_bak')
     sys.exit()
 
 
 if __name__ == '__main__':
-    Dc = Dnconsole(r'C:\leidian\LDPlayer9')
-    Ld = Ldaction(0, Dc, 'screenshout_tmp.png')
-    target_yaml_data = Dc.YAML('target.yaml')
+    Console = Dnconsole(r'C:\leidian\LDPlayer9')
+    Console_Action = Ldaction(0, Console, 'screenshout_tmp.png')
+    target_yaml_data = Console.YAML('target.yaml')
     # AppPackage = 'com.sunborn.girlsfrontline.cn'
     # App = '少女前线'
     # if Dc.isrunning(0):
@@ -869,7 +881,7 @@ if __name__ == '__main__':
 
     # 载入关卡配置
     battle = '13_4.yaml'
-    battle_yaml_data = Dc.YAML(battle)
+    battle_yaml_data = Console.YAML(battle)
 
     # 正式运行
     runtimes = int(input("跑几圈:"))
