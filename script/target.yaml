@@ -143,8 +143,6 @@ start_fighting:
   threshold: 0.9
   moveX: 0
   moveY: 0
-  tap_interval: 1.5
-  after_tap_wait_time: 2
   end_content: 开始作战
 
 end_fighting:

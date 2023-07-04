@@ -126,11 +126,12 @@ battle_13_4_1:
             need_screenShot: False
         - echelon_editing:
   - victor:
+      search_again_times: 3
       tap_result_check_name: show_all
   - sort_order:
   - number_sorting:
   - show_all:
-      tap_interval: 0.5
+      tap_interval: 1
   - legendary_v:
   - smg:
       need_screenShot: False
@@ -143,7 +144,7 @@ battle_13_4_1:
   - victor_echelon2:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 3.5
+      after_tap_wait_time: 4
       search_again_times: 2
   - zhb:
       search_again_sleep_time: 0.5
@@ -221,11 +222,12 @@ battle_13_4_2:
   - echelon_editing:
       need_screenShot: False
   - victor:
+      search_again_times: 3
       tap_result_check_name: show_all
   - sort_order:
   - number_sorting:
   - show_all:
-      tap_interval: 0.5
+      tap_interval: 1
   - legendary_v:
   - smg:
       need_screenShot: False
@@ -238,7 +240,7 @@ battle_13_4_2:
   - victor_echelon2:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 3.5
+      after_tap_wait_time: 4
       search_again_times: 2
   - start_fighting:
       moveX: 0
