@@ -6,6 +6,7 @@
 # 打包命令pyinstaller main_V4.spec
 import logging.config
 import os
+import subprocess
 import sys
 import threading
 import time
@@ -121,10 +122,11 @@ class Dnconsole:
         :return: 控制台调试内容
         """
         CMD = self.adb_path + cmd  # adb命令
-        process = os.popen(CMD)
-        result = process.read()
-        process.close()
-        return result
+        # os.system('chcp 65001')
+        p = subprocess.Popen(['C:\\leidian\\LDPlayer9\\adb', '-s', '127.0.0.1:5555', 'exec-out', 'screencap', '-p'],
+                             stdout=subprocess.PIPE)
+        output, _ = p.communicate()
+        return output
 
     def launch(self, index: int = 0):
         """
@@ -353,7 +355,7 @@ class Ldaction(object):
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             half_second = s
                             s_10, d = divmod(half_second, 10)
-                            print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                            print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
                             if s == search_again_sleep_time_double:
                                 pass
                             else:
@@ -388,7 +390,7 @@ class Ldaction(object):
                                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                                 half_second = s
                                 s_10, d = divmod(half_second, 10)
-                                print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                                print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
                                 if s == tap_interval_time:
                                     pass
                                 else:
@@ -425,7 +427,7 @@ class Ldaction(object):
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                 half_second = s
                 s_10, d = divmod(half_second, 10)
-                print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
                 if s == do_before_tap_wait_time:
                     pass
                 else:
@@ -446,7 +448,7 @@ class Ldaction(object):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         half_second = s
                         s_10, d = divmod(half_second, 10)
-                        print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                        print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
                         if s == do_after_tap_wait_time:
                             pass
                         else:
@@ -494,7 +496,7 @@ class Ldaction(object):
                                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                                         half_second = s
                                         s_10, d = divmod(half_second, 10)
-                                        print("\r%s %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                                        print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
                                         if s == do_after_tap_wait_time:
                                             pass
                                         else:
@@ -710,7 +712,7 @@ def tap_list(data_target_list: list, data_info: dict = None):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         half_second = s
                         s_10, d = divmod(half_second, 10)
-                        print("\r%s 请稍等 %-20s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                        print("\r%s 请稍等 %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
                         if s == do_sleep_time:
                             pass
                         else:
