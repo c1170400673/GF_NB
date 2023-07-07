@@ -4,16 +4,15 @@ default_tap_info:
   need_screenShot: True
   moveX: 0
   moveY: 0
-  tap_times: 1
-  tap_interval: 0
+  tap_times: 1                   # 点击次数
+  tap_interval: 0                # 点击间隔,单位秒
   before_tap_wait_time: 0
   after_tap_wait_time: 1
   search_again_times: 2
   search_again_sleep_time: 0.5
   beginning_content: ''
   end_content: ''
-  # 点击结果要检查的按钮名称
-  tap_result_check_name:
+  tap_result_check_name:         # 点击结果要检查的按钮名称
   error_content: '请检查界面！'
 
 get_into_mission:
@@ -161,7 +160,7 @@ battle_13_4_1:
             tap_result_check_name: start_fighting
   - heavy_airport:
       search_again_times: 4
-      after_tap_wait_time: 1.5
+      after_tap_wait_time: 1
   - screenShot:
       is_select_echelon:
         is_echelon2:
@@ -211,7 +210,7 @@ battle_13_4_1:
   - '17':
       need_screenShot: False
   - execution_plan:
-      after_tap_wait_time: 110
+      after_tap_wait_time: 120
 
 battle_13_4_2:
   - zhb:
@@ -260,23 +259,29 @@ battle_13_4_2:
   - '17':
       need_screenShot: False
   - execution_plan:
-      after_tap_wait_time: 110
+      after_tap_wait_time: 120
+
+round_combat_patrol:
+  - screenShot:
+
 
 end_combat_1:
   - result_settlement:
-      search_again_times: 20
-      search_again_sleep_time: 5
+      search_again_times: 40
+      search_again_sleep_time: 2
+      tap_times: 2
       tap_interval: 1
-      after_tap_wait_time: 6
+      after_tap_wait_time: 1.5
       beginning_content: 等待战斗完毕结算
   - round_new_unit_1: 4
 
 end_combat_2:
   - fight_again:
-      search_again_times: 20
-      search_again_sleep_time: 5
+      search_again_times: 40
+      search_again_sleep_time: 2
+      tap_times: 2
       tap_interval: 1
-      after_tap_wait_time: 6
+      after_tap_wait_time: 1.5
       beginning_content: 等待战斗完毕结算
   - round_new_unit_2: 4
 
@@ -285,9 +290,19 @@ round_new_unit_1:
       new_unit:
         - new_unit:
             need_screenShot: False
-            after_tap_wait_time: 6
+            tap_times: 1
+            tap_interval: 1
+            after_tap_wait_time: 2
             beginning_content: 检查是否有新单位获得
             end_content: 结算获得1个新单位
+            error_content: 结算未获得新单位
+      new_unit_2:
+        - new_unit_2:
+            need_screenShot: False
+            tap_times: 1
+            tap_interval: 1
+            after_tap_wait_time: 2
+            beginning_content: 检查是否有新单位获得
             error_content: 结算未获得新单位
       result_settlement:
         - result_settlement:
@@ -300,9 +315,19 @@ round_new_unit_2:
       new_unit:
         - new_unit:
             need_screenShot: False
-            after_tap_wait_time: 5
+            tap_times: 1
+            tap_interval: 1
+            after_tap_wait_time: 2
             beginning_content: 检查是否有新单位获得
             end_content: 结算获得1个新单位
+            error_content: 结算未获得新单位
+      new_unit_2:
+        - new_unit_2:
+            need_screenShot: False
+            tap_times: 1
+            tap_interval: 1
+            after_tap_wait_time: 2
+            beginning_content: 检查是否有新单位获得
             error_content: 结算未获得新单位
       fight_again:
         - fight_again:

@@ -3,3 +3,7 @@ console_config:
   console: BlueStacks # BlueStacks |LDplayer
 target_config:
   target: 720p_dpi240
+battle:
+  battle_list:
+    - '13_4'
+    - '8-1N'

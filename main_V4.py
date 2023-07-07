@@ -810,7 +810,7 @@ class Job(threading.Thread):
 
 
 def run_config():
-    global Console, Console_Action, target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+    global Console, Console_Action, target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2
     Dc = Dnconsole(r'C:\leidian\LDPlayer9')
     Ld = Ldaction(0, Dc, 'screenshot_tmp.png')
@@ -851,22 +851,22 @@ def battle():
             continue
         ran_time: float = 0
         if runtimes == 1:
-            drive_yaml(select_13_4)
-            drive_yaml(battle_13_4_1)
+            drive_yaml(select_battle_name)
+            drive_yaml(battle_name_1)
             drive_yaml(end_combat_1)
         elif runtimes > 1:
             # 执行次数大于1，默认执行再次战斗流程
             fight_again: bool = True
-            drive_yaml(select_13_4)
+            drive_yaml(select_battle_name)
             for is_runtimes in range(runtimes):
                 is_runtimes_num = is_runtimes + 1
                 running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
                 if is_runtimes_num > 1 and fight_again is True:
-                    drive_yaml(battle_13_4_2)
+                    drive_yaml(battle_name_2)
                 elif is_runtimes_num == 1 and fight_again is True:
-                    drive_yaml(battle_13_4_1)
+                    drive_yaml(battle_name_1)
                 elif is_runtimes_num > 1 and fight_again is False:
-                    drive_yaml(battle_13_4_1)
+                    drive_yaml(battle_name_1)
                 end_time = time.time()
                 ran_time = end_time - start_time
                 if ran_time < runtime_min and is_runtimes_num < runtimes:
@@ -920,7 +920,7 @@ if __name__ == '__main__':
     logging.config.fileConfig(CON_LOG)  # '读取日志配置文件'
     logger = logging.getLogger('exampleLogger')  # 创建一个日志器logger
     workspace = os.getcwd()
-    global Console, Console_Action, target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+    global Console, Console_Action, target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2, running_script, start_time
     # base_run = threading.Thread(target=run_config)
     # battle_run = threading.Thread(target=battle)

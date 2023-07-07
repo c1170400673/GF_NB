@@ -218,7 +218,15 @@ new_unit:
   rgb: False
   threshold: 0.9
   moveX: -423
-  moveY: -321
+  moveY: 21
+
+new_unit_2:
+  target_img_name_list:
+    - 'new_unit_2.png'
+  rgb: False
+  threshold: 0.9
+  after_tap_wait_time: 0
+
 
 ###################################
 
