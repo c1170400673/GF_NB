@@ -482,7 +482,7 @@ class Action(object):
                         tap = t + 1
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         print('%s 找到按钮: %s [%d , %d]  ' % (running_time, target_img_name, x, y))
-                        if tap_interval != 0:
+                        if tap_interval != 0 and tap_times > 1:
                             tap_interval_time = int(tap_interval * 2)
                             for s in range(tap_interval_time + 1):
                                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
@@ -519,7 +519,7 @@ class Action(object):
         beginning_content = tap_info['beginning_content']
         end_content = tap_info['end_content']
         error_content = tap_info['error_content']
-        print('%s +++++START+++++ [目标%s: %s %s]' % (running_time, target_name, beginning_content, running_script))
+        print('%s +++++START+++++ [目标%s:%s %s]' % (running_time, target_name, beginning_content, running_script))
         if before_tap_wait_time != 0:
             do_before_tap_wait_time = int(before_tap_wait_time * 2)
             for s in range(do_before_tap_wait_time + 1):
@@ -951,14 +951,16 @@ def run_config():
     Girl_Frontline = Tools()
     basic_config = 'config.yaml'
     basic_config_data = Girl_Frontline.YAML(basic_config)
-    global console_name, target_path, device, Console, Console_Action
+    global console_name, target_path, device, Console, Console_Action, battle_list
     # 模拟器配置
     console_config = basic_config_data['console_config']
     console_name = console_config['console']
     # target调用配置
     target_config = basic_config_data['target_config']
     target_path = target_config['target']
-    global target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+    battle_battle = basic_config_data['battle']
+    battle_list = battle_battle['battle_list']
+    global target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2
     # 模拟器adb终端默认地址
     adb_terminal = '127.0.0.1:5555'
@@ -985,20 +987,31 @@ def run_config():
         # print(Dc.workspace_path)
         logging.debug(Girl_Frontline.workspace_path)
     target_yaml_data = Girl_Frontline.YAML('target.yaml')
+    # 展示可用的关卡
+    for battle_name in battle_list:
+        battle_num = battle_list.index(battle_name)
+        print('(%s)  %s' % (battle_num, battle_name))
+    # 选择关卡
+    try:
+        select_battle_num = int(input("选择战斗的关卡(序号）:"))
+    except ValueError:
+        print("请正确输入关卡序号,未输入将默认执行序号0的关卡")
+        select_battle_num = 0
     # 载入关卡配置
     logging.info('开始加载关卡配置')
-    battle_name = '13_4.yaml'
-    battle_yaml_data = Girl_Frontline.YAML(battle_name)
+    battle_name = battle_list[select_battle_num]
+    battle_yaml = battle_name + '.yaml'
+    battle_yaml_data = Girl_Frontline.YAML(battle_yaml)
     get_into_mission = battle_yaml_data['get_into_mission']
-    select_13_4 = battle_yaml_data['get_select_13_4']
-    battle_13_4_1 = battle_yaml_data['battle_13_4_1']
-    battle_13_4_2 = battle_yaml_data['battle_13_4_2']
+    select_battle_name = battle_yaml_data['get_select_%s' % battle_name]
+    battle_name_1 = battle_yaml_data['battle_%s_1' % battle_name]
+    battle_name_2 = battle_yaml_data['battle_%s_2' % battle_name]
     end_combat_1 = battle_yaml_data['end_combat_1']
     end_combat_2 = battle_yaml_data['end_combat_2']
 
 
 def battle():
-    global running_script, start_time
+    global running_script, start_time, battle_list
     yaml_drive = Yaml_Drive(Console, Console_Action)
     user_action = True
     while user_action:
@@ -1020,22 +1033,22 @@ def battle():
             continue
         ran_time: float = 0
         if runtimes == 1:
-            yaml_drive.drive_yaml(select_13_4)
-            yaml_drive.drive_yaml(battle_13_4_1)
+            yaml_drive.drive_yaml(select_battle_name)
+            yaml_drive.drive_yaml(battle_name_1)
             yaml_drive.drive_yaml(end_combat_1)
         elif runtimes > 1:
             # 执行次数大于1，默认执行再次战斗流程
             fight_again: bool = True
-            yaml_drive.drive_yaml(select_13_4)
+            yaml_drive.drive_yaml(select_battle_name)
             for is_runtimes in range(runtimes):
                 is_runtimes_num = is_runtimes + 1
                 running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
                 if is_runtimes_num > 1 and fight_again is True:
-                    yaml_drive.drive_yaml(battle_13_4_2)
+                    yaml_drive.drive_yaml(battle_name_2)
                 elif is_runtimes_num == 1 and fight_again is True:
-                    yaml_drive.drive_yaml(battle_13_4_1)
+                    yaml_drive.drive_yaml(battle_name_1)
                 elif is_runtimes_num > 1 and fight_again is False:
-                    yaml_drive.drive_yaml(battle_13_4_1)
+                    yaml_drive.drive_yaml(battle_name_1)
                 end_time = time.time()
                 ran_time = end_time - start_time
                 if ran_time < runtime_min and is_runtimes_num < runtimes:
@@ -1088,10 +1101,12 @@ if __name__ == '__main__':
     CON_LOG = 'logger.conf'  # 配置文件路径
     logging.config.fileConfig(CON_LOG)  # '读取日志配置文件'
     logger = logging.getLogger('exampleLogger')  # 创建一个日志器logger
+    logging.getLogger('PIL').setLevel(logging.WARNING)
+
     # 获取程序工作目录
     workspace = os.getcwd()
-    global console_name, target_path, ScreenShot_Img, device, Console, Console_Action
-    global target_yaml_data, battle_yaml_data, get_into_mission, select_13_4, battle_13_4_1, battle_13_4_2, \
+    global console_name, target_path, ScreenShot_Img, device, Console, Console_Action, battle_list
+    global target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2, running_script, start_time
     # base_run = threading.Thread(target=run_config)
     # battle_run = threading.Thread(target=battle)
