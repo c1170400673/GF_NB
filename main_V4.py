@@ -3,7 +3,7 @@
 """
 【少前13-4自动刷图】
 """
-# 打包命令pyinstaller main_V4.spec
+# 打包命令pyinstaller main.spec
 import logging.config
 import os
 import subprocess

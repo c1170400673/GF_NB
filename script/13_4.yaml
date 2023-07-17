@@ -273,7 +273,7 @@ end_combat_1:
       tap_interval: 1
       after_tap_wait_time: 1.5
       beginning_content: 等待战斗完毕结算
-  - round_new_unit_1: 4
+  - round_new_unit_1: 5
 
 end_combat_2:
   - fight_again:
@@ -283,7 +283,7 @@ end_combat_2:
       tap_interval: 1
       after_tap_wait_time: 1.5
       beginning_content: 等待战斗完毕结算
-  - round_new_unit_2: 4
+  - round_new_unit_2: 5
 
 round_new_unit_1:
   - screenShot:

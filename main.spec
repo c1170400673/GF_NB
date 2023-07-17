@@ -5,10 +5,11 @@ block_cipher = None
 
 
 a = Analysis(
-    ['main_V4.py'],
+    ['main_V5.py'],
     pathex=[],
     binaries=[],
     datas=[('script/13_4.yaml','script'),
+    ('script/config.yaml','script'),
 	('script/target.yaml','script'),
 #	('target/1080p_dpi280/*.png','target/1080p_dpi280'),
     ('target/720p_dpi240/*.png','target/720p_dpi240'),

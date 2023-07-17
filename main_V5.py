@@ -4,7 +4,7 @@
 【少前13-4自动刷图】
 """
 import io
-# 打包命令pyinstaller main_V4.spec
+# 打包命令 pyinstaller main.spec
 import logging.config
 import os
 import subprocess
@@ -773,6 +773,9 @@ class Yaml_Drive:
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                 # print("%s 包含: %s" % (running_time, isExist_target_key))
                 logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
+                if isExist_target_value == 'break':
+                    logging.debug('执行break方法')
+                    break
                 # print(isExist_target_key, isExist_target_value)
                 isExist_target_key_result = True
                 run_yaml = isExist_target_value
