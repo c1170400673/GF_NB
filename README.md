@@ -1,8 +1,5 @@
 # GF_NB
 
-仅限于雷电模拟器使用
+可用于BlueStack和雷电模拟器使用（雷电需要更换Adb.exe）
 
-仅支持默认的1080P dpi280
-
-默认截图目录用户文档下的 leidian9\Pictures\Screenshots\
-
+支持的720P dpi240
