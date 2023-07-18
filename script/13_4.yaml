@@ -129,8 +129,12 @@ battle_13_4_1:
       tap_result_check_name: show_all
   - sort_order:
   - number_sorting:
+  - screenShot:
+      is_number_sorting:
+      else:
+        - sort_order:
+        - number_sorting:
   - show_all:
-      tap_interval: 1
   - legendary_v:
   - smg:
       need_screenShot: False
@@ -225,6 +229,11 @@ battle_13_4_2:
       tap_result_check_name: show_all
   - sort_order:
   - number_sorting:
+  - screenShot:
+      is_number_sorting:
+      else:
+        - sort_order:
+        - number_sorting:
   - show_all:
       tap_interval: 1
   - legendary_v:

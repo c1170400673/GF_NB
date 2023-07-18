@@ -554,6 +554,15 @@ number_sorting:
   moveX: 0
   moveY: 0
 
+is_number_sorting:
+  target_img_name_list:
+    - 'is_number_sorting.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
 legendary_v:
   target_img_name_list:
     - 'legendary_v.png'
