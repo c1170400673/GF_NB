@@ -163,6 +163,7 @@ battle_13_4_1:
         - echelon_confirm:
             tap_result_check_name: start_fighting
   - heavy_airport:
+      threshold: 0.8
       search_again_times: 4
       after_tap_wait_time: 1
   - screenShot:
