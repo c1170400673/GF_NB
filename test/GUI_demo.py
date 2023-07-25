@@ -177,22 +177,24 @@ if __name__ == '__main__':
     button_frame = tk.Frame(root)
     button_frame.pack(side='left', padx=5, expand=True)
 
+    combo_frame = tk.Frame(root)
+    combo_frame.pack(side='right', padx=8, expand=True)
     keys = ["January", "February", "March", "April"]
-    comboExample = ttk.Combobox(button_frame, values=keys)
-    comboExample.pack(side='right', padx=8)
+    comboExample = ttk.Combobox(combo_frame, values=keys)
+    comboExample.pack(padx=8)
     comboExample.current(0)
 
     button_start = tk.Button(button_frame, text="Start", command=start, width=10, height=1)
     button_start.pack(padx=5, pady=5)
+
+    button_stop = tk.Button(button_frame, text="Stop", command=stop, width=10, height=1)
+    button_stop.pack(padx=5, pady=5)
 
     button_start = tk.Button(button_frame, text="Pause", command=pause, width=10, height=1)
     button_start.pack(padx=5, pady=5)
 
     button_start = tk.Button(button_frame, text="Resume", command=resume, width=10, height=1)
     button_start.pack(padx=5, pady=5)
-
-    button_stop = tk.Button(button_frame, text="Stop", command=stop, width=10, height=1)
-    button_stop.pack(padx=5, pady=5)
 
     button_reset = tk.Button(button_frame, text="Reset", command=reset, width=10, height=1)
     button_reset.pack(padx=5, pady=5)
