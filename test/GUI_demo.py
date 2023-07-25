@@ -4,6 +4,7 @@ import sys
 import threading
 import time
 import tkinter as tk
+from tkinter import ttk
 
 
 class Console(tk.Frame):
@@ -175,6 +176,11 @@ if __name__ == '__main__':
     time_printer = TimePrinter(output_queue)
     button_frame = tk.Frame(root)
     button_frame.pack(side='left', padx=5, expand=True)
+
+    keys = ["January", "February", "March", "April"]
+    comboExample = ttk.Combobox(button_frame, values=keys)
+    comboExample.pack(side='right', padx=8)
+    comboExample.current(0)
 
     button_start = tk.Button(button_frame, text="Start", command=start, width=10, height=1)
     button_start.pack(padx=5, pady=5)

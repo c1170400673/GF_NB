@@ -2,16 +2,14 @@ import tkinter as tk  # GUI库
 from tkinter import ttk
 
 
-class test():
+class test:
     def __init__(self, win, PHYSN_TYPE, POS_NAME):
         self.win = win
         self.PHYSN_TYPE = PHYSN_TYPE
         self.POS_NAME = POS_NAME
 
     def my_GUI(self):
-        tk.Label(self.win, text='机具类型：', bd=3, relief='groove', width=16, anchor='e').grid(row=2, column=2,
-                                                                                               padx=5)
-
+        tk.Label(self.win, text='机具类型：', bd=3, relief='groove', width=16, anchor='e').grid(row=2, column=2, padx=5)
         number = tk.StringVar()  # 是否选中
         valus = ['mpos', '大POS', '电蓝POS', '经典蓝POS']  # 选项值设置
         self.PHYSN_TYPE = ttk.Combobox(self.win, width=16, height=4, textvariable=number,
