@@ -16,6 +16,7 @@ import threading
 import time
 import tkinter as tk
 from functools import partial
+from tkinter import ttk
 
 import PIL.Image
 import aircv
@@ -972,53 +973,71 @@ class Job(threading.Thread):
     #     self.__running = threading.Event()  # 用于停止线程的标识
     #     self.__running.set()  # 将running设置为True
     #     self.queue = queue
-    def __init__(self, __queue):
+    def __init__(self, queue):
         threading.Thread.__init__(self)
-        self.__flag = threading.Event()  # 用于暂停线程的标识
-        self.__flag.set()  # 设置为True
-        self.__running = threading.Event()  # 用于停止线程的标识
-        self.__running.set()  # 将__running设置为True
-        self.queue = __queue
+        self.queue = queue
+        self.stop_event = threading.Event()
+        self.reset_event = threading.Event()
+        self.pause_event = threading.Event()
+        self.pause_event.set()
 
     def run(self):
-        while not self.__running.isSet():
-            self.__flag.wait()  # 为True时立即返回, 为False时阻塞直到self.__flag为True后返回
-            run_config(self.queue)
-            time.sleep(0.2)
+        while not self.stop_event.is_set() and not self.reset_event.is_set():
+            battle(self.queue)
 
     def pause(self):
-        logging.debug("thread is pause")
-        self.__flag.clear()  # 设置为False, 让线程阻塞
+        self.pause_event.clear()  # 设置为False, 让线程阻塞
 
     def resume(self):
-        logging.debug("thread is resume")
-        self.__flag.set()  # 设置为True, 让线程停止阻塞
+        self.pause_event.set()  # 设置为True, 让线程停止阻塞
 
     def stop(self):
-        logging.debug("thread is stop")
-        self.__flag.set()  # 将线程从暂停状态恢复, 如已经暂停的话
-        self.__running.clear()  # 设置为False
+        self.stop_event.set()  # 设置为False
+        self.pause_event.set()
 
     def reset(self):
-        global worker
-        new_worker = Job(self.queue)
-        worker.stop()
-        worker = new_worker
+        self.reset_event.set()
 
 
 def start():
-    global worker
-    if worker is None:
-        worker = Job(output_queue)
-        worker.start()
-    elif not worker.is_alive():
-        worker.reset()
-        worker.start()
+    global GF, runtimes, runtime
+    runtimes = int(runtimes_num.get())
+    runtime = float(runtime_num.get())
+    if GF is None:
+        GF = Job(output_queue)
+        print("A")
+        GF.start()
+    elif not GF.is_alive() and not GF.stop_event.is_set() and not GF.reset_event.is_set():
+        print("B")
+        GF.start()
+    elif GF.stop_event.is_set():
+        GF = Job(output_queue)
+        print("C")
+        GF.start()
+    elif GF.reset_event.is_set():
+        GF = Job(output_queue)
+        print("D")
+        GF.start()
     # root.after(20000, print_time, output_queue)
 
 
 def stop():
-    worker.stop()
+    global GF
+    if GF is not None:
+        GF.stop()
+    while not output_queue.empty():
+        output_queue.get()
+
+
+def pause():
+    global GF
+    print("暂停任务")
+    GF.pause()
+
+
+def resume():
+    global GF
+    GF.resume()
 
 
 def clear():
@@ -1026,15 +1045,20 @@ def clear():
 
 
 def reset():
-    global worker
-    if worker is not None:
-        worker.reset()
+    global GF
+    GF.reset()
+    if GF.is_alive():
+        time.sleep(0.1)
+    new_GF = Job(output_queue)
+    GF = new_GF
+    print("重置了任务")
+    GF.start()
 
 
 def quit_app():
-    global worker
-    if worker is not None:
-        worker.stop()
+    global GF
+    if GF is not None:
+        GF.stop()
     output_queue.close()
     output_queue.join_thread()
     root.destroy()
@@ -1083,20 +1107,29 @@ def run_config():
         Console_Action = Action('0', Console)
         # print(Dc.workspace_path)
         logging.debug(Girl_Frontline.workspace_path)
+    # 载入target配置
     target_yaml_data = Girl_Frontline.YAML('target.yaml')
     # 展示可用的关卡
-    for battle_name in battle_list:
-        battle_num = battle_list.index(battle_name)
-        # queue.put(str('(%s)  %s' % (battle_num, battle_name)))
-        print('(%s)  %s' % (battle_num, battle_name))
+    # for battle_name in battle_list:
+    #     battle_num = battle_list.index(battle_name)
+    #     # queue.put(str('(%s)  %s' % (battle_num, battle_name)))
+    #     print('(%s)  %s' % (battle_num, battle_name))
     # 选择关卡
-    try:
-        select_battle_num = int(input("选择战斗的关卡(序号）:"))
-    except ValueError:
-        print("请正确输入关卡序号,未输入将默认执行序号0的关卡")
-        select_battle_num = 0
+    # try:
+    #     select_battle_num = int(input("选择战斗的关卡(序号）:"))
+    # except ValueError:
+    #     print("请正确输入关卡序号,未输入将默认执行序号0的关卡")
+    #     select_battle_num = 0
     # 载入关卡配置
-    logging.info('开始加载关卡配置')
+    # logging.info('开始加载关卡配置')
+
+
+def select_battle(event):
+    global battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, end_combat_1, \
+        end_combat_2
+    Girl_Frontline = Tools()
+    select_battle_num = comboExample.current()
+    print('已选择: (%s) %s' % (select_battle_num, comboExample.get()))
     battle_name = battle_list[select_battle_num]
     battle_yaml = battle_name + '.yaml'
     battle_yaml_data = Girl_Frontline.YAML(battle_yaml)
@@ -1109,90 +1142,65 @@ def run_config():
 
 
 def battle():
-    global running_script, start_time, battle_list
+    global running_script, start_time, battle_list, runtimes, runtime
     yaml_drive = Yaml_Drive(Console, Console_Action)
-    user_action = True
-    while user_action:
-        try:
-            runtimes = int(input("跑几圈:"))
-        except ValueError:
-            print("请正确输入圈数,未输入将默认执行1次")
-            runtimes = 1
-        try:
-            runtime = float(input("跑多久(分钟）:"))
-        except ValueError:
-            print("请正确输入执行时间，未输入将默认执行999分钟限制")
-            runtime = 999
-        finally:
-            runtime_min = runtime * 60
-        running_script = '共 %d 次，开始执行' % runtimes
-        start_time = time.time()
-        if yaml_drive.drive_yaml(get_into_mission):
-            continue
-        ran_time: float = 0
-        if runtimes == 1:
-            yaml_drive.drive_yaml(select_battle_name)
-            yaml_drive.drive_yaml(battle_name_1)
-            yaml_drive.drive_yaml(end_combat_1)
-        elif runtimes > 1:
-            # 执行次数大于1，默认执行再次战斗流程
-            fight_again: bool = True
-            yaml_drive.drive_yaml(select_battle_name)
-            for is_runtimes in range(runtimes):
-                is_runtimes_num = is_runtimes + 1
-                running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
-                if is_runtimes_num > 1 and fight_again is True:
-                    yaml_drive.drive_yaml(battle_name_2)
-                elif is_runtimes_num == 1 and fight_again is True:
-                    yaml_drive.drive_yaml(battle_name_1)
-                elif is_runtimes_num > 1 and fight_again is False:
-                    yaml_drive.drive_yaml(battle_name_1)
+    runtimes = int(runtimes_num.get())
+    runtime = float(runtime_num.get())
+    runtime_min = runtime * 60
+    running_script = '共 %d 次，开始执行' % runtimes
+    start_time = time.time()
+    if yaml_drive.drive_yaml(get_into_mission):
+        pass
+    if runtimes == 1:
+        yaml_drive.drive_yaml(select_battle_name)
+        yaml_drive.drive_yaml(battle_name_1)
+        yaml_drive.drive_yaml(end_combat_1)
+    elif runtimes > 1:
+        # 执行次数大于1，默认执行再次战斗流程
+        fight_again: bool = True
+        yaml_drive.drive_yaml(select_battle_name)
+        for is_runtimes in range(runtimes):
+            is_runtimes_num = is_runtimes + 1
+            running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
+            if is_runtimes_num > 1 and fight_again is True:
+                yaml_drive.drive_yaml(battle_name_2)
+            elif is_runtimes_num == 1 and fight_again is True:
+                yaml_drive.drive_yaml(battle_name_1)
+            elif is_runtimes_num > 1 and fight_again is False:
+                yaml_drive.drive_yaml(battle_name_1)
+            end_time = time.time()
+            ran_time = end_time - start_time
+            if ran_time < runtime_min and is_runtimes_num < runtimes:
+                fight_again = True
+                end_result = yaml_drive.drive_yaml(end_combat_2)
+                # 【结束流程】校验执行了特殊方法后判断，是否是使用再次战斗执行的战斗流程
+                if end_result:
+                    fight_again = False
                 end_time = time.time()
                 ran_time = end_time - start_time
-                if ran_time < runtime_min and is_runtimes_num < runtimes:
-                    fight_again = True
-                    end_result = yaml_drive.drive_yaml(end_combat_2)
-                    # 【结束流程】校验执行了特殊方法后判断，是否是使用再次战斗执行的战斗流程
-                    if end_result:
-                        fight_again = False
-                    end_time = time.time()
-                    ran_time = end_time - start_time
-                    ran_time_m, ran_time_s = divmod(ran_time, 60)
-                    ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-                    logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                        runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
-                    # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                    #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
-                elif ran_time < runtime_min and is_runtimes_num == runtimes:
-                    yaml_drive.drive_yaml(end_combat_1)
-                    end_time = time.time()
-                    ran_time = end_time - start_time
-                    ran_time_m, ran_time_s = divmod(ran_time, 60)
-                    ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-                    logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                        runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
-                else:
-                    yaml_drive.drive_yaml(end_combat_1)
-                    end_time = time.time()
-                    ran_time = end_time - start_time
-                    ran_time_m, ran_time_s = divmod(ran_time, 60)
-                    ran_time_h, ran_time_m = divmod(ran_time_m, 60)
-                    logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
-                        runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
-                    break
-        result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
-        # action = input('是否继续跑步机?enter后继续/输入exit退出: ')
-        # if action == 'exit':
-        #     break
-        # else:
-        #     pass
-        if result_action == win32con.IDYES:
-            logging.info('继续执行跑步机')
-            pass
-        else:
-            logging.info('结束跑步机')
-            break
-        # os.system('pause')  # 按任意键继续
+                ran_time_m, ran_time_s = divmod(ran_time, 60)
+                ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                    runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                # print('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                #     runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+            elif ran_time < runtime_min and is_runtimes_num == runtimes:
+                yaml_drive.drive_yaml(end_combat_1)
+                end_time = time.time()
+                ran_time = end_time - start_time
+                ran_time_m, ran_time_s = divmod(ran_time, 60)
+                ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                    runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+            else:
+                yaml_drive.drive_yaml(end_combat_1)
+                end_time = time.time()
+                ran_time = end_time - start_time
+                ran_time_m, ran_time_s = divmod(ran_time, 60)
+                ran_time_h, ran_time_m = divmod(ran_time_m, 60)
+                logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
+                    runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
+                break
 
 
 def working(qe):
@@ -1211,7 +1219,7 @@ if __name__ == '__main__':
     logging.getLogger('PIL').setLevel(logging.WARNING)
     # 获取程序工作目录
     workspace = os.getcwd()
-    global console_name, target_path, ScreenShot_Img, device, Console, Console_Action, battle_list
+    global console_name, target_path, ScreenShot_Img, device, Console, Console_Action, battle_list, runtimes, runtime
     global target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2, running_script, start_time
     # base_run = threading.Thread(target=run_config)
@@ -1222,7 +1230,7 @@ if __name__ == '__main__':
     # battle_run = Job(target=battle)
     # battle_run.start()
     # battle_run.join()
-
+    run_config()
     # 界面构建
     root = tk.Tk()
     root.title("GF-CAR")
@@ -1233,29 +1241,57 @@ if __name__ == '__main__':
     sys.stderr = RedirectError(console)
 
     output_queue = multiprocessing.Queue()
-    worker = Job(output_queue)
+    GF = Job(output_queue)
 
     button_frame = tk.Frame(root)
-    button_frame.pack(side='left', padx=5, expand=True)
+    button_frame.pack(side='top', padx=5, pady=5, expand=True, fill='y')
+    label1 = tk.Label(button_frame, text='选择关卡')
+    label1.grid(column=0, row=0, padx=5, pady=5)
+    keys = battle_list
+    number = tk.StringVar()
+    comboExample = ttk.Combobox(button_frame, textvariable=number, state='readonly', width=10)
+    comboExample['value'] = keys
+    logging.info('开始加载关卡配置')
+    comboExample.current(0)
+    comboExample.grid(column=1, row=0, padx=5, pady=5)
+    comboExample.bind('<<ComboboxSelected>>', select_battle)
 
-    button_start = tk.Button(button_frame, text="Initialization", command=run_config, width=10, height=1)
-    button_start.pack(padx=5, pady=5)
+    label2 = tk.Label(button_frame, text='执行圈数')
+    label2.grid(column=0, row=1, padx=5, pady=5)
+
+    # v1 = tk.StringVar()
+    runtimes_num = tk.Entry(button_frame, width=12)
+    runtimes_num.grid(column=1, row=1, padx=5, pady=5)
+    # v1.set('1')
+
+    label3 = tk.Label(button_frame, text='执行时间')
+    label3.grid(column=0, row=2, padx=5, pady=5)
+
+    # v2 = tk.StringVar()
+    runtime_num = tk.Entry(button_frame, width=12)
+    runtime_num.grid(column=1, row=2, padx=5, pady=5)
+    # v2.set('999')
 
     button_start = tk.Button(button_frame, text="Start", command=battle, width=10, height=1)
-    button_start.pack(padx=5, pady=5)
+    button_start.grid(column=0, row=3, padx=5, pady=5)
 
     button_stop = tk.Button(button_frame, text="Stop", command=stop, width=10, height=1)
-    button_stop.pack(padx=5, pady=5)
+    button_stop.grid(column=1, row=3, padx=5, pady=5)
+
+    button_start = tk.Button(button_frame, text="Pause", command=pause, width=10, height=1)
+    button_start.grid(column=0, row=4, padx=5, pady=5)
+
+    button_start = tk.Button(button_frame, text="Resume", command=resume, width=10, height=1)
+    button_start.grid(column=1, row=4, padx=5, pady=5)
 
     button_reset = tk.Button(button_frame, text="Reset", command=reset, width=10, height=1)
-    button_reset.pack(padx=5, pady=5)
+    button_reset.grid(column=0, row=5, padx=5, pady=5)
 
     clear_button = tk.Button(button_frame, text='Clear', command=clear, width=10, height=1)
-    clear_button.pack(padx=5, pady=5)
+    clear_button.grid(column=1, row=5, padx=5, pady=5)
 
     button_quit = tk.Button(button_frame, text="Quit", command=quit_app, width=10, height=1)
-    button_quit.pack(padx=5, pady=5)
-
+    button_quit.grid(column=1, row=6, padx=5, pady=5)
     while True:
         try:
             root.update_idletasks()
@@ -1263,7 +1299,7 @@ if __name__ == '__main__':
             # print_time(output_queue)
             working(output_queue)
         except KeyboardInterrupt:
-            worker.stop()
+            GF.stop()
             break
 
     root.mainloop()

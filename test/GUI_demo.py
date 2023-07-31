@@ -61,6 +61,7 @@ class TimePrinter(threading.Thread):
 
     def stop(self):
         self.stop_event.set()
+        self.pause_event.set()
 
     def reset(self):
         self.reset_event.set()
@@ -77,6 +78,7 @@ class TimePrinter(threading.Thread):
 
 
 def worker(queue):
+    queue.put(runtimes_num.get(), runtime_num.get())
     for i in range(11):
         while True:
             if time_printer.pause_event.is_set():
@@ -164,6 +166,12 @@ def quit_app():
     root.destroy()
 
 
+def entry_get():
+    runtimes = runtimes_num.get()
+    runtime = runtime_num.get()
+    print(runtimes + ':' + runtime)
+
+
 if __name__ == '__main__':
     root = tk.Tk()
     root.title("Time Printer")
@@ -175,35 +183,52 @@ if __name__ == '__main__':
     output_queue = multiprocessing.Queue()
     time_printer = TimePrinter(output_queue)
     button_frame = tk.Frame(root)
-    button_frame.pack(side='left', padx=5, expand=True)
-
-    combo_frame = tk.Frame(root)
-    combo_frame.pack(side='right', padx=8, expand=True)
+    button_frame.pack(side='top', padx=5, pady=5, expand=True, fill='y')
+    label1 = tk.Label(button_frame, text='选择关卡')
+    label1.grid(column=0, row=0, padx=5, pady=5)
     keys = ["January", "February", "March", "April"]
-    comboExample = ttk.Combobox(combo_frame, values=keys)
-    comboExample.pack(padx=8)
-    comboExample.current(0)
+    number = tk.StringVar()
+    comboExample = ttk.Combobox(button_frame, textvariable=number, state='readonly', width=10)
+    comboExample['value'] = keys
+    comboExample.grid(column=1, row=0, padx=5, pady=5)
+    # comboExample.current(0)
 
-    button_start = tk.Button(button_frame, text="Start", command=start, width=10, height=1)
-    button_start.pack(padx=5, pady=5)
+    label2 = tk.Label(button_frame, text='执行圈数')
+    label2.grid(column=0, row=1, padx=5, pady=5)
+
+    # v1 = tk.StringVar()
+    runtimes_num = tk.Entry(button_frame, width=12)
+    runtimes_num.grid(column=1, row=1, padx=5, pady=5)
+    # v1.set('1')
+
+    label3 = tk.Label(button_frame, text='执行时间')
+    label3.grid(column=0, row=2, padx=5, pady=5)
+
+    # v2 = tk.StringVar()
+    runtime_num = tk.Entry(button_frame, width=12)
+    runtime_num.grid(column=1, row=2, padx=5, pady=5)
+    # v2.set('999')
+
+    button_start = tk.Button(button_frame, text="Start", command=entry_get, width=10, height=1)
+    button_start.grid(column=0, row=3, padx=5, pady=5)
 
     button_stop = tk.Button(button_frame, text="Stop", command=stop, width=10, height=1)
-    button_stop.pack(padx=5, pady=5)
+    button_stop.grid(column=1, row=3, padx=5, pady=5)
 
     button_start = tk.Button(button_frame, text="Pause", command=pause, width=10, height=1)
-    button_start.pack(padx=5, pady=5)
+    button_start.grid(column=0, row=4, padx=5, pady=5)
 
     button_start = tk.Button(button_frame, text="Resume", command=resume, width=10, height=1)
-    button_start.pack(padx=5, pady=5)
+    button_start.grid(column=1, row=4, padx=5, pady=5)
 
     button_reset = tk.Button(button_frame, text="Reset", command=reset, width=10, height=1)
-    button_reset.pack(padx=5, pady=5)
+    button_reset.grid(column=0, row=5, padx=5, pady=5)
 
     clear_button = tk.Button(button_frame, text='Clear', command=clear, width=10, height=1)
-    clear_button.pack(padx=5, pady=5)
+    clear_button.grid(column=1, row=5, padx=5, pady=5)
 
     button_quit = tk.Button(button_frame, text="Quit", command=quit_app, width=10, height=1)
-    button_quit.pack(padx=5, pady=5)
+    button_quit.grid(column=1, row=6, padx=5, pady=5)
 
     while True:
         try:
