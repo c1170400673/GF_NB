@@ -386,11 +386,6 @@ echelon2_bak:
   threshold: 0.9
   moveX: 84
   moveY: -41
-  tap_times: 2
-  tap_interval: 0.5
-  before_tap_wait_time: 1.5
-  after_tap_wait_time: 1
-  search_again_times: 2
 
 standing_by_T_Dolls:
   target_img_name_list:

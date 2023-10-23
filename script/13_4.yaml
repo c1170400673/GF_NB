@@ -104,18 +104,21 @@ get_select_13_4:
             adv_retire: True
         - get_into_mission:
             fun: True
-        #            fun_return: True
+        #   fun_return: True
         - get_select_13_4:
             fun: True
             fun_return: True
       else:
-        - sleep: 3.5
+        - sleep: 4.5
 
 battle_13_4_1:
   - zhb:
       tap_interval: 0.5
       search_again_times: 2
       search_again_sleep_time: 2
+      before_tap_wait_time: 1
+      after_tap_wait_time: 2
+      tap_result_check_name: is_echelon1
   - screenShot:
       is_echelon1:
         - echelon_editing:
@@ -204,11 +207,17 @@ battle_13_4_1:
       after_tap_wait_time: 3
       tap_result_check_name: end_fighting
   - echelon2_bak:
+      tap_times: 2
+      tap_interval: 1
+      before_tap_wait_time: 2
+      after_tap_wait_time: 1
+      search_again_times: 2
   - supply:
   - echelon1_bak:
   - planning_mode:
       tap_result_check_name: execution_plan
       end_content: 计划模式
+      after_tap_wait_time: 1.5
   - '17':
   - '18':
       need_screenShot: False
@@ -222,7 +231,11 @@ battle_13_4_2:
       tap_interval: 0.5
       search_again_times: 2
       search_again_sleep_time: 3
+      before_tap_wait_time: 1.5
+      after_tap_wait_time: 2
+      tap_result_check_name: is_echelon1_1
   - is_echelon1_1:
+      after_tap_wait_time: 0.5
   - echelon_editing:
       need_screenShot: False
   - victor:
@@ -258,11 +271,17 @@ battle_13_4_2:
       after_tap_wait_time: 3
       tap_result_check_name: end_fighting
   - echelon2_bak:
+      tap_times: 2
+      tap_interval: 1
+      before_tap_wait_time: 2
+      after_tap_wait_time: 1
+      search_again_times: 2
   - supply:
   - echelon1_bak:
   - planning_mode:
       tap_result_check_name: execution_plan
       end_content: 计划模式
+      after_tap_wait_time: 1.5
   - '17':
   - '18':
       need_screenShot: False
