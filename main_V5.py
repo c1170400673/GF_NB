@@ -453,7 +453,7 @@ class Action(object):
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             half_second = s
                             s_10, d = divmod(half_second, 10)
-                            print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                            print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
                             if s == search_again_sleep_time_double:
                                 pass
                             else:
@@ -488,7 +488,7 @@ class Action(object):
                                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                                 half_second = s
                                 s_10, d = divmod(half_second, 10)
-                                print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                                print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
                                 if s == tap_interval_time:
                                     pass
                                 else:
@@ -526,7 +526,7 @@ class Action(object):
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                 half_second = s
                 s_10, d = divmod(half_second, 10)
-                print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
                 if s == do_before_tap_wait_time:
                     pass
                 else:
@@ -547,7 +547,7 @@ class Action(object):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         half_second = s
                         s_10, d = divmod(half_second, 10)
-                        print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                        print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
                         if s == do_after_tap_wait_time:
                             pass
                         else:
@@ -595,7 +595,7 @@ class Action(object):
                                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                                         half_second = s
                                         s_10, d = divmod(half_second, 10)
-                                        print("\r%s %-30s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                                        print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
                                         if s == do_after_tap_wait_time:
                                             pass
                                         else:
