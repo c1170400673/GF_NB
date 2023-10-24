@@ -453,7 +453,7 @@ class Action(object):
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             half_second = s
                             s_10, d = divmod(half_second, 10)
-                            print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                            print("\r%s %s %-40s" % (running_time, '等待重新搜索', 'o' * s_10 + '.' * d), end="")
                             if s == search_again_sleep_time_double:
                                 pass
                             else:
@@ -526,7 +526,7 @@ class Action(object):
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                 half_second = s
                 s_10, d = divmod(half_second, 10)
-                print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                print("\r%s %s %-40s" % (running_time, '点击前置等待', 'o' * s_10 + '.' * d), end="")
                 if s == do_before_tap_wait_time:
                     pass
                 else:
@@ -547,7 +547,7 @@ class Action(object):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         half_second = s
                         s_10, d = divmod(half_second, 10)
-                        print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                        print("\r%s %s %-40s" % (running_time, '点击后置等待', 'o' * s_10 + '.' * d), end="")
                         if s == do_after_tap_wait_time:
                             pass
                         else:

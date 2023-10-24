@@ -288,7 +288,7 @@ victor_echelon2:
     - '17.png'
     - '17_1.png'
   rgb: False
-  threshold: 0.7
+  threshold: 0.65
   moveX: 0
   moveY: 0
   after_tap_wait_time: 0.5
