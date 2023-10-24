@@ -488,7 +488,7 @@ class Action(object):
                                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                                 half_second = s
                                 s_10, d = divmod(half_second, 10)
-                                print("\r%s %-40s" % (running_time, 'o' * s_10 + '.' * d), end="")
+                                print("\r%s %s %-40s" % (running_time, '再次点击等待', 'o' * s_10 + '.' * d), end="")
                                 if s == tap_interval_time:
                                     pass
                                 else:
@@ -1045,7 +1045,7 @@ def battle():
             yaml_drive.drive_yaml(select_battle_name)
             for is_runtimes in range(runtimes):
                 is_runtimes_num = is_runtimes + 1
-                running_script = '共 %d 次，正在执行第 %d 次' % (runtimes, is_runtimes_num)
+                running_script = '共 %d 次，正在执行第 %d 次，计划执行 %d 分钟' % (runtimes, is_runtimes_num, runtime)
                 if is_runtimes_num > 1 and fight_again is True:
                     yaml_drive.drive_yaml(battle_name_2)
                 elif is_runtimes_num == 1 and fight_again is True:
