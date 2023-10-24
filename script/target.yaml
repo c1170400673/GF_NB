@@ -286,6 +286,7 @@ victor_echelon2:
 '17':
   target_img_name_list:
     - '17.png'
+    - '17_1.png'
   rgb: False
   threshold: 0.7
   moveX: 0
@@ -296,6 +297,7 @@ victor_echelon2:
 '18':
   target_img_name_list:
     - '18.png'
+    - '18_1.png'
   rgb: False
   threshold: 0.6
   moveX: 0
