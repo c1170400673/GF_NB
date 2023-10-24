@@ -217,7 +217,7 @@ battle_13_4_1:
   - planning_mode:
       tap_result_check_name: execution_plan
       end_content: 计划模式
-      after_tap_wait_time: 2
+      after_tap_wait_time: 0.5
   - '17':
   - '18':
       need_screenShot: False
@@ -281,7 +281,7 @@ battle_13_4_2:
   - planning_mode:
       tap_result_check_name: execution_plan
       end_content: 计划模式
-      after_tap_wait_time: 2
+      after_tap_wait_time: 0.5
   - '17':
   - '18':
       need_screenShot: False
