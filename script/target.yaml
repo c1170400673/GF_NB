@@ -241,7 +241,7 @@ zhb:
     - 'zhb.png'
     - 'zhb1.png'
   rgb: True
-  threshold: 0.5
+  threshold: 0.6
   moveX: 0
   moveY: 0
   after_tap_wait_time: 1.5
@@ -352,6 +352,15 @@ is_echelon1:
   moveX: 0
   moveY: 0
   after_tap_wait_time: 1.5
+
+is_echelon1_check:
+  target_img_name_list:
+    - 'is_echelon1_check.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
 
 is_echelon1_1:
   target_img_name_list:
