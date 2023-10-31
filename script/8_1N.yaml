@@ -244,6 +244,7 @@ battle_8_1N_1:
       moveX: 63
       moveY: -98
       need_screenShot: False
+      after_tap_wait_time: 0.5
   - 8_1N_map:
       moveX: -60
       moveY: -115
@@ -266,17 +267,8 @@ battle_8_1N_1:
       after_tap_wait_time: 1
 
 battle_8_1N_2:
-  - 8_1N_map:
-      moveX: 0
-      moveY: 243
-  - screenShot:
-      is_echelon1:
-        - echelon_editing:
-            need_screenShot: False
-      else:
-        - echelon1:
-            need_screenShot: False
-        - echelon_editing:
+  - echelon1_num:
+  - echelon_editing:
   - zas_m21:
       search_again_times: 3
       tap_result_check_name: show_all
@@ -302,40 +294,9 @@ battle_8_1N_2:
       tap_result_check_name: start_fighting
       after_tap_wait_time: 4
       search_again_times: 2
-  - 8_1N_map:
-      moveX: 0
-      moveY: 243
-      search_again_sleep_time: 0.5
-  - screenShot:
-      is_echelon1:
-        - echelon_confirm:
-            need_screenShot: False
-            tap_result_check_name: start_fighting
-      else:
-        - echelon1:
-            need_screenShot: False
-            after_tap_wait_time: 1.5
-        - echelon_confirm:
-            tap_result_check_name: start_fighting
-  - 8_1N_map:
-      moveX: 48
-      moveY: -240
-      after_tap_wait_time: 1.5
-  - screenShot:
-      is_echelon2:
-        - echelon_confirm:
-            need_screenShot: False
-            after_tap_wait_time: 1.5
-            beginning_content: 已在梯队选择，默认第二梯队
-            end_content: 投放第二梯队
-      else:
-        - echelon2:
-            need_screenShot: False
-            beginning_content: 已在梯队选择
-            end_content: 投放第二梯队
-        - echelon_confirm:
-            after_tap_wait_time: 2
-            end_content: 投放第二梯队
+  - start_fighting:
+      moveX: 300
+      moveY: 0
   - start_fighting:
       after_tap_wait_time: 3
       tap_result_check_name: end_fighting
@@ -348,6 +309,7 @@ battle_8_1N_2:
       moveX: 63
       moveY: -98
       need_screenShot: False
+      after_tap_wait_time: 0.5
   - 8_1N_map:
       moveX: -60
       moveY: -115
