@@ -337,11 +337,11 @@ end_combat_1:
       after_tap_wait_time: 2
   - terminate_operations:
   - terminate_operations_select:
-      after_tap_wait_time: 3
+      after_tap_wait_time: 4
 
 end_combat_2:
   - retreat_confirm:
       after_tap_wait_time: 2
   - terminate_operations:
   - reoperate_select:
-      after_tap_wait_time: 3
+      after_tap_wait_time: 4
