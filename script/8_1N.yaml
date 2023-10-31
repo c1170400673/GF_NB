@@ -1,0 +1,385 @@
+default_tap_info:
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  tap_times: 1                   # 点击次数
+  tap_interval: 0                # 点击间隔,单位秒
+  before_tap_wait_time: 0
+  after_tap_wait_time: 1
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  beginning_content: ''
+  end_content: ''
+  tap_result_check_name:         # 点击结果要检查的按钮名称
+  error_content: '请检查界面！'
+
+
+get_into_mission:
+  - screenShot:
+      main:
+        - main_battle:
+            need_screenShot: False
+            beginning_content: 当前在主界面
+            end_content: 进入战斗界面
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      battle:
+        is_combat_mission:
+        else:
+          - combat_mission:
+              need_screenShot: False
+      research:
+        - return:
+            need_screenShot: False
+        - main_battle:
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      factory:
+        - return:
+            need_screenShot: False
+        - main_battle:
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      else: exit
+
+
+get_T_Dolls_retire:
+  - standing_by_T_Dolls:
+      search_again_times: 4
+  - intelligent_selection:
+      end_content: 点击智能选择
+  - select_confirm:
+  - retire:
+  - adv_retire:
+      - standing_by_T_Dolls:
+      - show_all:
+      - legendary_III:
+      - confirm:
+          need_screenShot: False
+      - screenShot:
+      - lv_III: list
+      - select_confirm:
+      - retire:
+      - retire_confirm:
+  - return:
+      after_tap_wait_time: 2
+
+
+get_select_8_1N:
+  - sleep: 0
+  - screenShot:
+      is_ep8:
+        - screenShot:
+            normal:
+              - normal:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            emergency:
+              - emergency:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            midnight:
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+      else:
+        - ep8:
+            need_screenShot: False
+            beginning_content: 选择作战章节
+            end_content: 已选择章节8
+        - screenShot:
+            normal:
+              - normal:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            emergency:
+              - emergency:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            midnight:
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+  - common_battle:
+      tap_interval: 0.5
+      after_tap_wait_time: 0.5
+  - screenShot:
+      unit_recycle:
+        - unit_recycle:
+            need_screenShot: False
+        - get_T_Dolls_retire:
+            fun: True
+            adv_retire: True
+        - get_into_mission:
+            fun: True
+        #   fun_return: True
+        - get_select_13_4:
+            fun: True
+            fun_return: True
+      else:
+        - sleep: 4.5
+
+
+battle_8_1N_1:
+  - 8_1N_map:
+      moveX: 0
+      moveY: 243
+  - screenShot:
+      is_echelon1:
+        - echelon_editing:
+            need_screenShot: False
+      else:
+        - echelon1:
+            need_screenShot: False
+        - echelon_editing:
+  - zas_m21:
+      search_again_times: 3
+      tap_result_check_name: show_all
+  - sort_order:
+  - more:
+  - hp:
+  - screenShot:
+      is_hp:
+      else:
+        - sort_order:
+        - more:
+        - hp:
+  - show_all:
+  - ar:
+  - at_max_lv:
+      need_screenShot: False
+  - desc:
+      need_screenShot: False
+  - confirm:
+      need_screenShot: False
+  - zas_m21_echelon2:
+  - return:
+      tap_result_check_name: start_fighting
+      after_tap_wait_time: 4
+      search_again_times: 2
+  - 8_1N_map:
+      moveX: 0
+      moveY: 243
+      search_again_sleep_time: 0.5
+  - screenShot:
+      is_echelon1:
+        - echelon_confirm:
+            need_screenShot: False
+            tap_result_check_name: start_fighting
+      else:
+        - echelon1:
+            need_screenShot: False
+            after_tap_wait_time: 1.5
+        - echelon_confirm:
+            tap_result_check_name: start_fighting
+  - 8_1N_map:
+      moveX: 48
+      moveY: -240
+      after_tap_wait_time: 1.5
+  - screenShot:
+      is_echelon2:
+        - echelon_confirm:
+            need_screenShot: False
+            after_tap_wait_time: 1.5
+            beginning_content: 已在梯队选择，默认第二梯队
+            end_content: 投放第二梯队
+      else:
+        - echelon2:
+            need_screenShot: False
+            beginning_content: 已在梯队选择
+            end_content: 投放第二梯队
+        - echelon_confirm:
+            after_tap_wait_time: 2
+            end_content: 投放第二梯队
+  - start_fighting:
+      after_tap_wait_time: 3
+      tap_result_check_name: end_fighting
+  - planning_mode:
+      tap_result_check_name: execution_plan
+      end_content: 计划模式
+      after_tap_wait_time: 0.5
+  - echelon1_num:
+  - 8_1N_map:
+      moveX: 63
+      moveY: -98
+      need_screenShot: False
+  - 8_1N_map:
+      moveX: -60
+      moveY: -115
+      need_screenShot: False
+  - execution_plan:
+      after_tap_wait_time: 126
+  - echelon2_num:
+      tap_times: 2
+      tap_interval: 1
+      search_again_times: 4
+      search_again_sleep_time: 2
+      before_tap_wait_time: 2
+      after_tap_wait_time: 1
+  - supply:
+  - echelon2_num:
+      before_tap_wait_time: 1.5
+      after_tap_wait_time: 1
+      search_again_times: 2
+  - retreat:
+      after_tap_wait_time: 1
+
+battle_8_1N_2:
+  - 8_1N_map:
+      moveX: 0
+      moveY: 243
+  - screenShot:
+      is_echelon1:
+        - echelon_editing:
+            need_screenShot: False
+      else:
+        - echelon1:
+            need_screenShot: False
+        - echelon_editing:
+  - zas_m21:
+      search_again_times: 3
+      tap_result_check_name: show_all
+  - sort_order:
+  - more:
+  - hp:
+  - screenShot:
+      is_hp:
+      else:
+        - sort_order:
+        - more:
+        - hp:
+  - show_all:
+  - ar:
+  - at_max_lv:
+      need_screenShot: False
+  - desc:
+      need_screenShot: False
+  - confirm:
+      need_screenShot: False
+  - zas_m21_echelon2:
+  - return:
+      tap_result_check_name: start_fighting
+      after_tap_wait_time: 4
+      search_again_times: 2
+  - 8_1N_map:
+      moveX: 0
+      moveY: 243
+      search_again_sleep_time: 0.5
+  - screenShot:
+      is_echelon1:
+        - echelon_confirm:
+            need_screenShot: False
+            tap_result_check_name: start_fighting
+      else:
+        - echelon1:
+            need_screenShot: False
+            after_tap_wait_time: 1.5
+        - echelon_confirm:
+            tap_result_check_name: start_fighting
+  - 8_1N_map:
+      moveX: 48
+      moveY: -240
+      after_tap_wait_time: 1.5
+  - screenShot:
+      is_echelon2:
+        - echelon_confirm:
+            need_screenShot: False
+            after_tap_wait_time: 1.5
+            beginning_content: 已在梯队选择，默认第二梯队
+            end_content: 投放第二梯队
+      else:
+        - echelon2:
+            need_screenShot: False
+            beginning_content: 已在梯队选择
+            end_content: 投放第二梯队
+        - echelon_confirm:
+            after_tap_wait_time: 2
+            end_content: 投放第二梯队
+  - start_fighting:
+      after_tap_wait_time: 3
+      tap_result_check_name: end_fighting
+  - planning_mode:
+      tap_result_check_name: execution_plan
+      end_content: 计划模式
+      after_tap_wait_time: 0.5
+  - echelon1_num:
+  - 8_1N_map:
+      moveX: 63
+      moveY: -98
+      need_screenShot: False
+  - 8_1N_map:
+      moveX: -60
+      moveY: -115
+      need_screenShot: False
+  - execution_plan:
+      after_tap_wait_time: 126
+  - echelon2_num:
+      tap_times: 2
+      tap_interval: 1
+      search_again_times: 4
+      search_again_sleep_time: 2
+      before_tap_wait_time: 2
+      after_tap_wait_time: 1
+  - supply:
+  - echelon2_num:
+      before_tap_wait_time: 1.5
+      after_tap_wait_time: 1
+      search_again_times: 2
+  - retreat:
+      after_tap_wait_time: 1
+
+
+end_combat_1:
+  - retreat_confirm:
+      after_tap_wait_time: 2
+  - terminate_operations:
+  - terminate_operations_select:
+      after_tap_wait_time: 3
+
+end_combat_2:
+  - retreat_confirm:
+      after_tap_wait_time: 2
+  - terminate_operations:
+  - reoperate_select:
+      after_tap_wait_time: 3

@@ -110,6 +110,56 @@ common_battle:
   end_content: 进入关卡战斗
   error_content: 请检查界面！
 
+midnight:
+  target_img_name_list:
+    - 'midnight.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+
+emergency:
+  target_img_name_list:
+    - 'emergency.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+
+normal:
+  target_img_name_list:
+    - 'normal.png'
+  rgb: True
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
+
+ep8:
+  target_img_name_list:
+    - 'ep8.png'
+    - 'is_ep8.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+is_ep8:
+  target_img_name_list:
+    - 'is_ep8.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+8_1N:
+  target_img_name_list:
+    - '8_1N.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  search_again_times: 2
+
 is_ep13:
   target_img_name_list:
     - 'is_ep13.png'
@@ -233,6 +283,43 @@ new_unit_2:
 
 
 ###################################
+########## 8_1N关卡内target ########
+###################################
+
+8_1N_map:
+  target_img_name_list:
+    - '8_1N_map.png'
+  rgb: False
+  threshold: 0.6
+  after_tap_wait_time: 0
+
+zas_m21:
+  target_img_name_list:
+    - 'zas_m21.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  tap_times: 1
+  tap_interval: 1
+  before_tap_wait_time: 1
+  after_tap_wait_time: 2
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  end_content: 选择Zas_M21人形
+
+zas_m21_echelon2:
+  target_img_name_list:
+    - 'zas_m21_echelon2.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  after_tap_wait_time: 2
+
+
+
+###################################
 ######## 13_4关卡内target ##########
 ###################################
 
@@ -241,7 +328,7 @@ zhb:
     - 'zhb.png'
     - 'zhb1.png'
   rgb: True
-  threshold: 0.6
+  threshold: 0.65
   moveX: 0
   moveY: 0
   after_tap_wait_time: 1.5
@@ -381,6 +468,24 @@ is_echelon2:
   moveX: 0
   moveY: 0
 
+echelon1_num:
+  target_img_name_list:
+    - 'echelon1_num.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 26
+  moveY: -15
+
+echelon2_num:
+  target_img_name_list:
+    - 'echelon2_num.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 26
+  moveY: -15
+
 echelon1_bak:
   target_img_name_list:
     - 'echelon1_bak.png'
@@ -426,6 +531,22 @@ select_confirm:
   search_again_times: 2
   after_tap_wait_time: 0.5
   end_content: 选择确定
+
+retreat:
+  target_img_name_list:
+    - 'retreat.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+retreat_confirm:
+  target_img_name_list:
+    - 'retreat_confirm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
 
 retire:
   target_img_name_list:
@@ -550,6 +671,33 @@ sort_order:
   moveX: 0
   moveY: 0
 
+more:
+  target_img_name_list:
+    - 'more.png'
+  rgb: False
+  threshold: 0.8
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
+hp:
+  target_img_name_list:
+    - 'hp.png'
+  rgb: False
+  threshold: 0.8
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
+is_hp:
+  target_img_name_list:
+    - 'is_hp.png'
+  rgb: False
+  threshold: 0.8
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
 number_sorting:
   target_img_name_list:
     - 'number_sorting.png'
@@ -588,6 +736,15 @@ smg:
   moveY: 0
   after_tap_wait_time: 0.5
 
+ar:
+  target_img_name_list:
+    - 'ar.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+  after_tap_wait_time: 0.5
+
 at_max_lv:
   target_img_name_list:
     - 'at_max_lv.png'
@@ -615,5 +772,23 @@ desc:
 all_go_to_logistics:
   target_img_name_list:
     - 'all_go_to_logistics.png'
+  rgb: False
+  threshold: 0.9
+
+terminate_operations:
+  target_img_name_list:
+    - 'terminate_operations.png'
+  rgb: False
+  threshold: 0.9
+
+terminate_operations_select:
+  target_img_name_list:
+    - 'terminate_operations_select.png'
+  rgb: False
+  threshold: 0.9
+
+reoperate_select:
+  target_img_name_list:
+    - 'reoperate_select.png'
   rgb: False
   threshold: 0.9

@@ -117,8 +117,8 @@ battle_13_4_1:
       search_again_times: 2
       search_again_sleep_time: 2
       before_tap_wait_time: 1
-      after_tap_wait_time: 2
-      tap_result_check_name: is_echelon1
+      after_tap_wait_time: 3
+      tap_result_check_name: is_echelon1_check
   - screenShot:
       is_echelon1:
         - echelon_editing:
@@ -168,7 +168,7 @@ battle_13_4_1:
   - heavy_airport:
       threshold: 0.8
       search_again_times: 4
-      after_tap_wait_time: 1
+      after_tap_wait_time: 1.5
   - screenShot:
       is_select_echelon:
         is_echelon2:
@@ -232,7 +232,7 @@ battle_13_4_2:
       search_again_times: 2
       search_again_sleep_time: 3
       before_tap_wait_time: 1.5
-      after_tap_wait_time: 2
+      after_tap_wait_time: 3
       tap_result_check_name: is_echelon1_check
   - is_echelon1_1:
       after_tap_wait_time: 0.5
