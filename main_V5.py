@@ -13,13 +13,14 @@ import threading
 import time
 from functools import partial
 
-import PIL.Image
+# import PIL.Image
 import aircv
 import cv2
 import numpy as np
 import win32api
 import win32con
 import yaml
+from PIL import Image
 
 # 全局覆盖print函数参数
 print = partial(print, flush=True)
@@ -203,7 +204,8 @@ class Dnconsole:
         cmd2 = '-s 127.0.0.1:5555 exec-out screencap -p'
         print(self.ADB(cmd1).decode('utf-8').replace('\r\n', '\n '))
         output = self.ADB(cmd2)
-        img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        # img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        img = Image.open(io.BytesIO(output)).convert('RGB')
         # img.save('C:\\Users\\11704\\Documents\\leidian9\\Pictures\\Screenshots\\screenshot_tmp2.png', 'PNG')
         # output = raw_data.decode('utf-8').replace('\r\n', ' ')
         # print(output)
@@ -339,7 +341,8 @@ class BlueStacks_Console:
         cmd2 = '-s %s exec-out screencap -p' % index
         # print(self.ADB(cmd1))
         output = self.ADB(cmd2)
-        img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        # img = PIL.Image.open(io.BytesIO(output)).convert('RGB')
+        img = Image.open(io.BytesIO(output)).convert('RGB')
         # img.save('C:\\Users\\11704\\Documents\\leidian9\\Pictures\\Screenshots\\screenshot_tmp2.png', 'PNG')
         # img_np = np.array(img)
         img_np = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR).astype(np.uint8)

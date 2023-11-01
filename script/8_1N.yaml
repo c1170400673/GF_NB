@@ -254,7 +254,7 @@ battle_8_1N_1:
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
-      search_again_times: 4
+      search_again_times: 10
       search_again_sleep_time: 2
       before_tap_wait_time: 2
       after_tap_wait_time: 1
@@ -319,7 +319,7 @@ battle_8_1N_2:
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
-      search_again_times: 4
+      search_again_times: 10
       search_again_sleep_time: 2
       before_tap_wait_time: 2
       after_tap_wait_time: 1
