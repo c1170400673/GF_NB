@@ -177,6 +177,7 @@ battle_8_1N_1:
       search_again_times: 3
       tap_result_check_name: show_all
   - sort_order:
+      tap_result_check_name: more
   - more:
   - hp:
   - screenShot:
@@ -273,6 +274,7 @@ battle_8_1N_2:
       search_again_times: 3
       tap_result_check_name: show_all
   - sort_order:
+      tap_result_check_name: more
   - more:
   - hp:
   - screenShot:
