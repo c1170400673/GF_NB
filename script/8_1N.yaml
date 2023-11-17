@@ -179,6 +179,7 @@ battle_8_1N_1:
   - sort_order:
       tap_result_check_name: more
   - more:
+      tap_result_check_name: hp
   - hp:
   - screenShot:
       is_hp:
@@ -269,6 +270,7 @@ battle_8_1N_1:
 
 battle_8_1N_2:
   - echelon1_num:
+      before_tap_wait_time: 2
   - echelon_editing:
   - zas_m21:
       search_again_times: 3
@@ -276,6 +278,7 @@ battle_8_1N_2:
   - sort_order:
       tap_result_check_name: more
   - more:
+      tap_result_check_name: hp
   - hp:
   - screenShot:
       is_hp:
@@ -299,6 +302,7 @@ battle_8_1N_2:
   - start_fighting:
       moveX: 300
       moveY: 0
+      after_tap_wait_time: 0.5
   - start_fighting:
       after_tap_wait_time: 3
       tap_result_check_name: end_fighting
@@ -332,6 +336,7 @@ battle_8_1N_2:
       search_again_times: 2
   - retreat:
       after_tap_wait_time: 1
+      tap_result_check_name: retreat_confirm
 
 
 end_combat_1:

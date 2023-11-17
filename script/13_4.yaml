@@ -93,7 +93,7 @@ get_select_13_4:
             tap_interval: 0.5
             after_tap_wait_time: 0.5
   - common_battle:
-      tap_interval: 0.5
+      before_tap_wait_time: 1
       after_tap_wait_time: 0.5
   - screenShot:
       unit_recycle:

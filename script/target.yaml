@@ -137,9 +137,8 @@ normal:
 ep8:
   target_img_name_list:
     - 'ep8.png'
-    - 'is_ep8.png'
   rgb: False
-  threshold: 0.9
+  threshold: 0.96
   moveX: 0
   moveY: 0
 
