@@ -409,6 +409,25 @@ victor_echelon2:
 ######## 通用选择类target ###########
 ###################################
 
+battle_win:
+  target_img_name_list:
+    - 'battle_win.png'
+  rgb: False
+  threshold: 0.9
+
+
+battle_over:
+  target_img_name_list:
+    - 'battle_over.png'
+  rgb: False
+  threshold: 0.6
+
+skip:
+  target_img_name_list:
+    - 'skip1.png'
+  rgb: False
+  threshold: 0.7
+
 return:
   target_img_name_list:
     - 'return.png'

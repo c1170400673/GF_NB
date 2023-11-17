@@ -774,8 +774,8 @@ class Yaml_Drive:
                     self.tap_list(isExist_target_value)
             elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                # print("%s 包含: %s" % (running_time, isExist_target_key))
-                logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
+                print("%s 包含: %s" % (running_time, isExist_target_key))
+                # logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
                 if isExist_target_value == 'break':
                     logging.debug('执行break方法')
                     break
@@ -790,6 +790,10 @@ class Yaml_Drive:
             else:
                 if self.drive_yaml(run_yaml):
                     return True
+        elif isExist_target_key_result is False:
+            return False
+        else:
+            pass
 
     def def_info_dict(self, data_dict: dict):
         """
@@ -823,6 +827,8 @@ class Yaml_Drive:
                         # print('%s: %s' % (key, isExist_target[key]))
                         if self.screenShot_dict(screenShot_dict_info):
                             return True
+                        elif self.screenShot_dict(screenShot_dict_info):
+                            return False
                 # 是否是驱动方法
                 elif 'get_' in target:
                     get_def_info = data_target[target]
@@ -894,6 +900,10 @@ class Yaml_Drive:
         elif type(data) == list:
             if self.tap_list(data, data_info):
                 return True
+            elif self.tap_list(data, data_info) is False:
+                return False
+            else:
+                pass
             if 'fun_return' in data_info.keys():
                 data_info_result = data_info['fun_return']
                 if data_info_result:

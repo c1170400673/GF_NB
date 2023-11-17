@@ -154,7 +154,7 @@ get_select_8_1N:
         - get_into_mission:
             fun: True
         #   fun_return: True
-        - get_select_13_4:
+        - get_select_8_1N:
             fun: True
             fun_return: True
       else:
@@ -252,7 +252,8 @@ battle_8_1N_1:
       moveY: -115
       need_screenShot: False
   - execution_plan:
-      after_tap_wait_time: 126
+      after_tap_wait_time: 6
+  - round_skip: 120
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
@@ -338,6 +339,21 @@ battle_8_1N_2:
       after_tap_wait_time: 1
       tap_result_check_name: retreat_confirm
 
+round_skip:
+  - screenShot:
+      battle_win:
+        - battle_win:
+            need_screenShot: False
+            tap_times: 3
+            tap_interval: 0.5
+      skip:
+        - skip:
+            need_screenShot: False
+            tap_times: 2
+            tap_interval: 0.5
+      battle_over: break
+      else:
+        - sleep: 0.5
 
 end_combat_1:
   - retreat_confirm:
