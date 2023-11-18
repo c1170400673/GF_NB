@@ -415,18 +415,11 @@ battle_win:
   rgb: False
   threshold: 0.9
 
-
 battle_over:
   target_img_name_list:
     - 'battle_over.png'
   rgb: False
-  threshold: 0.6
-
-skip:
-  target_img_name_list:
-    - 'skip1.png'
-  rgb: False
-  threshold: 0.7
+  threshold: 0.8
 
 return:
   target_img_name_list:

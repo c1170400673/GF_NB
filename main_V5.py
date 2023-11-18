@@ -749,7 +749,7 @@ class Yaml_Drive:
 
         :param data_dict:
         """
-        isExist_target_key_result = False
+        isExist_target_key_result = None
         run_yaml = ''
         for key in data_dict:
             isExist_target_key = key
@@ -772,28 +772,25 @@ class Yaml_Drive:
                     # print("%s 执行else方法" % running_time)
                     logging.debug("执行else方法")
                     self.tap_list(isExist_target_value)
+            # 判断target是否在截图中[0]是默认取target的图片列表一个张图
             elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                 print("%s 包含: %s" % (running_time, isExist_target_key))
                 # logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
                 if isExist_target_value == 'break':
-                    logging.debug('执行break方法')
-                    break
+                    print("%s 执行break方法" % running_time)
+                    # logging.debug('执行break方法')
+                    return True
                 # print(isExist_target_key, isExist_target_value)
                 isExist_target_key_result = True
                 run_yaml = isExist_target_value
                 break
         if isExist_target_key_result:
-            # 截图对象查询到后，判断后续处理对象还是
-            if type(run_yaml) == dict:
-                self.screenShot_dict(run_yaml)
-            else:
-                if self.drive_yaml(run_yaml):
-                    return True
-        elif isExist_target_key_result is False:
-            return False
-        else:
-            pass
+            # 截图对象查询到后，判断后续处理对象是可执行的list
+            if type(run_yaml) == list:
+                self.drive_yaml(run_yaml)
+            elif run_yaml is None:
+                pass
 
     def def_info_dict(self, data_dict: dict):
         """
@@ -823,12 +820,12 @@ class Yaml_Drive:
                         break
                     else:
                         ScreenShot_Img = self.console.ScreenShot_Adb(device)
+                        # 截图区分target信息
                         screenShot_dict_info = data_target[target]
                         # print('%s: %s' % (key, isExist_target[key]))
-                        if self.screenShot_dict(screenShot_dict_info):
+                        screenShot_dict_result=self.screenShot_dict(screenShot_dict_info)
+                        if screenShot_dict_result:
                             return True
-                        elif self.screenShot_dict(screenShot_dict_info):
-                            return False
                 # 是否是驱动方法
                 elif 'get_' in target:
                     get_def_info = data_target[target]
@@ -845,9 +842,7 @@ class Yaml_Drive:
                     for i in range(round_times):
                         round_result = self.drive_yaml(round_def_yaml)
                         if round_result:
-                            return True
-                        elif round_result is False:
-                            return False
+                            break
                         else:
                             pass
                 elif target == 'adv_retire':
@@ -882,6 +877,7 @@ class Yaml_Drive:
                 elif target == 'goto':
                     pass
                 else:
+                    # 判断是否用多选target方法
                     if data_target[target] == 'list':
                         self.console_action.List_select_V3(target)
                     else:
@@ -898,9 +894,10 @@ class Yaml_Drive:
         if type(data) == dict:
             self.tap_dict(data)
         elif type(data) == list:
-            if self.tap_list(data, data_info):
+            tap_list_result = self.tap_list(data, data_info)
+            if tap_list_result:
                 return True
-            elif self.tap_list(data, data_info) is False:
+            elif tap_list_result is False:
                 return False
             else:
                 pass
@@ -1046,7 +1043,9 @@ def battle():
         running_script = '共 %d 次，开始执行' % runtimes
         start_time = time.time()
         if yaml_drive.drive_yaml(get_into_mission):
-            continue
+            pass
+        else:
+            pass
         ran_time: float = 0
         if runtimes == 1:
             yaml_drive.drive_yaml(select_battle_name)

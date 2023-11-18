@@ -29,10 +29,11 @@ get_into_mission:
               - combat_mission:
                   need_screenShot: False
       battle:
-        is_combat_mission:
-        else:
-          - combat_mission:
-              need_screenShot: False
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
       research:
         - return:
             need_screenShot: False
@@ -165,14 +166,7 @@ battle_8_1N_1:
   - 8_1N_map:
       moveX: 0
       moveY: 243
-  - screenShot:
-      is_echelon1:
-        - echelon_editing:
-            need_screenShot: False
-      else:
-        - echelon1:
-            need_screenShot: False
-        - echelon_editing:
+  - echelon_editing:
   - zas_m21:
       search_again_times: 3
       tap_result_check_name: show_all
@@ -322,7 +316,8 @@ battle_8_1N_2:
       moveY: -115
       need_screenShot: False
   - execution_plan:
-      after_tap_wait_time: 126
+      after_tap_wait_time: 6
+  - round_skip: 120
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
@@ -345,11 +340,6 @@ round_skip:
         - battle_win:
             need_screenShot: False
             tap_times: 3
-            tap_interval: 0.5
-      skip:
-        - skip:
-            need_screenShot: False
-            tap_times: 2
             tap_interval: 0.5
       battle_over: break
       else:
