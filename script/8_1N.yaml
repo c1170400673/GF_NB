@@ -166,6 +166,7 @@ battle_8_1N_1:
   - 8_1N_map:
       moveX: 0
       moveY: 243
+      after_tap_wait_time: 1
   - echelon_editing:
   - zas_m21:
       search_again_times: 3
@@ -182,6 +183,7 @@ battle_8_1N_1:
         - more:
         - hp:
   - show_all:
+      tap_result_check_name: ar
   - ar:
   - at_max_lv:
       need_screenShot: False
@@ -251,7 +253,7 @@ battle_8_1N_1:
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
-      search_again_times: 10
+      search_again_times: 20
       search_again_sleep_time: 2
       before_tap_wait_time: 2
       after_tap_wait_time: 1
@@ -282,6 +284,7 @@ battle_8_1N_2:
         - more:
         - hp:
   - show_all:
+      tap_result_check_name: ar
   - ar:
   - at_max_lv:
       need_screenShot: False
@@ -321,7 +324,7 @@ battle_8_1N_2:
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
-      search_again_times: 10
+      search_again_times: 20
       search_again_sleep_time: 2
       before_tap_wait_time: 2
       after_tap_wait_time: 1

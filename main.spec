@@ -9,6 +9,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[('script/13_4.yaml','script'),
+    ('script/8_1N.yaml','script'),
     ('script/config.yaml','script'),
 	('script/target.yaml','script'),
 #	('target/1080p_dpi280/*.png','target/1080p_dpi280'),
