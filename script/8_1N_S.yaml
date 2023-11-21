@@ -8,7 +8,7 @@ default_tap_info:
   tap_interval: 0                # 点击间隔,单位秒
   before_tap_wait_time: 0
   after_tap_wait_time: 1
-  search_again_times: 3
+  search_again_times: 2
   search_again_sleep_time: 0.5
   beginning_content: ''
   end_content: ''
@@ -29,11 +29,10 @@ get_into_mission:
               - combat_mission:
                   need_screenShot: False
       battle:
-        - screenShot:
-            is_combat_mission:
-            else:
-              - combat_mission:
-                  need_screenShot: False
+        is_combat_mission:
+        else:
+          - combat_mission:
+              need_screenShot: False
       research:
         - return:
             need_screenShot: False
@@ -77,7 +76,7 @@ get_T_Dolls_retire:
       after_tap_wait_time: 2
 
 
-get_select_8_1N:
+get_select_8_1N_S:
   - sleep: 0
   - screenShot:
       is_ep8:
@@ -155,28 +154,38 @@ get_select_8_1N:
         - get_into_mission:
             fun: True
         #   fun_return: True
-        - get_select_8_1N:
+        - get_select_13_4:
             fun: True
             fun_return: True
       else:
-        - sleep: 4.5
+        - sleep: 6
 
 
-battle_8_1N_1:
+battle_8_1N_S_1:
   - 8_1N_map:
+      search_again_times: 3
+      search_again_sleep_time: 1
       moveX: 0
       moveY: 243
-      after_tap_wait_time: 1
-      search_again_times: 5
-  - echelon_editing:
-      search_again_times: 5
+      after_tap_wait_time: 1.5
+  - screenShot:
+      is_echelon1:
+        - echelon_editing:
+            need_screenShot: False
+            after_tap_wait_time: 2
+            tap_result_check_name: zas_m21
+      else:
+        - echelon1:
+            need_screenShot: False
+        - echelon_editing:
+            after_tap_wait_time: 2
+            tap_result_check_name: zas_m21
   - zas_m21:
       search_again_times: 3
       tap_result_check_name: show_all
   - sort_order:
       tap_result_check_name: more
   - more:
-      tap_result_check_name: hp
   - hp:
   - screenShot:
       is_hp:
@@ -185,7 +194,6 @@ battle_8_1N_1:
         - more:
         - hp:
   - show_all:
-      tap_result_check_name: ar
   - ar:
   - at_max_lv:
       need_screenShot: False
@@ -250,17 +258,17 @@ battle_8_1N_1:
       moveY: -115
       need_screenShot: False
   - execution_plan:
-      after_tap_wait_time: 6
-  - round_skip: 150
+      after_tap_wait_time: 160
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
-      search_again_times: 20
+      search_again_times: 10
       search_again_sleep_time: 2
       before_tap_wait_time: 2
       after_tap_wait_time: 1
   - supply:
-      search_again_times: 5
+      search_again_times: 3
+      search_again_sleep_time: 1
   - echelon2_num:
       before_tap_wait_time: 1.5
       after_tap_wait_time: 1
@@ -268,19 +276,21 @@ battle_8_1N_1:
   - retreat:
       after_tap_wait_time: 1
 
-battle_8_1N_2:
+battle_8_1N_S_2:
   - echelon1_num:
       before_tap_wait_time: 2
-      search_again_times: 5
+      after_tap_wait_time: 1.5
+      search_again_times: 3
+      search_again_sleep_time: 1
   - echelon_editing:
-      search_again_times: 5
+      after_tap_wait_time: 2
+      tap_result_check_name: zas_m21
   - zas_m21:
       search_again_times: 3
       tap_result_check_name: show_all
   - sort_order:
       tap_result_check_name: more
   - more:
-      tap_result_check_name: hp
   - hp:
   - screenShot:
       is_hp:
@@ -289,7 +299,6 @@ battle_8_1N_2:
         - more:
         - hp:
   - show_all:
-      tap_result_check_name: ar
   - ar:
   - at_max_lv:
       need_screenShot: False
@@ -305,7 +314,6 @@ battle_8_1N_2:
   - start_fighting:
       moveX: 300
       moveY: 0
-      after_tap_wait_time: 0.5
   - start_fighting:
       after_tap_wait_time: 3
       tap_result_check_name: end_fighting
@@ -324,46 +332,35 @@ battle_8_1N_2:
       moveY: -115
       need_screenShot: False
   - execution_plan:
-      after_tap_wait_time: 6
-  - round_skip: 150
+      after_tap_wait_time: 160
   - echelon2_num:
       tap_times: 2
       tap_interval: 1
-      search_again_times: 20
+      search_again_times: 10
       search_again_sleep_time: 2
       before_tap_wait_time: 2
       after_tap_wait_time: 1
   - supply:
-      search_again_times: 5
+      search_again_times: 3
+      search_again_sleep_time: 1
   - echelon2_num:
       before_tap_wait_time: 1.5
       after_tap_wait_time: 1
       search_again_times: 2
   - retreat:
       after_tap_wait_time: 1
-      tap_result_check_name: retreat_confirm
 
-round_skip:
-  - screenShot:
-      battle_win:
-        - battle_win:
-            need_screenShot: False
-            tap_times: 3
-            tap_interval: 0.5
-      battle_over: break
-      else:
-        - sleep: 0.5
 
 end_combat_1:
   - retreat_confirm:
       after_tap_wait_time: 2
   - terminate_operations:
   - terminate_operations_select:
-      after_tap_wait_time: 4
+      after_tap_wait_time: 6
 
 end_combat_2:
   - retreat_confirm:
       after_tap_wait_time: 2
   - terminate_operations:
   - reoperate_select:
-      after_tap_wait_time: 4
+      after_tap_wait_time: 6

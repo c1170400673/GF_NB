@@ -621,7 +621,7 @@ class Action(object):
             else:
                 print(error_content)
                 # 暂停后手动操作
-                result_action = win32api.MessageBox(0, "自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:", "提醒",
+                result_action = win32api.MessageBox(0, target_name+"自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:", "提醒",
                                                     win32con.MB_TOPMOST | win32con.MB_YESNO)
                 if result_action == win32con.IDNO:
                     logging.info('选择了跳过 %s 步骤' % target_name)
@@ -840,6 +840,8 @@ class Yaml_Drive:
                     round_times = data_target[target]
                     round_def_yaml = battle_yaml_data[target]
                     for i in range(round_times):
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                        print("%s 轮询操作第 %s 次" % (running_time, i+1))
                         round_result = self.drive_yaml(round_def_yaml)
                         if round_result:
                             break
@@ -1097,7 +1099,9 @@ def battle():
                     logging.info('共 %d 次，已执行 %d 次, 已运行 %02d 时 %02d 分 %02d 秒\n' % (
                         runtimes, is_runtimes_num, ran_time_h, ran_time_m, ran_time_s))
                     break
-        result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
+        # result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
+        result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_YESNO)
+
         # action = input('是否继续跑步机?enter后继续/输入exit退出: ')
         # if action == 'exit':
         #     break
