@@ -292,6 +292,13 @@ new_unit_2:
   threshold: 0.6
   after_tap_wait_time: 0
 
+8_1N_map_2:
+  target_img_name_list:
+    - '8_1N_map_2.png'
+  rgb: False
+  threshold: 0.6
+  after_tap_wait_time: 0
+
 zas_m21:
   target_img_name_list:
     - 'zas_m21.png'
@@ -408,6 +415,17 @@ victor_echelon2:
 ###################################
 ######## 通用选择类target ###########
 ###################################
+cancel:
+  target_img_name_list:
+    - 'cancel.png'
+  rgb: False
+  threshold: 0.9
+
+no_amm:
+  target_img_name_list:
+    - 'no_amm.png'
+  rgb: False
+  threshold: 0.8
 
 battle_win:
   target_img_name_list:
