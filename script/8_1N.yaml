@@ -178,6 +178,7 @@ battle_8_1N_1:
   - more:
       tap_result_check_name: hp
   - hp:
+      before_tap_wait_time: 0.5
   - screenShot:
       is_hp:
       else:
@@ -269,6 +270,7 @@ battle_8_1N_1:
       after_tap_wait_time: 1
 
 battle_8_1N_2:
+  - sleep: 2s
   - echelon1_num:
       before_tap_wait_time: 2
       search_again_times: 5
@@ -282,6 +284,7 @@ battle_8_1N_2:
   - more:
       tap_result_check_name: hp
   - hp:
+      before_tap_wait_time: 0.5
   - screenShot:
       is_hp:
       else:
