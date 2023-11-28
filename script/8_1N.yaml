@@ -309,12 +309,6 @@ battle_8_1N_2:
       tap_result_check_name: hp
   - hp:
       before_tap_wait_time: 0.5
-  - screenShot:
-      is_hp:
-      else:
-        - sort_order:
-        - more:
-        - hp:
   - show_all:
       tap_result_check_name: ar
   - ar:
@@ -324,6 +318,12 @@ battle_8_1N_2:
       need_screenShot: False
   - confirm:
       need_screenShot: False
+  - screenShot:
+      is_hp:
+      else:
+        - sort_order:
+        - more:
+        - hp:
   - zas_m21_echelon2:
   - return:
       tap_result_check_name: start_fighting
@@ -386,6 +386,7 @@ end_combat_1:
       after_tap_wait_time: 2
   - terminate_operations:
   - terminate_operations_select:
+      before_tap_wait_time: 0.5
       after_tap_wait_time: 4
 
 end_combat_2:
@@ -393,4 +394,5 @@ end_combat_2:
       after_tap_wait_time: 2
   - terminate_operations:
   - reoperate_select:
+      before_tap_wait_time: 0.5
       after_tap_wait_time: 4
