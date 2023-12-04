@@ -722,7 +722,7 @@ is_hp:
   target_img_name_list:
     - 'is_hp.png'
   rgb: False
-  threshold: 0.8
+  threshold: 0.9
   need_screenShot: True
   moveX: 0
   moveY: 0
