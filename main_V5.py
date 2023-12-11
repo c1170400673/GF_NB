@@ -769,8 +769,8 @@ class Yaml_Drive:
                     break
                 else:
                     running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                    # print("%s 执行else方法" % running_time)
-                    logging.debug("执行else方法")
+                    print("%s 执行else方法" % running_time)
+                    # logging.debug("执行else方法")
                     self.tap_list(isExist_target_value)
             # 判断target是否在截图中[0]是默认取target的图片列表一个张图
             elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
@@ -847,6 +847,7 @@ class Yaml_Drive:
                             break
                         else:
                             pass
+                # 自定义判断执行方法adv_retire为True时才执行其中方法
                 elif target == 'adv_retire':
                     if data_info['adv_retire']:
                         self.tap_list(data_target[target])
@@ -1054,19 +1055,24 @@ def battle():
             yaml_drive.drive_yaml(battle_name_1)
             yaml_drive.drive_yaml(end_combat_1)
         elif runtimes > 1:
-            # 执行次数大于1，默认执行再次战斗流程
+            # 执行次数大于1时，默认执行再次战斗流程
             fight_again: bool = True
             yaml_drive.drive_yaml(select_battle_name)
             for is_runtimes in range(runtimes):
                 is_runtimes_num = is_runtimes + 1
                 running_script = '共 %d 次，正在执行第 %d 次，计划执行 %d 分钟' % (runtimes, is_runtimes_num, runtime)
-                if is_runtimes_num > 1 and fight_again is True:
-                    yaml_drive.drive_yaml(battle_name_2)
-                elif is_runtimes_num == 1 and fight_again is True:
+                # 当正在执行的轮次等于1，且可以再次执行时，加载battle_name_1
+                if is_runtimes_num == 1 and fight_again is True:
                     yaml_drive.drive_yaml(battle_name_1)
+                # 当正在执行的轮次大于1，且可以再次执行时，加载battle_name_2
+                elif is_runtimes_num > 1 and fight_again is True:
+                    yaml_drive.drive_yaml(battle_name_2)
+                # 当正在执行的轮次大于1，且无需再次执行时，加载battle_name_1
                 elif is_runtimes_num > 1 and fight_again is False:
                     yaml_drive.drive_yaml(battle_name_1)
+                # end_time：每轮执行完的时间点
                 end_time = time.time()
+                # ran_time：已运行时长
                 ran_time = end_time - start_time
                 if ran_time < runtime_min and is_runtimes_num < runtimes:
                     fight_again = True
