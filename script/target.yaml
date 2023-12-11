@@ -323,6 +323,22 @@ zas_m21_echelon2:
   moveY: 100
   after_tap_wait_time: 2
 
+zas_m21_is_amm:
+  target_img_name_list:
+    - 'zas_m21_is_amm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+
+zas_m21_no_amm:
+  target_img_name_list:
+    - 'zas_m21_no_amm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+
 
 
 ###################################
@@ -660,6 +676,54 @@ unit_recycle:
   moveX: 0
   moveY: 0
   beginning_content: 准备回收单位
+
+eq_enhancement:
+  target_img_name_list:
+    - 'eq_enhancement.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+select_equip:
+  target_img_name_list:
+    - 'select_equip.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+standing_by_eq:
+  target_img_name_list:
+    - 'standing_by_eq.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+eq_intelligent_selection:
+  target_img_name_list:
+    - 'eq_intelligent_selection.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+eq_select_confirm:
+  target_img_name_list:
+    - 'eq_select_confirm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+eq_enhancement_confirm:
+  target_img_name_list:
+    - 'eq_enhancement_confirm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
 
 supply:
   target_img_name_list:
