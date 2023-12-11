@@ -574,15 +574,15 @@ class Action(object):
                         # 判断校验结果，通过后结束校验
                         if tap_result[0]:
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                            # print('%s 校验通过' % running_time)
-                            logging.info('%s 校验通过' % running_time)
+                            print('%s 校验通过' % running_time)
+                            # logging.info('%s 校验通过' % running_time)
                             is_not_Exist_result = False
                             break
                         # 不通过重新点击target
                         elif tap_result[0] is False:
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             # print('%s 点击后结果校验不通过，重新点击！' % running_time)
-                            logging.error('%s 点击后结果校验不通过，重新点击！' % running_time)
+                            logging.error('%s 点击后 %s 结果校验不通过，重新点击！' % (running_time, tap_result_check_name))
                             # 为了校验执行后重新点击target，需启动截图
                             need_screenShot_tap_info = tap_info.copy()
                             need_screenShot_tap_info.update({'need_screenShot': True})
@@ -769,8 +769,8 @@ class Yaml_Drive:
                     break
                 else:
                     running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                    print("%s 执行else方法" % running_time)
-                    # logging.debug("执行else方法")
+                    # print("%s 执行else方法" % running_time)
+                    logging.debug("执行else方法")
                     self.tap_list(isExist_target_value)
             # 判断target是否在截图中[0]是默认取target的图片列表一个张图
             elif self.console_action.is_Exist_V3(isExist_target_key)[0]:

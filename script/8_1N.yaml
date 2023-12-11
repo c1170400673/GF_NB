@@ -320,6 +320,8 @@ battle_8_1N_1:
                         after_tap_wait_time: 3
                         tap_result_check_name: end_fighting
                     - echelon1_num:
+                        tap_times: 2
+                        tap_interval: 1
                     - supply:
                         search_again_times: 5
                   else:
@@ -389,26 +391,12 @@ battle_8_1N_1:
       else:
         - sleep: 3
   - round_skip: 150
-  - echelon2_num:
-      tap_times: 2
-      tap_interval: 1
-      search_again_times: 20
-      search_again_sleep_time: 2
-      before_tap_wait_time: 2
-      after_tap_wait_time: 1
-  - supply:
-      search_again_times: 5
-  - echelon2_num:
-      before_tap_wait_time: 1.5
-      after_tap_wait_time: 1
-      search_again_times: 2
-  - retreat:
-      after_tap_wait_time: 1
+
 
 battle_8_1N_2:
   - sleep: 2
   - echelon1_num:
-      before_tap_wait_time: 2
+      before_tap_wait_time: 0.5
       search_again_times: 5
   - echelon_editing:
       search_again_times: 5
@@ -466,6 +454,54 @@ battle_8_1N_2:
         - execution_plan:
             after_tap_wait_time: 6
         - round_skip: 150
+      eq_enhancement:
+
+
+
+
+round_skip:
+  - screenShot:
+      battle_win:
+        - battle_win:
+            need_screenShot: False
+            tap_times: 3
+            tap_interval: 0.5
+      battle_over: break
+      else:
+        - sleep: 0.5
+
+
+
+
+end_combat_1:
+  - echelon2_num:
+      tap_times: 2
+      tap_interval: 1
+      search_again_times: 20
+      search_again_sleep_time: 2
+      before_tap_wait_time: 2
+      after_tap_wait_time: 1
+  - supply:
+      search_again_times: 5
+  - echelon2_num:
+      before_tap_wait_time: 1.5
+      after_tap_wait_time: 1
+      search_again_times: 2
+  - retreat:
+      after_tap_wait_time: 1
+  - retreat_confirm:
+      after_tap_wait_time: 2
+  - terminate_operations:
+  - terminate_operations_select:
+      before_tap_wait_time: 0.5
+      after_tap_wait_time: 4
+
+
+
+
+end_combat_2:
+  - screenShot:
+      echelon2_num:
         - echelon2_num:
             tap_times: 2
             tap_interval: 1
@@ -482,7 +518,13 @@ battle_8_1N_2:
         - retreat:
             after_tap_wait_time: 1
             tap_result_check_name: retreat_confirm
-      eq_enhancement:
+        - retreat_confirm:
+            after_tap_wait_time: 2
+        - terminate_operations:
+        - reoperate_select:
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 4
+      else:
         - eq_enhancement:
         - get_Equipment_Enhancement:
             fun: True
@@ -493,31 +535,3 @@ battle_8_1N_2:
         - get_select_8_1N:
             fun: True
             fun_return: True
-
-
-round_skip:
-  - screenShot:
-      battle_win:
-        - battle_win:
-            need_screenShot: False
-            tap_times: 3
-            tap_interval: 0.5
-      battle_over: break
-      else:
-        - sleep: 0.5
-
-end_combat_1:
-  - retreat_confirm:
-      after_tap_wait_time: 2
-  - terminate_operations:
-  - terminate_operations_select:
-      before_tap_wait_time: 0.5
-      after_tap_wait_time: 4
-
-end_combat_2:
-  - retreat_confirm:
-      after_tap_wait_time: 2
-  - terminate_operations:
-  - reoperate_select:
-      before_tap_wait_time: 0.5
-      after_tap_wait_time: 4
