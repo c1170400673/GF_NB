@@ -771,7 +771,11 @@ class Yaml_Drive:
                     running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                     # print("%s 执行else方法" % running_time)
                     logging.debug("执行else方法")
-                    self.tap_list(isExist_target_value)
+                    # 获取else中方法执行的结果并判断向上传递
+                    else_result = self.tap_list(isExist_target_value)
+                    if else_result:
+                        # print("执行结果为真")
+                        return True
             # 判断target是否在截图中[0]是默认取target的图片列表一个张图
             elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
                 running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
@@ -1074,6 +1078,7 @@ def battle():
                 end_time = time.time()
                 # ran_time：已运行时长
                 ran_time = end_time - start_time
+                # 当运行时长小于定时并且已执行次数小于总执行数时
                 if ran_time < runtime_min and is_runtimes_num < runtimes:
                     fight_again = True
                     end_result = yaml_drive.drive_yaml(end_combat_2)

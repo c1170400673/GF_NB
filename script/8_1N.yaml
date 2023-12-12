@@ -166,6 +166,7 @@ battle_8_1N_1:
       moveY: 243
       after_tap_wait_time: 1.5
       search_again_times: 5
+  #  判断zas_m21弹药情况
   - screenShot:
       zas_m21_is_amm:
         - echelon_confirm:
@@ -474,28 +475,33 @@ round_skip:
 
 
 end_combat_1:
-  - echelon2_num:
-      tap_times: 2
-      tap_interval: 1
-      search_again_times: 20
-      search_again_sleep_time: 2
-      before_tap_wait_time: 2
-      after_tap_wait_time: 1
-  - supply:
-      search_again_times: 5
-  - echelon2_num:
-      before_tap_wait_time: 1.5
-      after_tap_wait_time: 1
-      search_again_times: 2
-  - retreat:
-      after_tap_wait_time: 1
-  - retreat_confirm:
-      after_tap_wait_time: 2
-  - terminate_operations:
-  - terminate_operations_select:
-      before_tap_wait_time: 0.5
-      after_tap_wait_time: 4
-
+  - screenShot:
+      echelon2_num:
+        - echelon2_num:
+            tap_times: 2
+            tap_interval: 1
+            search_again_times: 20
+            search_again_sleep_time: 2
+            before_tap_wait_time: 2
+            after_tap_wait_time: 1
+        - supply:
+            search_again_times: 5
+        - echelon2_num:
+            before_tap_wait_time: 1.5
+            after_tap_wait_time: 1
+            search_again_times: 2
+        - retreat:
+            after_tap_wait_time: 1
+        - retreat_confirm:
+            after_tap_wait_time: 2
+        - terminate_operations:
+        - terminate_operations_select:
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 4
+      else:
+        - eq_enhancement:
+        - get_Equipment_Enhancement:
+            fun: True
 
 
 
