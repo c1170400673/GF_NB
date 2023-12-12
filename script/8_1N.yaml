@@ -160,13 +160,61 @@ get_select_8_1N:
         - sleep: 4.5
 
 
+
+
+
 battle_8_1N_1:
   - 8_1N_map:
       moveX: 0
       moveY: 243
-      after_tap_wait_time: 1.5
+      after_tap_wait_time: 0.5
       search_again_times: 5
   #  判断zas_m21弹药情况
+  - round_zas_m21_check_amm: 10
+  - planning_mode:
+      tap_result_check_name: execution_plan
+      end_content: 计划模式
+      after_tap_wait_time: 0.5
+  - echelon1_num:
+  - 8_1N_map:
+      moveX: 63
+      moveY: -98
+      need_screenShot: False
+      after_tap_wait_time: 0.5
+  - 8_1N_map:
+      moveX: -60
+      moveY: -115
+      need_screenShot: False
+  - execution_plan:
+      after_tap_wait_time: 2
+  - screenShot:
+      no_amm:
+        - cancel:
+            after_tap_wait_time: 1
+        - echelon1_num:
+        - supply:
+            search_again_times: 5
+        - planning_mode:
+            tap_result_check_name: execution_plan
+            end_content: 计划模式
+            after_tap_wait_time: 0.5
+        - 8_1N_map_2:
+            moveX: 90
+            moveY: 83
+            need_screenShot: False
+            after_tap_wait_time: 0.5
+        - 8_1N_map_2:
+            moveX: -51
+            moveY: -131
+            need_screenShot: False
+        - execution_plan:
+            after_tap_wait_time: 6
+      else:
+        - sleep: 3
+  - round_skip: 150
+
+
+round_zas_m21_check_amm:
   - screenShot:
       zas_m21_is_amm:
         - echelon_confirm:
@@ -194,7 +242,8 @@ battle_8_1N_1:
         - start_fighting:
             after_tap_wait_time: 3
             tap_result_check_name: end_fighting
-      else:
+            fun_return: True
+      zas_m21_no_amm:
         - echelon_editing:
             search_again_times: 5
         - zas_m21:
@@ -263,7 +312,8 @@ battle_8_1N_1:
                     - echelon1_num:
                     - supply:
                         search_again_times: 5
-                  else:
+                        fun_return: True
+                  zas_m21_is_amm:
                     - echelon_confirm:
                         need_screenShot: False
                         tap_result_check_name: start_fighting
@@ -289,6 +339,7 @@ battle_8_1N_1:
                     - start_fighting:
                         after_tap_wait_time: 3
                         tap_result_check_name: end_fighting
+                        fun_return: True
             else:
               - echelon1:
                   need_screenShot: False
@@ -325,7 +376,8 @@ battle_8_1N_1:
                         tap_interval: 1
                     - supply:
                         search_again_times: 5
-                  else:
+                        fun_return: True
+                  zas_m21_is_amm:
                     - echelon_confirm:
                         need_screenShot: False
                         tap_result_check_name: start_fighting
@@ -351,47 +403,10 @@ battle_8_1N_1:
                     - start_fighting:
                         after_tap_wait_time: 3
                         tap_result_check_name: end_fighting
-  - planning_mode:
-      tap_result_check_name: execution_plan
-      end_content: 计划模式
-      after_tap_wait_time: 0.5
-  - echelon1_num:
-  - 8_1N_map:
-      moveX: 63
-      moveY: -98
-      need_screenShot: False
-      after_tap_wait_time: 0.5
-  - 8_1N_map:
-      moveX: -60
-      moveY: -115
-      need_screenShot: False
-  - execution_plan:
-      after_tap_wait_time: 2
-  - screenShot:
-      no_amm:
-        - cancel:
-            after_tap_wait_time: 1
-        - echelon1_num:
-        - supply:
-            search_again_times: 5
-        - planning_mode:
-            tap_result_check_name: execution_plan
-            end_content: 计划模式
-            after_tap_wait_time: 0.5
-        - 8_1N_map_2:
-            moveX: 90
-            moveY: 83
-            need_screenShot: False
-            after_tap_wait_time: 0.5
-        - 8_1N_map_2:
-            moveX: -51
-            moveY: -131
-            need_screenShot: False
-        - execution_plan:
-            after_tap_wait_time: 6
+                        fun_return: True
       else:
-        - sleep: 3
-  - round_skip: 150
+        - sleep: 0.5
+
 
 
 battle_8_1N_2:
@@ -456,7 +471,6 @@ battle_8_1N_2:
             after_tap_wait_time: 6
         - round_skip: 150
       eq_enhancement:
-
 
 
 

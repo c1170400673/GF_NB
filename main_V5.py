@@ -846,6 +846,11 @@ class Yaml_Drive:
                     for i in range(round_times):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                         print("%s 轮询操作第 %s 次" % (running_time, i+1))
+                        # 通过在round脚本中的最后一个点击操作中添加fun_return: True属性结束轮训；
+                        # 也可以使用在其中的screenShot，样本后添加break，例如：
+                        # - screenShot:
+                        #       A:
+                        #       B: break
                         round_result = self.drive_yaml(round_def_yaml)
                         if round_result:
                             break
