@@ -548,8 +548,18 @@ end_combat_2:
         - eq_enhancement:
         - get_Equipment_Enhancement:
             fun: True
+        - sleep: 1
         - screenShot:
             main:
+              - get_into_mission:
+                  fun: True
+            else:
+              - all_go_to_logistics:
+                  before_tap_wait_time: 2
+                  tap_interval: 1
+                  after_tap_wait_time: 1
+              - retire_confirm:
+                  after_tap_wait_time: 1.5
               - get_into_mission:
                   fun: True
         - get_select_8_1N:
