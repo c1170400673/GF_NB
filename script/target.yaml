@@ -755,6 +755,15 @@ echelon2:
   moveX: 0
   moveY: 0
 
+order_by:
+  target_img_name_list:
+    - 'order_by.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
 sort_order:
   target_img_name_list:
     - 'sort_order.png'
