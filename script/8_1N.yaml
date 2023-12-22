@@ -414,10 +414,10 @@ round_zas_m21_check_amm:
 
 
 battle_8_1N_2:
-  - sleep: 2
+  - sleep: 4
   - echelon1_num:
       before_tap_wait_time: 0.5
-      search_again_times: 5
+      search_again_times: 10
   - echelon_editing:
       search_again_times: 5
   - zas_m21:
@@ -551,7 +551,8 @@ end_combat_2:
         - terminate_operations:
         - reoperate_select:
             before_tap_wait_time: 0.5
-            after_tap_wait_time: 4
+            after_tap_wait_time: 1
+            tap_result_check_name: loading
       else:
         - eq_enhancement:
         - get_Equipment_Enhancement:

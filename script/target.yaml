@@ -276,6 +276,13 @@ new_unit_2:
   threshold: 0.9
   after_tap_wait_time: 0
 
+loading:
+  target_img_name_list:
+    - 'loading.png'
+  rgb: False
+  threshold: 0.9
+  after_tap_wait_time: 0
+
 
 ###################################
 
