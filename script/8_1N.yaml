@@ -441,9 +441,13 @@ battle_8_1N_2:
   - screenShot:
       is_hp:
       else:
-        - sort_order:
-        - more:
-        - hp:
+        - order_by:
+        - screenShot:
+            more:
+              - more:
+              - hp:
+            else:
+              - hp:
   - zas_m21_echelon2:
   - return:
       tap_result_check_name: start_fighting
