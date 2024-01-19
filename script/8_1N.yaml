@@ -249,32 +249,21 @@ round_zas_m21_check_amm:
         - zas_m21:
             search_again_times: 3
             tap_result_check_name: show_all
-        - sort_order:
-            tap_result_check_name: more
-        - more:
-            tap_result_check_name: hp
-        - hp:
-            before_tap_wait_time: 0.5
         - show_all:
             tap_result_check_name: ar
-        - ar:
-        - at_max_lv:
-            need_screenShot: False
-        - desc:
-            need_screenShot: False
+        - select_collect:
         - confirm:
             need_screenShot: False
         - screenShot:
-            is_hp:
+            zas_m21_echelon1:
             else:
-              - order_by:
-              - screenShot:
-                  more:
-                    - more:
-                    - hp:
-                  else:
-                    - hp:
+              - show_all:
+              - select_collect:
+              - confirm:
+                  need_screenShot: False
+        - zas_m21_echelon1:
         - zas_m21_echelon2:
+        - doll_confirm:
         - return:
             tap_result_check_name: start_fighting
             after_tap_wait_time: 4
@@ -423,32 +412,21 @@ battle_8_1N_2:
   - zas_m21:
       search_again_times: 3
       tap_result_check_name: show_all
-  - sort_order:
-      tap_result_check_name: more
-  - more:
-      tap_result_check_name: hp
-  - hp:
-      before_tap_wait_time: 0.5
   - show_all:
       tap_result_check_name: ar
-  - ar:
-  - at_max_lv:
-      need_screenShot: False
-  - desc:
-      need_screenShot: False
+  - select_collect:
   - confirm:
       need_screenShot: False
   - screenShot:
-      is_hp:
+      zas_m21_echelon1:
       else:
-        - order_by:
-        - screenShot:
-            more:
-              - more:
-              - hp:
-            else:
-              - hp:
+        - show_all:
+        - select_collect:
+        - confirm:
+            need_screenShot: False
+  - zas_m21_echelon1:
   - zas_m21_echelon2:
+  - doll_confirm:
   - return:
       tap_result_check_name: start_fighting
       after_tap_wait_time: 4
@@ -487,9 +465,9 @@ round_skip:
       battle_win:
         - battle_win:
             need_screenShot: False
-            tap_times: 3
+            tap_times: 4
             tap_interval: 0.5
-      battle_over: break
+      killed5: break
       else:
         - sleep: 0.5
 

@@ -321,6 +321,15 @@ zas_m21:
   search_again_sleep_time: 0.5
   end_content: 选择Zas_M21人形
 
+zas_m21_echelon1:
+  target_img_name_list:
+    - 'zas_m21_echelon1.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  after_tap_wait_time: 2
+
 zas_m21_echelon2:
   target_img_name_list:
     - 'zas_m21_echelon2.png'
@@ -345,6 +354,14 @@ zas_m21_no_amm:
   threshold: 0.9
   moveX: 0
   moveY: 100
+
+killed5:
+  target_img_name_list:
+    - 'killed5.png'
+  rgb: False
+  threshold: 0.95
+  moveX: 0
+  moveY: 0
 
 
 
@@ -619,6 +636,22 @@ show_all:
   moveX: 0
   moveY: 0
   after_tap_wait_time: 0.5
+
+select_collect:
+  target_img_name_list:
+    - 'select_collect.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+doll_confirm:
+  target_img_name_list:
+    - 'doll_confirm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
 
 legendary_III:
   target_img_name_list:

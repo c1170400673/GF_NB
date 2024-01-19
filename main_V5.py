@@ -361,6 +361,16 @@ class BlueStacks_Console:
         cmd = '-s %s shell input tap %d %d' % (index, x, y)
         return self.ADB(cmd)
 
+    def inputText(self, index: str, text: str):
+        """
+        【点击操作】
+        :param index: 模拟器序号
+        :param text: 要输入的文本
+        :return: 控制台调试内容
+        """
+        cmd = '-s %s shell input text %s' % (index, text)
+        return self.ADB(cmd)
+
     def inputSwipe(self, index: str, x0: int, y0: int, x1: int, y1, ms: int = 200):
         """
         【滑动操作】
@@ -888,6 +898,9 @@ class Yaml_Drive:
                     pass
                 elif target == 'goto':
                     pass
+                elif target == 'print_text':
+                    inputText_info = data_target[target]
+                    self.console.inputText(Console_Action.index, inputText_info)
                 else:
                     # 判断是否用多选target方法
                     if data_target[target] == 'list':
