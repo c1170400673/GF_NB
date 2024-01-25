@@ -71,6 +71,7 @@ get_Equipment_Enhancement:
   - screenShot:
       retire_confirm:
         - retire_confirm:
+            after_tap_wait_time: 1.5
   - return:
       after_tap_wait_time: 2
 
