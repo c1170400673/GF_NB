@@ -57,7 +57,7 @@ get_into_mission:
 
 get_Equipment_Enhancement:
   - select_equip:
-      search_again_times: 4
+      search_again_times: 10
   - return:
       moveY: -162
       end_content: 选择要升级的装备
@@ -74,6 +74,7 @@ get_Equipment_Enhancement:
             after_tap_wait_time: 1.5
   - return:
       after_tap_wait_time: 2
+      search_again_times: 10
 
 
 get_select_8_1N:
@@ -108,7 +109,7 @@ get_select_8_1N:
                   end_content: 已选择关卡8_1N
                   tap_interval: 0.5
                   after_tap_wait_time: 0.5
-      else:
+      ep8:
         - ep8:
             need_screenShot: False
             beginning_content: 选择作战章节
@@ -141,6 +142,7 @@ get_select_8_1N:
                   end_content: 已选择关卡8_1N
                   tap_interval: 0.5
                   after_tap_wait_time: 0.5
+      else: exit
   - common_battle:
       tap_interval: 0.5
       after_tap_wait_time: 0.5
@@ -169,7 +171,7 @@ battle_8_1N_1:
       moveX: 0
       moveY: 243
       after_tap_wait_time: 0.5
-      search_again_times: 5
+      search_again_times: 10
   #  判断zas_m21弹药情况
   - round_zas_m21_check_amm: 10
   - planning_mode:
@@ -182,6 +184,7 @@ battle_8_1N_1:
       moveY: -98
       need_screenShot: False
       after_tap_wait_time: 0.5
+      search_again_times: 10
   - 8_1N_map:
       moveX: -60
       moveY: -115
@@ -212,7 +215,7 @@ battle_8_1N_1:
             after_tap_wait_time: 6
       else:
         - sleep: 3
-  - round_skip: 150
+  - round_skip: 999
 
 
 round_zas_m21_check_amm:
@@ -247,8 +250,9 @@ round_zas_m21_check_amm:
       zas_m21_no_amm:
         - echelon_editing:
             search_again_times: 5
+            tap_result_check_name: echelon_formation
         - zas_m21:
-            search_again_times: 3
+            search_again_times: 8
             tap_result_check_name: show_all
         - show_all:
             tap_result_check_name: ar
@@ -411,7 +415,7 @@ battle_8_1N_2:
   - echelon_editing:
       search_again_times: 5
   - zas_m21:
-      search_again_times: 3
+      search_again_times: 8
       tap_result_check_name: show_all
   - show_all:
       tap_result_check_name: ar
@@ -456,7 +460,7 @@ battle_8_1N_2:
             need_screenShot: False
         - execution_plan:
             after_tap_wait_time: 6
-        - round_skip: 150
+        - round_skip: 999
       eq_enhancement:
 
 
@@ -476,33 +480,28 @@ round_skip:
 
 
 end_combat_1:
-  - screenShot:
-      echelon2_num:
-        - echelon2_num:
-            tap_times: 2
-            tap_interval: 1
-            search_again_times: 20
-            search_again_sleep_time: 2
-            before_tap_wait_time: 2
-            after_tap_wait_time: 1
-        - supply:
-            search_again_times: 5
-        - echelon2_num:
-            before_tap_wait_time: 1.5
-            after_tap_wait_time: 1
-            search_again_times: 2
-        - retreat:
-            after_tap_wait_time: 1
-        - retreat_confirm:
-            after_tap_wait_time: 2
-        - terminate_operations:
-        - terminate_operations_select:
-            before_tap_wait_time: 0.5
-            after_tap_wait_time: 4
-      else:
-        - eq_enhancement:
-        - get_Equipment_Enhancement:
-            fun: True
+  - echelon2_num:
+      tap_times: 2
+      tap_interval: 1
+      search_again_times: 20
+      search_again_sleep_time: 2
+      before_tap_wait_time: 2
+      after_tap_wait_time: 1
+  - supply:
+      search_again_times: 5
+  - echelon2_num:
+      before_tap_wait_time: 1.5
+      after_tap_wait_time: 1
+      search_again_times: 2
+  - retreat:
+      after_tap_wait_time: 1
+  - retreat_confirm:
+      after_tap_wait_time: 2
+  - terminate_operations:
+  - terminate_operations_select:
+      before_tap_wait_time: 0.5
+      after_tap_wait_time: 4
+
 
 
 
@@ -532,7 +531,7 @@ end_combat_2:
             before_tap_wait_time: 0.5
             after_tap_wait_time: 1
             tap_result_check_name: loading
-      else:
+      eq_enhancement:
         - eq_enhancement:
         - get_Equipment_Enhancement:
             fun: True

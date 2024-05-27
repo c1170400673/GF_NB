@@ -786,6 +786,15 @@ echelon_editing:
   after_tap_wait_time: 2
   end_content: 进入队伍编辑
 
+echelon_formation:
+  target_img_name_list:
+    - 'echelon_formation.png'
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+
 echelon2:
   target_img_name_list:
     - 'echelon2.png'

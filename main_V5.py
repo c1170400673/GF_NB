@@ -592,7 +592,8 @@ class Action(object):
                         elif tap_result[0] is False:
                             running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
                             # print('%s 点击后结果校验不通过，重新点击！' % running_time)
-                            logging.error('%s 点击后 %s 结果校验不通过，重新点击！' % (running_time, tap_result_check_name))
+                            logging.error(
+                                '%s 点击后 %s 结果校验不通过，重新点击！' % (running_time, tap_result_check_name))
                             # 为了校验执行后重新点击target，需启动截图
                             need_screenShot_tap_info = tap_info.copy()
                             need_screenShot_tap_info.update({'need_screenShot': True})
@@ -631,7 +632,9 @@ class Action(object):
             else:
                 print(error_content)
                 # 暂停后手动操作
-                result_action = win32api.MessageBox(0, target_name+"自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:", "提醒",
+                result_action = win32api.MessageBox(0,
+                                                    target_name + "自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:",
+                                                    "提醒",
                                                     win32con.MB_TOPMOST | win32con.MB_YESNO)
                 if result_action == win32con.IDNO:
                     logging.info('选择了跳过 %s 步骤' % target_name)
@@ -759,50 +762,83 @@ class Yaml_Drive:
 
         :param data_dict:
         """
+        global ScreenShot_Img
         isExist_target_key_result = None
         run_yaml = ''
-        for key in data_dict:
-            isExist_target_key = key
-            isExist_target_value = data_dict[key]
-            # print(isExist_target_key)
-            if isExist_target_key == 'else':
-                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
-                dict_keys = list(data_dict.keys())
-                logging.warning("%s 截图查询 %s 元素不存在！" % (running_time, dict_keys))
-                if isExist_target_value == 'exit':
-                    logging.debug('执行exit方法')
-                    return True
-                    # sys.exit()
-                elif isExist_target_value == 'break':
-                    logging.debug('执行break方法')
-                    break
-                else:
+        if 'else' in data_dict:
+            for key in data_dict:
+                isExist_target_key = key
+                isExist_target_value = data_dict[key]
+                # print(isExist_target_key)
+                if isExist_target_key == 'else':
                     running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                    # print("%s 执行else方法" % running_time)
-                    logging.debug("执行else方法")
-                    # 获取else中方法执行的结果并判断向上传递
-                    else_result = self.tap_list(isExist_target_value)
-                    if else_result:
-                        # print("执行结果为真")
+                    # print("%s 截图查询[ %s ]元素不存在！" % (running_time, data_dict.keys()))
+                    dict_keys = list(data_dict.keys())
+                    logging.warning("%s 截图查询 %s 元素不存在！" % (running_time, dict_keys))
+                    if isExist_target_value == 'exit':
+                        logging.debug('执行exit方法')
                         return True
-            # 判断target是否在截图中[0]是默认取target的图片列表一个张图
-            elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
-                running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                print("%s 包含: %s" % (running_time, isExist_target_key))
-                # logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
-                if isExist_target_value == 'break':
-                    print("%s 执行break方法" % running_time)
-                    # logging.debug('执行break方法')
-                    return True
-                # print(isExist_target_key, isExist_target_value)
-                isExist_target_key_result = True
-                run_yaml = isExist_target_value
-                break
+                        # sys.exit()
+                    elif isExist_target_value == 'break':
+                        logging.debug('执行break方法')
+                        break
+                    else:
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                        # print("%s 执行else方法" % running_time)
+                        logging.debug("%s 执行else方法" % running_time)
+                        # 获取else中方法执行的结果并判断向上传递
+                        else_result = self.tap_list(isExist_target_value)
+                        if else_result:
+                            # print("执行结果为真")
+                            return True
+                # 判断target是否在截图中[0]是默认取target的图片列表一个张图
+                elif self.console_action.is_Exist_V3(isExist_target_key)[0]:
+                    running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                    print("%s 包含: %s" % (running_time, isExist_target_key))
+                    # logging.debug("%s 包含: %s" % (running_time, isExist_target_key))
+                    if isExist_target_value == 'break':
+                        print("%s 执行break方法" % running_time)
+                        # logging.debug('执行break方法')
+                        return True
+                    # print(isExist_target_key, isExist_target_value)
+                    isExist_target_key_result = True
+                    run_yaml = isExist_target_value
+                    break
+        else:
+            isExist_target_key_result = False
+            while isExist_target_key_result is False:
+                for key in data_dict:
+                    isExist_target_key = key
+                    isExist_target_value = data_dict[key]
+                    # 判断target是否在截图中[0]是默认取target的图片列表一个张图
+                    if self.console_action.is_Exist_V3(isExist_target_key)[0]:
+                        running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
+                        print("%s 包含: %s" % (running_time, isExist_target_key))
+                        if isExist_target_value == 'break':
+                            print("%s 执行break方法" % running_time)
+                            return True
+                        run_yaml = isExist_target_value
+                        isExist_target_key_result = True
+                        break
+                    else:
+                        isExist_target_key_result = False
+                if isExist_target_key_result is False:
+                    isExist_result = win32api.MessageBox(0, isExist_target_key +
+                                                                        "自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:",
+                                                                        "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
+                    if isExist_result == win32con.IDNO:
+                        logging.info('选择了跳过 %s 步骤' % isExist_target_key)
+                        break
+                    elif isExist_result == win32con.IDYES:
+                        ScreenShot_Img = self.console.ScreenShot_Adb(device)
+                        isExist_target_key_result = False
+
         if isExist_target_key_result:
             # 截图对象查询到后，判断后续处理对象是可执行的list
             if type(run_yaml) == list:
-                self.drive_yaml(run_yaml)
+                result = self.drive_yaml(run_yaml)
+                if result:
+                    return True
             elif run_yaml is None:
                 pass
 
@@ -837,7 +873,7 @@ class Yaml_Drive:
                         # 截图区分target信息
                         screenShot_dict_info = data_target[target]
                         # print('%s: %s' % (key, isExist_target[key]))
-                        screenShot_dict_result=self.screenShot_dict(screenShot_dict_info)
+                        screenShot_dict_result = self.screenShot_dict(screenShot_dict_info)
                         if screenShot_dict_result:
                             return True
                 # 是否是驱动方法
@@ -855,7 +891,7 @@ class Yaml_Drive:
                     round_def_yaml = battle_yaml_data[target]
                     for i in range(round_times):
                         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
-                        print("%s 轮询操作第 %s 次" % (running_time, i+1))
+                        print("%s 轮询操作第 %s 次" % (running_time, i + 1))
                         # 通过在round脚本中的最后一个点击操作中添加fun_return: True属性结束轮训；
                         # 也可以使用在其中的screenShot，样本后添加break，例如：
                         # - screenShot:
@@ -932,23 +968,10 @@ class Yaml_Drive:
                     return True
                 else:
                     return False
+            else:
+                pass
         else:
             pass
-
-
-def test():
-    """
-    【调试测试类】
-    :return:
-    """
-    # get_into_mission = battle_yaml_data['get_into_mission']
-    # get_13_4 = battle_yaml_data['get_13_4']
-    # drive_yaml(get_into_mission)
-    # for i in range(2):
-    #     drive_yaml(get_13_4)
-    if Console_Action.isExistV2('end_fighting'):
-        print("True")
-    sys.exit()
 
 
 class Job(threading.Thread):
@@ -1072,7 +1095,7 @@ def battle():
         else:
             pass
         ran_time: float = 0
-        if runtimes == 1:
+        if runtimes == 1:  # 单次执行调用
             yaml_drive.drive_yaml(select_battle_name)
             yaml_drive.drive_yaml(battle_name_1)
             yaml_drive.drive_yaml(end_combat_1)
