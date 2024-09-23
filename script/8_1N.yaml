@@ -7,7 +7,7 @@ default_tap_info:
   tap_times: 1                   # 点击次数
   tap_interval: 0                # 点击间隔,单位秒
   before_tap_wait_time: 0
-  after_tap_wait_time: 1
+  after_tap_wait_time: 0.5
   search_again_times: 3
   search_again_sleep_time: 0.5
   beginning_content: ''
@@ -157,7 +157,7 @@ get_select_8_1N:
             fun: True
         #   fun_return: True
         - get_select_8_1N:
-            fun: True
+            fun: True1
             fun_return: True
       else:
         - sleep: 4.5
@@ -244,7 +244,7 @@ round_zas_m21_check_amm:
                   after_tap_wait_time: 2
                   end_content: 投放第二梯队
         - start_fighting:
-            after_tap_wait_time: 3
+            after_tap_wait_time: 0.5
             tap_result_check_name: end_fighting
             fun_return: True
       zas_m21_no_amm:
@@ -267,12 +267,15 @@ round_zas_m21_check_amm:
               - confirm:
                   need_screenShot: False
         - zas_m21_echelon1:
+            after_tap_wait_time: 0.5
         - zas_m21_echelon2:
+            after_tap_wait_time: 0.5
         - doll_confirm:
+            after_tap_wait_time: 0.5
         - return:
             tap_result_check_name: start_fighting
-            after_tap_wait_time: 4
-            search_again_times: 2
+            after_tap_wait_time: 0.5
+            search_again_times: 4
         - 8_1N_map:
             moveX: 0
             moveY: 243
@@ -305,10 +308,10 @@ round_zas_m21_check_amm:
                               after_tap_wait_time: 2
                               end_content: 投放第二梯队
                     - start_fighting:
-                        after_tap_wait_time: 3
+                        after_tap_wait_time: 1
                         tap_result_check_name: end_fighting
                     - echelon1_num:
-                    - supply:
+                    - supply: #补给
                         search_again_times: 5
                         fun_return: True
                   zas_m21_is_amm:
@@ -367,7 +370,7 @@ round_zas_m21_check_amm:
                               after_tap_wait_time: 2
                               end_content: 投放第二梯队
                     - start_fighting:
-                        after_tap_wait_time: 3
+                        after_tap_wait_time: 1
                         tap_result_check_name: end_fighting
                     - echelon1_num:
                         tap_times: 2
@@ -399,9 +402,10 @@ round_zas_m21_check_amm:
                               after_tap_wait_time: 2
                               end_content: 投放第二梯队
                     - start_fighting:
-                        after_tap_wait_time: 3
+                        after_tap_wait_time: 1
                         tap_result_check_name: end_fighting
                         fun_return: True
+      end_fighting: break
       else:
         - sleep: 0.5
 
@@ -434,8 +438,8 @@ battle_8_1N_2:
   - doll_confirm:
   - return:
       tap_result_check_name: start_fighting
-      after_tap_wait_time: 4
-      search_again_times: 2
+      after_tap_wait_time: 0.5
+      search_again_times: 4
   - start_fighting:
       moveX: 300
       moveY: 0
@@ -485,7 +489,7 @@ end_combat_1:
       tap_interval: 1
       search_again_times: 20
       search_again_sleep_time: 2
-      before_tap_wait_time: 2
+      before_tap_wait_time: 0.5
       after_tap_wait_time: 1
   - supply:
       search_again_times: 5
@@ -496,11 +500,11 @@ end_combat_1:
   - retreat:
       after_tap_wait_time: 1
   - retreat_confirm:
-      after_tap_wait_time: 2
+      after_tap_wait_time: 0.5
   - terminate_operations:
+      search_again_times: 2
   - terminate_operations_select:
       before_tap_wait_time: 0.5
-      after_tap_wait_time: 4
 
 
 
@@ -513,19 +517,21 @@ end_combat_2:
             tap_interval: 1
             search_again_times: 20
             search_again_sleep_time: 2
-            before_tap_wait_time: 2
-            after_tap_wait_time: 1
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 0.5
         - supply:
             search_again_times: 5
         - echelon2_num:
             before_tap_wait_time: 1.5
-            after_tap_wait_time: 1
+            after_tap_wait_time: 0.5
             search_again_times: 2
         - retreat:
+            search_again_times: 2
             after_tap_wait_time: 1
             tap_result_check_name: retreat_confirm
         - retreat_confirm:
-            after_tap_wait_time: 2
+            search_again_times: 2
+            after_tap_wait_time: 1
         - terminate_operations:
         - reoperate_select:
             before_tap_wait_time: 0.5

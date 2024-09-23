@@ -315,8 +315,6 @@ zas_m21:
   moveY: 100
   tap_times: 1
   tap_interval: 1
-  before_tap_wait_time: 1
-  after_tap_wait_time: 2
   search_again_times: 2
   search_again_sleep_time: 0.5
   end_content: 选择Zas_M21人形
