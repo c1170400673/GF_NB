@@ -3,12 +3,11 @@
 """
 【少前13-4自动刷图】
 """
-import io
 # 打包命令 pyinstaller main.spec
+import io
 import logging.config
 import os
 import subprocess
-import sys
 import threading
 import time
 from functools import partial
@@ -20,6 +19,7 @@ import numpy as np
 import win32api
 import win32con
 import yaml
+# from win32api import MessageBox
 from PIL import Image
 
 # 全局覆盖print函数参数
@@ -635,13 +635,15 @@ class Action(object):
                 result_action = win32api.MessageBox(0,
                                                     target_name + "自动执行异常请检查！请手动调整！是再次重试/否跳过此步骤:",
                                                     "提醒",
-                                                    win32con.MB_TOPMOST | win32con.MB_YESNO)
+                                                    win32con.MB_TOPMOST | win32con.MB_YESNOCANCEL)
                 if result_action == win32con.IDNO:
                     logging.info('选择了跳过 %s 步骤' % target_name)
                     break
                 elif result_action == win32con.IDYES:
                     tap_info.update({'need_screenShot': True})
                     logging.info('重置截图触发为启动截图')
+                elif result_action == win32con.IDCANCEL:
+                    exit(0)
         running_time = time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time))
         print('%s +++++ END +++++ [%s]\n' % (running_time, end_content))
 
@@ -1153,7 +1155,6 @@ def battle():
                     break
         # result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_TOPMOST | win32con.MB_YESNO)
         result_action = win32api.MessageBox(0, "是否继续跑步机?", "提醒", win32con.MB_YESNO)
-
         # action = input('是否继续跑步机?enter后继续/输入exit退出: ')
         # if action == 'exit':
         #     break
