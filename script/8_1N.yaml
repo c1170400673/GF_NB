@@ -436,8 +436,11 @@ battle_8_1N_2:
         - confirm:
             need_screenShot: False
   - zas_m21_echelon1:
+      after_tap_wait_time: 0.5
   - zas_m21_echelon2:
+      after_tap_wait_time: 0.5
   - doll_confirm:
+      after_tap_wait_time: 0.5
   - return:
       tap_result_check_name: start_fighting
       after_tap_wait_time: 0.5
