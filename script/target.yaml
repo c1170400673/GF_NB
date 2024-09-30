@@ -134,6 +134,22 @@ normal:
   moveX: 0
   moveY: 0
 
+ep4:
+  target_img_name_list:
+    - 'ep4.png'
+  rgb: False
+  threshold: 0.96
+  moveX: 0
+  moveY: 0
+
+is_ep4:
+  target_img_name_list:
+    - 'is_ep4.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
 ep8:
   target_img_name_list:
     - 'ep8.png'
@@ -145,6 +161,22 @@ ep8:
 is_ep8:
   target_img_name_list:
     - 'is_ep8.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 0
+
+ep10:
+  target_img_name_list:
+    - 'ep10.png'
+  rgb: False
+  threshold: 0.96
+  moveX: 0
+  moveY: 0
+
+is_ep10:
+  target_img_name_list:
+    - 'is_ep10.png'
   rgb: False
   threshold: 0.9
   moveX: 0

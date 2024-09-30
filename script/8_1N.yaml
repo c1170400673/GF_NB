@@ -60,8 +60,9 @@ get_Equipment_Enhancement:
       search_again_times: 10
   - return:
       moveY: -162
-      end_content: 选择要升级的装备
+      end_content: 基于返回按钮定位选择要升级的装备
   - standing_by_eq:
+      tap_result_check_name: eq_intelligent_selection
   - eq_intelligent_selection:
       tap_times: 3
       tap_interval: 1.5
@@ -144,7 +145,79 @@ get_select_8_1N:
                   end_content: 已选择关卡8_1N
                   tap_interval: 0.5
                   after_tap_wait_time: 0.5
-      else: exit
+      else:
+        - screenShot:
+            ep4:
+              - swipe: [ 246,556,252,281,540 ]
+            is_ep4:
+              - swipe: [ 246,556,252,281,550 ]
+            ep10:
+              - swipe: [ 252,281,246,556,570 ]
+            is_ep10:
+              - swipe: [ 252,281,246,556,580 ]
+        - screenShot:
+            is_ep8:
+              - screenShot:
+                  normal:
+                    - normal:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  emergency:
+                    - emergency:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  midnight:
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+            ep8:
+              - ep8:
+                  need_screenShot: False
+                  beginning_content: 选择作战章节
+                  end_content: 已选择章节8
+              - screenShot:
+                  normal:
+                    - normal:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  emergency:
+                    - emergency:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  midnight:
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
   - common_battle:
       tap_interval: 0.5
       after_tap_wait_time: 0.5
