@@ -1035,9 +1035,12 @@ def run_config():
         device = 'emulator-5554'
         Console = BlueStacks_Console(bluestacks_path)
         # 获取判断bluestacks模拟器的连接状态
+        # print(Console.Adb_Status())
         if device in Console.Adb_Status():
+            print('[ADB设备连接正常]')
             pass
         else:
+            print('[ADB设备连接异常，尝试重启ADB]')
             Console.ADB('kill-server')
             time.sleep(1)
             Console.ADB('start-server')
