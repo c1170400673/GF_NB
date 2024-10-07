@@ -190,6 +190,7 @@ get_select_8_1N:
                   need_screenShot: False
                   beginning_content: 选择作战章节
                   end_content: 已选择章节8
+                  tap_result_check_name: is_ep8
               - screenShot:
                   normal:
                     - normal:
@@ -568,19 +569,22 @@ end_combat_1:
       search_again_times: 20
       search_again_sleep_time: 2
       before_tap_wait_time: 0.5
-      after_tap_wait_time: 1
+      after_tap_wait_time: 0.5
   - supply:
       search_again_times: 5
+      after_tap_wait_time: 0.5
   - echelon2_num:
-      before_tap_wait_time: 1.5
-      after_tap_wait_time: 1
-      search_again_times: 2
+      before_tap_wait_time: 0.5
+      after_tap_wait_time: 0.5
+      search_again_times: 4
   - retreat:
-      after_tap_wait_time: 1
+      before_tap_wait_time: 0.5
+      after_tap_wait_time: 0.5
   - retreat_confirm:
       after_tap_wait_time: 0.5
   - terminate_operations:
       search_again_times: 2
+      tap_result_check_name: terminate_operations_select
   - terminate_operations_select:
       before_tap_wait_time: 0.5
 
@@ -600,20 +604,22 @@ end_combat_2:
         - supply:
             search_again_times: 5
         - echelon2_num:
-            before_tap_wait_time: 1.5
+            before_tap_wait_time: 0.5
             after_tap_wait_time: 0.5
-            search_again_times: 2
+            search_again_times: 4
         - retreat:
             search_again_times: 2
-            after_tap_wait_time: 1
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 0.5
             tap_result_check_name: retreat_confirm
         - retreat_confirm:
             search_again_times: 2
-            after_tap_wait_time: 1
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 0.5
         - terminate_operations:
         - reoperate_select:
             before_tap_wait_time: 0.5
-            after_tap_wait_time: 1
+            after_tap_wait_time: 0.5
             tap_result_check_name: loading
       eq_enhancement:
         - eq_enhancement:
