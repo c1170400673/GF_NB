@@ -327,6 +327,7 @@ loading:
 8_1N_map:
   target_img_name_list:
     - '8_1N_map.png'
+    - '8_1N_map_2.png'
   rgb: False
   threshold: 0.6
   after_tap_wait_time: 0
@@ -380,6 +381,53 @@ zas_m21_is_amm:
 zas_m21_no_amm:
   target_img_name_list:
     - 'zas_m21_no_amm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+
+rex-0-1:
+  target_img_name_list:
+    - 'rex-0-1.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  tap_times: 1
+  tap_interval: 1
+  search_again_times: 2
+  search_again_sleep_time: 0.5
+  end_content: 选择Zas_M21人形
+
+rex-0-1_echelon1:
+  target_img_name_list:
+    - 'rex-0-1_echelon1.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  after_tap_wait_time: 2
+
+rex-0-1_echelon2:
+  target_img_name_list:
+    - 'rex-0-1_echelon2.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+  after_tap_wait_time: 2
+
+rex-0-1_is_amm:
+  target_img_name_list:
+    - 'rex-0-1_is_amm.png'
+  rgb: False
+  threshold: 0.9
+  moveX: 0
+  moveY: 100
+
+rex-0-1_no_amm:
+  target_img_name_list:
+    - 'rex-0-1_no_amm.png'
   rgb: False
   threshold: 0.9
   moveX: 0

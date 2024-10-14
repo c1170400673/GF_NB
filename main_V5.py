@@ -1039,6 +1039,9 @@ def run_config():
         if device in Console.Adb_Status():
             print('[ADB设备连接正常]')
             pass
+        elif adb_terminal in Console.Adb_Status():
+            device = adb_terminal
+            pass
         else:
             print('[ADB设备连接异常，尝试重启ADB]')
             Console.ADB('kill-server')

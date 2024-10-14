@@ -1,0 +1,638 @@
+default_tap_info:
+  rgb: False
+  threshold: 0.9
+  need_screenShot: True
+  moveX: 0
+  moveY: 0
+  tap_times: 1                   # 点击次数
+  tap_interval: 0                # 点击间隔,单位秒
+  before_tap_wait_time: 0
+  after_tap_wait_time: 0.5
+  search_again_times: 3
+  search_again_sleep_time: 0.5
+  beginning_content: ''
+  end_content: ''
+  tap_result_check_name:         # 点击结果要检查的按钮名称
+  error_content: '请检查界面！'
+
+
+get_into_mission:
+  - screenShot:
+      main:
+        - main_battle:
+            need_screenShot: False
+            beginning_content: 当前在主界面
+            end_content: 进入战斗界面
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      battle:
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      research:
+        - return:
+            need_screenShot: False
+        - main_battle:
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      factory:
+        - return:
+            need_screenShot: False
+        - main_battle:
+        - screenShot:
+            is_combat_mission:
+            else:
+              - combat_mission:
+                  need_screenShot: False
+      else: exit
+
+
+get_Equipment_Enhancement:
+  - select_equip:
+      search_again_times: 10
+  - return:
+      moveY: -162
+      end_content: 基于返回按钮定位选择要升级的装备
+  - standing_by_eq:
+      tap_result_check_name: eq_intelligent_selection
+  - eq_intelligent_selection:
+      tap_times: 3
+      tap_interval: 1.5
+  - eq_select_confirm:
+      after_tap_wait_time: 1.5
+  - eq_enhancement_confirm:
+  - screenShot:
+      retire_confirm:
+        - retire_confirm:
+            after_tap_wait_time: 1.5
+      else:
+        break
+  - return:
+      after_tap_wait_time: 2
+      search_again_times: 10
+
+
+get_select_8_1N_R:
+  - sleep: 0
+  - screenShot:
+      is_ep8:
+        - screenShot:
+            normal:
+              - normal:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            emergency:
+              - emergency:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            midnight:
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+      ep8:
+        - ep8:
+            need_screenShot: False
+            beginning_content: 选择作战章节
+            end_content: 已选择章节8
+        - screenShot:
+            normal:
+              - normal:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            emergency:
+              - emergency:
+                  moveX: -120
+                  moveY: 0
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+            midnight:
+              - '8_1N':
+                  tap_result_check_name: common_battle
+                  beginning_content: 选择关卡
+                  end_content: 已选择关卡8_1N
+                  tap_interval: 0.5
+                  after_tap_wait_time: 0.5
+      else:
+        - screenShot:
+            ep4:
+              - swipe: [ 246,556,252,281,540 ]
+            is_ep4:
+              - swipe: [ 246,556,252,281,550 ]
+            ep10:
+              - swipe: [ 252,281,246,556,570 ]
+            is_ep10:
+              - swipe: [ 252,281,246,556,580 ]
+        - screenShot:
+            is_ep8:
+              - screenShot:
+                  normal:
+                    - normal:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  emergency:
+                    - emergency:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  midnight:
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+            ep8:
+              - ep8:
+                  need_screenShot: False
+                  beginning_content: 选择作战章节
+                  end_content: 已选择章节8
+              - screenShot:
+                  normal:
+                    - normal:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  emergency:
+                    - emergency:
+                        moveX: -120
+                        moveY: 0
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+                  midnight:
+                    - '8_1N':
+                        tap_result_check_name: common_battle
+                        beginning_content: 选择关卡
+                        end_content: 已选择关卡8_1N
+                        tap_interval: 0.5
+                        after_tap_wait_time: 0.5
+  - common_battle:
+      tap_interval: 0.5
+      after_tap_wait_time: 0.5
+  - screenShot:
+      eq_enhancement:
+        - eq_enhancement:
+            need_screenShot: False
+        - get_Equipment_Enhancement:
+            fun: True
+            adv_retire: True
+        - get_into_mission:
+            fun: True
+        #   fun_return: True
+        - get_select_8_1N:
+            fun: True1
+            fun_return: True
+      else:
+        - sleep: 4.5
+
+
+
+
+
+battle_8_1N_R_1:
+  - 8_1N_map:
+      moveX: 0
+      moveY: 243
+      after_tap_wait_time: 0.5
+      search_again_times: 10
+  #  判断rex-0-1弹药情况
+  - round_rex-0-1_check_amm: 10
+  - planning_mode:
+      tap_result_check_name: execution_plan
+      end_content: 计划模式
+      after_tap_wait_time: 0.5
+  - echelon1_num:
+  - 8_1N_map_2:
+      moveX: 63
+      moveY: -98
+      need_screenShot: False
+      after_tap_wait_time: 0.5
+      search_again_times: 10
+  - 8_1N_map:
+      moveX: -60
+      moveY: -115
+      need_screenShot: False
+  - execution_plan:
+      after_tap_wait_time: 2
+  - screenShot:
+      no_amm:
+        - cancel:
+            after_tap_wait_time: 1
+        - echelon1_num:
+        - supply:
+            search_again_times: 5
+        - planning_mode:
+            tap_result_check_name: execution_plan
+            end_content: 计划模式
+            after_tap_wait_time: 0.5
+        - 8_1N_map_2:
+            moveX: 90
+            moveY: 83
+            need_screenShot: False
+            after_tap_wait_time: 0.5
+        - 8_1N_map_2:
+            moveX: -51
+            moveY: -131
+            need_screenShot: False
+        - execution_plan:
+            after_tap_wait_time: 6
+      else:
+        - sleep: 3
+  - round_skip: 999
+
+
+round_rex-0-1_check_amm:
+  - screenShot:
+      rex-0-1_is_amm:
+        - echelon_confirm:
+            need_screenShot: False
+            tap_result_check_name: start_fighting
+        - 8_1N_map:
+            moveX: 48
+            moveY: -240
+            after_tap_wait_time: 1.5
+        - screenShot:
+            is_echelon2:
+              - echelon_confirm:
+                  need_screenShot: False
+                  after_tap_wait_time: 1.5
+                  beginning_content: 已在梯队选择，默认第二梯队
+                  end_content: 投放第二梯队
+            else:
+              - echelon2:
+                  need_screenShot: False
+                  beginning_content: 已在梯队选择
+                  end_content: 投放第二梯队
+              - echelon_confirm:
+                  after_tap_wait_time: 2
+                  end_content: 投放第二梯队
+        - start_fighting:
+            after_tap_wait_time: 0.5
+            tap_result_check_name: end_fighting
+            fun_return: True
+      rex-0-1_no_amm:
+        - echelon_editing:
+            search_again_times: 5
+            tap_result_check_name: echelon_formation
+        - rex-0-1:
+            search_again_times: 8
+            tap_result_check_name: show_all
+        - show_all:
+            tap_result_check_name: ar
+        - select_collect:
+        - confirm:
+            need_screenShot: False
+        - screenShot:
+            rex-0-1_echelon1:
+            else:
+              - show_all:
+              - select_collect:
+              - confirm:
+                  need_screenShot: False
+        - rex-0-1_echelon1:
+            after_tap_wait_time: 0.5
+        - rex-0-1_echelon2:
+            after_tap_wait_time: 0.5
+        - doll_confirm:
+            after_tap_wait_time: 0.5
+        - return:
+            tap_result_check_name: start_fighting
+            after_tap_wait_time: 0.5
+            search_again_times: 4
+        - 8_1N_map:
+            moveX: 0
+            moveY: 243
+            search_again_sleep_time: 0.5
+            after_tap_wait_time: 0.5
+        - screenShot:
+            is_echelon1:
+              - screenShot:
+                  rex-0-1_no_amm:
+                    - echelon_confirm:
+                        need_screenShot: False
+                        tap_result_check_name: start_fighting
+                    - 8_1N_map:
+                        moveX: 48
+                        moveY: -240
+                        after_tap_wait_time: 1.5
+                    - screenShot:
+                        is_echelon2:
+                          - echelon_confirm:
+                              need_screenShot: False
+                              after_tap_wait_time: 1.5
+                              beginning_content: 已在梯队选择，默认第二梯队
+                              end_content: 投放第二梯队
+                        else:
+                          - echelon2:
+                              need_screenShot: False
+                              beginning_content: 已在梯队选择
+                              end_content: 投放第二梯队
+                          - echelon_confirm:
+                              after_tap_wait_time: 2
+                              end_content: 投放第二梯队
+                    - start_fighting:
+                        after_tap_wait_time: 1
+                        tap_result_check_name: end_fighting
+                    - echelon1_num:
+                    - supply: #补给
+                        search_again_times: 5
+                        fun_return: True
+                  rex-0-1_is_amm:
+                    - echelon_confirm:
+                        need_screenShot: False
+                        tap_result_check_name: start_fighting
+                    - 8_1N_map:
+                        moveX: 48
+                        moveY: -240
+                        after_tap_wait_time: 1.5
+                    - screenShot:
+                        is_echelon2:
+                          - echelon_confirm:
+                              need_screenShot: False
+                              after_tap_wait_time: 1.5
+                              beginning_content: 已在梯队选择，默认第二梯队
+                              end_content: 投放第二梯队
+                        else:
+                          - echelon2:
+                              need_screenShot: False
+                              beginning_content: 已在梯队选择
+                              end_content: 投放第二梯队
+                          - echelon_confirm:
+                              after_tap_wait_time: 2
+                              end_content: 投放第二梯队
+                    - start_fighting:
+                        after_tap_wait_time: 3
+                        tap_result_check_name: end_fighting
+                        fun_return: True
+            else:
+              - echelon1:
+                  need_screenShot: False
+                  after_tap_wait_time: 1.5
+              - screenShot:
+                  rex-0-1_no_amm:
+                    - echelon_confirm:
+                        need_screenShot: False
+                        tap_result_check_name: start_fighting
+                    - 8_1N_map:
+                        moveX: 48
+                        moveY: -240
+                        after_tap_wait_time: 1.5
+                    - screenShot:
+                        is_echelon2:
+                          - echelon_confirm:
+                              need_screenShot: False
+                              after_tap_wait_time: 1.5
+                              beginning_content: 已在梯队选择，默认第二梯队
+                              end_content: 投放第二梯队
+                        else:
+                          - echelon2:
+                              need_screenShot: False
+                              beginning_content: 已在梯队选择
+                              end_content: 投放第二梯队
+                          - echelon_confirm:
+                              after_tap_wait_time: 2
+                              end_content: 投放第二梯队
+                    - start_fighting:
+                        after_tap_wait_time: 1
+                        tap_result_check_name: end_fighting
+                    - echelon1_num:
+                        tap_times: 2
+                        tap_interval: 1
+                    - supply:
+                        search_again_times: 5
+                        fun_return: True
+                  rex-0-1_is_amm:
+                    - echelon_confirm:
+                        need_screenShot: False
+                        tap_result_check_name: start_fighting
+                    - 8_1N_map:
+                        moveX: 48
+                        moveY: -240
+                        after_tap_wait_time: 1.5
+                    - screenShot:
+                        is_echelon2:
+                          - echelon_confirm:
+                              need_screenShot: False
+                              after_tap_wait_time: 1.5
+                              beginning_content: 已在梯队选择，默认第二梯队
+                              end_content: 投放第二梯队
+                        else:
+                          - echelon2:
+                              need_screenShot: False
+                              beginning_content: 已在梯队选择
+                              end_content: 投放第二梯队
+                          - echelon_confirm:
+                              after_tap_wait_time: 2
+                              end_content: 投放第二梯队
+                    - start_fighting:
+                        after_tap_wait_time: 1
+                        tap_result_check_name: end_fighting
+                        fun_return: True
+      end_fighting: break
+      else:
+        - sleep: 0.5
+
+
+
+battle_8_1N_R_2:
+  - sleep: 4
+  - echelon1_num:
+      before_tap_wait_time: 0.5
+      search_again_times: 10
+  - echelon_editing:
+      search_again_times: 5
+  - rex-0-1:
+      search_again_times: 8
+      tap_result_check_name: show_all
+  - show_all:
+      tap_result_check_name: ar
+  - select_collect:
+  - confirm:
+      need_screenShot: False
+  - screenShot:
+      rex-0-1_echelon1:
+      else:
+        - show_all:
+        - select_collect:
+        - confirm:
+            need_screenShot: False
+  - rex-0-1_echelon1:
+      after_tap_wait_time: 0.5
+  - rex-0-1_echelon2:
+      after_tap_wait_time: 0.5
+  - doll_confirm:
+      after_tap_wait_time: 0.5
+  - return:
+      tap_result_check_name: start_fighting
+      after_tap_wait_time: 0.5
+      search_again_times: 4
+  - start_fighting:
+      moveX: 300
+      moveY: 0
+      after_tap_wait_time: 0.5
+  - start_fighting:
+      after_tap_wait_time: 3
+  - screenShot:
+      end_fighting:
+        - planning_mode:
+            tap_result_check_name: execution_plan
+            end_content: 计划模式
+            after_tap_wait_time: 0.5
+        - echelon1_num:
+        - 8_1N_map_2:
+            moveX: 90
+            moveY: 83
+            need_screenShot: False
+            after_tap_wait_time: 0.5
+        - 8_1N_map_2:
+            moveX: -51
+            moveY: -131
+            need_screenShot: False
+        - execution_plan:
+            after_tap_wait_time: 6
+        - round_skip: 999
+      eq_enhancement:
+
+
+
+round_skip:
+  - screenShot:
+      battle_win:
+        - battle_win:
+            need_screenShot: False
+            tap_times: 4
+            tap_interval: 0.5
+      killed5: break
+      else:
+        - sleep: 0.5
+
+
+
+
+end_combat_1:
+  - echelon2_num:
+      tap_times: 2
+      tap_interval: 1
+      search_again_times: 20
+      search_again_sleep_time: 2
+      before_tap_wait_time: 0.5
+      after_tap_wait_time: 1
+  - supply:
+      search_again_times: 5
+  - echelon2_num:
+      before_tap_wait_time: 1.5
+      after_tap_wait_time: 1
+      search_again_times: 2
+  - retreat:
+      after_tap_wait_time: 1
+  - retreat_confirm:
+      after_tap_wait_time: 0.5
+  - terminate_operations:
+      search_again_times: 2
+  - terminate_operations_select:
+      before_tap_wait_time: 0.5
+
+
+
+
+end_combat_2:
+  - screenShot:
+      echelon2_num:
+        - echelon2_num:
+            tap_times: 2
+            tap_interval: 1
+            search_again_times: 20
+            search_again_sleep_time: 2
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 0.5
+        - supply:
+            search_again_times: 5
+        - echelon2_num:
+            before_tap_wait_time: 1.5
+            after_tap_wait_time: 0.5
+            search_again_times: 2
+        - retreat:
+            search_again_times: 2
+            after_tap_wait_time: 1
+            tap_result_check_name: retreat_confirm
+        - retreat_confirm:
+            search_again_times: 2
+            after_tap_wait_time: 1
+        - terminate_operations:
+        - reoperate_select:
+            before_tap_wait_time: 0.5
+            after_tap_wait_time: 1
+            tap_result_check_name: loading
+      eq_enhancement:
+        - eq_enhancement:
+        - get_Equipment_Enhancement:
+            fun: True
+        - sleep: 1
+        - screenShot:
+            main:
+              - get_into_mission:
+                  fun: True
+            else:
+              - all_go_to_logistics:
+                  before_tap_wait_time: 2
+                  tap_interval: 1
+                  after_tap_wait_time: 1
+              - retire_confirm:
+                  after_tap_wait_time: 1.5
+              - get_into_mission:
+                  fun: True
+        - get_select_8_1N:
+            fun: True
+            fun_return: True
