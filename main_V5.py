@@ -1026,7 +1026,7 @@ def run_config():
     global target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2
     # 模拟器adb终端默认地址
-    adb_terminal = '127.0.0.1:5555'
+    adb_terminal = '127.0.0.1:5558'
     # 判断调用模拟器的方法
     if console_name == 'BlueStacks':
         # bluestacks模拟器目录
@@ -1041,12 +1041,14 @@ def run_config():
             pass
         elif adb_terminal in Console.Adb_Status():
             device = adb_terminal
+            print('[ADB设备连接正常]')
             pass
         else:
             print('[ADB设备连接异常，尝试重启ADB]')
             Console.ADB('kill-server')
             time.sleep(1)
             Console.ADB('start-server')
+            Console.Adb_Connect(adb_terminal)
         Console_Action = Action(device, Console)
     elif console_name == 'LDplayer':
         # 雷电模拟器目录

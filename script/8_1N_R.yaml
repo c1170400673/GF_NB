@@ -231,7 +231,7 @@ get_select_8_1N_R:
         - get_into_mission:
             fun: True
         #   fun_return: True
-        - get_select_8_1N:
+        - get_select_8_1N_R:
             fun: True1
             fun_return: True
       else:
