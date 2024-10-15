@@ -23,6 +23,7 @@ get_into_mission:
             need_screenShot: False
             beginning_content: 当前在主界面
             end_content: 进入战斗界面
+            after_tap_wait_time: 0.5
         - screenShot:
             is_combat_mission:
             else:
@@ -235,7 +236,7 @@ get_select_8_1N_R:
             fun: True1
             fun_return: True
       else:
-        - sleep: 4.5
+        - sleep: 2.5
 
 
 
@@ -260,7 +261,7 @@ battle_8_1N_R_1:
       need_screenShot: False
       after_tap_wait_time: 0.5
       search_again_times: 10
-  - 8_1N_map:
+  - 8_1N_map_2:
       moveX: -60
       moveY: -115
       need_screenShot: False
@@ -302,12 +303,12 @@ round_rex-0-1_check_amm:
         - 8_1N_map:
             moveX: 48
             moveY: -240
-            after_tap_wait_time: 1.5
+            after_tap_wait_time: 1
         - screenShot:
             is_echelon2:
               - echelon_confirm:
                   need_screenShot: False
-                  after_tap_wait_time: 1.5
+                  after_tap_wait_time: 1
                   beginning_content: 已在梯队选择，默认第二梯队
                   end_content: 投放第二梯队
             else:
@@ -552,8 +553,8 @@ round_skip:
       battle_win:
         - battle_win:
             need_screenShot: False
-            tap_times: 4
-            tap_interval: 0.5
+            tap_times: 5
+            tap_interval: 0.3
       killed5: break
       else:
         - sleep: 0.5
@@ -564,16 +565,17 @@ round_skip:
 end_combat_1:
   - echelon2_num:
       tap_times: 2
-      tap_interval: 1
+      tap_interval: 0.5
       search_again_times: 20
       search_again_sleep_time: 2
       before_tap_wait_time: 0.5
-      after_tap_wait_time: 1
+      after_tap_wait_time: 0.5
   - supply:
       search_again_times: 5
+      after_tap_wait_time: 0.5
   - echelon2_num:
-      before_tap_wait_time: 1.5
-      after_tap_wait_time: 1
+      before_tap_wait_time: 1
+      after_tap_wait_time: 0.5
       search_again_times: 2
   - retreat:
       after_tap_wait_time: 1
@@ -587,20 +589,22 @@ end_combat_1:
 
 
 
+
 end_combat_2:
   - screenShot:
       echelon2_num:
         - echelon2_num:
             tap_times: 2
-            tap_interval: 1
+            tap_interval: 0.5
             search_again_times: 20
             search_again_sleep_time: 2
             before_tap_wait_time: 0.5
             after_tap_wait_time: 0.5
         - supply:
             search_again_times: 5
+            after_tap_wait_time: 0.5
         - echelon2_num:
-            before_tap_wait_time: 1.5
+            before_tap_wait_time: 1
             after_tap_wait_time: 0.5
             search_again_times: 2
         - retreat:
@@ -609,8 +613,9 @@ end_combat_2:
             tap_result_check_name: retreat_confirm
         - retreat_confirm:
             search_again_times: 2
-            after_tap_wait_time: 1
+            after_tap_wait_time: 0.5
         - terminate_operations:
+            search_again_times: 2
         - reoperate_select:
             before_tap_wait_time: 0.5
             after_tap_wait_time: 1
@@ -633,6 +638,6 @@ end_combat_2:
                   after_tap_wait_time: 1.5
               - get_into_mission:
                   fun: True
-        - get_select_8_1N:
+        - get_select_8_1N_R:
             fun: True
             fun_return: True

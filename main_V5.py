@@ -597,6 +597,7 @@ class Action(object):
                             # 为了校验执行后重新点击target，需启动截图
                             need_screenShot_tap_info = tap_info.copy()
                             need_screenShot_tap_info.update({'need_screenShot': True})
+                            need_screenShot_tap_info.update({'search_again_times': 1})
                             find_result = self.find_target_img_V5(target_name, need_screenShot_tap_info)
                             # 判断重新点击target后的结果
                             if find_result[0]:
@@ -1026,7 +1027,7 @@ def run_config():
     global target_yaml_data, battle_yaml_data, get_into_mission, select_battle_name, battle_name_1, battle_name_2, \
         end_combat_1, end_combat_2
     # 模拟器adb终端默认地址
-    adb_terminal = '127.0.0.1:5558'
+    adb_terminal = '127.0.0.1:5555'
     # 判断调用模拟器的方法
     if console_name == 'BlueStacks':
         # bluestacks模拟器目录
@@ -1034,6 +1035,8 @@ def run_config():
         # 模拟器终端名称
         device = 'emulator-5554'
         Console = BlueStacks_Console(bluestacks_path)
+        print('[ADB连接设备]')
+        Console.Adb_Connect(adb_terminal)
         # 获取判断bluestacks模拟器的连接状态
         # print(Console.Adb_Status())
         if device in Console.Adb_Status():
