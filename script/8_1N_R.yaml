@@ -82,7 +82,7 @@ get_Equipment_Enhancement:
 
 
 get_select_8_1N_R:
-  - sleep: 0
+  - sleep: 2
   - screenShot:
       is_ep8:
         - screenShot:
