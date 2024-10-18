@@ -156,6 +156,7 @@ get_select_8_1N_R:
               - swipe: [ 252,281,246,556,570 ]
             is_ep10:
               - swipe: [ 252,281,246,556,580 ]
+        - sleep: 0.5
         - screenShot:
             is_ep8:
               - screenShot:
